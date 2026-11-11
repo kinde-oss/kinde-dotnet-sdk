@@ -34,7 +34,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.Item
         {
         }
         /// <summary>
-        /// Delete scope from role.&lt;div&gt;  &lt;code&gt;delete:role_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Delete scope from role.&lt;div&gt;  &lt;code&gt;delete:role_permissions&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Delete_role_scope_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -61,7 +61,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes.Item
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Delete_role_scope_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Delete_role_scope_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Delete scope from role.&lt;div&gt;  &lt;code&gt;delete:role_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Delete scope from role.&lt;div&gt;  &lt;code&gt;delete:role_permissions&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>

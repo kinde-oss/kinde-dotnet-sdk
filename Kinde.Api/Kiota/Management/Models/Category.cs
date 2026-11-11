@@ -21,6 +21,22 @@ namespace Kinde.Api.Kiota.Management.Models
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
+        /// <summary>What the category&apos;s properties apply to, `usr` for users, `org` for organizations or `app` for applications.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Context
+        {
+            get { return BackingStore?.Get<string?>("context"); }
+            set { BackingStore?.Set("context", value); }
+        }
+#nullable restore
+#else
+        public string Context
+        {
+            get { return BackingStore?.Get<string>("context"); }
+            set { BackingStore?.Set("context", value); }
+        }
+#endif
         /// <summary>The id property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -79,6 +95,7 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "context", n => { Context = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
             };
@@ -90,6 +107,7 @@ namespace Kinde.Api.Kiota.Management.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("context", Context);
             writer.WriteStringValue("id", Id);
             writer.WriteStringValue("name", Name);
             writer.WriteAdditionalData(AdditionalData);

@@ -234,7 +234,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
             set { BackingStore?.Set("link_color_dark", value); }
         }
 #endif
-        /// <summary>The organization&apos;s name.</summary>
+        /// <summary>The organization&apos;s name. If the organization is a billingcustomer, this update is also propagated to the correspondingbilling customer details.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Name

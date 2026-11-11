@@ -38,12 +38,14 @@ namespace Kinde.Api.Model
         /// <param name="key">The permission identifier to use in code..</param>
         /// <param name="name">The permission&#39;s name..</param>
         /// <param name="description">The permission&#39;s description..</param>
-        public Permissions(string id = default(string), string key = default(string), string name = default(string), string description = default(string))
+        /// <param name="isOrganizationRoleAssignable">Whether organizations can put this permission into roles of their own. Only these permissions can be used in organization-managed roles..</param>
+        public Permissions(string id = default(string), string key = default(string), string name = default(string), string description = default(string), bool isOrganizationRoleAssignable = default(bool))
         {
             this.Id = id;
             this.Key = key;
             this.Name = name;
             this.Description = description;
+            this.IsOrganizationRoleAssignable = isOrganizationRoleAssignable;
         }
 
         /// <summary>
@@ -75,6 +77,13 @@ namespace Kinde.Api.Model
         public string Description { get; set; }
 
         /// <summary>
+        /// Whether organizations can put this permission into roles of their own. Only these permissions can be used in organization-managed roles.
+        /// </summary>
+        /// <value>Whether organizations can put this permission into roles of their own. Only these permissions can be used in organization-managed roles.</value>
+        [DataMember(Name = "is_organization_role_assignable", EmitDefaultValue = true)]
+        public bool IsOrganizationRoleAssignable { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -86,6 +95,7 @@ namespace Kinde.Api.Model
             sb.Append("  Key: ").Append(Key).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  IsOrganizationRoleAssignable: ").Append(IsOrganizationRoleAssignable).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -140,6 +150,10 @@ namespace Kinde.Api.Model
                     this.Description == input.Description ||
                     (this.Description != null &&
                     this.Description.Equals(input.Description))
+                ) && 
+                (
+                    this.IsOrganizationRoleAssignable == input.IsOrganizationRoleAssignable ||
+                    this.IsOrganizationRoleAssignable.Equals(input.IsOrganizationRoleAssignable)
                 );
         }
 
@@ -168,6 +182,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.Description.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.IsOrganizationRoleAssignable.GetHashCode();
                 return hashCode;
             }
         }

@@ -90,7 +90,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Properties.Item
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class WithProperty_keyItemRequestBuilderPutQueryParameters 
         {
-            /// <summary>The new property value</summary>
+            /// <summary>The new property value. Send an empty string to unset the property, so it reads back as not set.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             [QueryParameter("value")]

@@ -57,7 +57,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Identities
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Get_identities_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Get_identities_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Creates an identity for a user.&lt;div&gt;  &lt;code&gt;create:user_identities&lt;/code&gt;&lt;/div&gt;
+        /// Creates an identity for a user.Identities cannot be added to a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.Adding an `enterprise` identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (`CANNOT_ADD_ENTERPRISE_USER_IDENTITY`).&lt;div&gt;  &lt;code&gt;create:user_identities&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Create_identity_response"/></returns>
         /// <param name="body">The request body</param>
@@ -101,7 +101,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Identities
             return requestInfo;
         }
         /// <summary>
-        /// Creates an identity for a user.&lt;div&gt;  &lt;code&gt;create:user_identities&lt;/code&gt;&lt;/div&gt;
+        /// Creates an identity for a user.Identities cannot be added to a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.Adding an `enterprise` identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (`CANNOT_ADD_ENTERPRISE_USER_IDENTITY`).&lt;div&gt;  &lt;code&gt;create:user_identities&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

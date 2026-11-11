@@ -53,6 +53,12 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("id", value); }
         }
 #endif
+        /// <summary>Whether organizations can put this permission into roles of their own. Only these permissions can be used in organization-managed roles.</summary>
+        public bool? IsOrganizationRoleAssignable
+        {
+            get { return BackingStore?.Get<bool?>("is_organization_role_assignable"); }
+            set { BackingStore?.Set("is_organization_role_assignable", value); }
+        }
         /// <summary>The permission identifier to use in code.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -113,6 +119,7 @@ namespace Kinde.Api.Kiota.Management.Models
             {
                 { "description", n => { Description = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
+                { "is_organization_role_assignable", n => { IsOrganizationRoleAssignable = n.GetBoolValue(); } },
                 { "key", n => { Key = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
             };
@@ -126,6 +133,7 @@ namespace Kinde.Api.Kiota.Management.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("description", Description);
             writer.WriteStringValue("id", Id);
+            writer.WriteBoolValue("is_organization_role_assignable", IsOrganizationRoleAssignable);
             writer.WriteStringValue("key", Key);
             writer.WriteStringValue("name", Name);
             writer.WriteAdditionalData(AdditionalData);

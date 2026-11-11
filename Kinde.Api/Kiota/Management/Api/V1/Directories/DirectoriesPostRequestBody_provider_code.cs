@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System;
 namespace Kinde.Api.Kiota.Management.Api.V1.Directories
 {
-    /// <summary>The SCIM provider code to use for this directory.</summary>
+    /// <summary>The SCIM provider code to use for this directory. When omitted, the provideris inferred from the organization enterprise authentication method. If theinferred (or explicit) provider is disabled or missing endpoint configuration,INVALID_PROVIDER is returned.</summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum DirectoriesPostRequestBody_provider_code
     {

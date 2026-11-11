@@ -34,7 +34,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
         {
         }
         /// <summary>
-        /// Delete a user record.&lt;div&gt;  &lt;code&gt;delete:users&lt;/code&gt;&lt;/div&gt;
+        /// Delete a user record.Users managed by directory sync cannot be deleted (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;delete:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -88,7 +88,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.User>(requestInfo, global::Kinde.Api.Kiota.Management.Models.User.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Update a user record.&lt;div&gt;  &lt;code&gt;update:users&lt;/code&gt;&lt;/div&gt;
+        /// Update a user record.When `given_name` or `family_name` is updated and the user is theowner of a family billing customer, the change is also propagated tothe corresponding billing customer details.Users managed by directory sync cannot be updated (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Update_user_response"/></returns>
         /// <param name="body">The request body</param>
@@ -117,7 +117,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Update_user_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Update_user_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the emailaddress of the user.&lt;div&gt;  &lt;code&gt;create:users&lt;/code&gt;&lt;/div&gt;
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the emailaddress of the user.Users cannot be created in an organization managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider. If `organization_code` is omitted, this also applies to the default registration organization.&lt;div&gt;  &lt;code&gt;create:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Create_user_response"/></returns>
         /// <param name="body">The request body</param>
@@ -146,7 +146,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Create_user_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Create_user_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Delete a user record.&lt;div&gt;  &lt;code&gt;delete:users&lt;/code&gt;&lt;/div&gt;
+        /// Delete a user record.Users managed by directory sync cannot be deleted (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;delete:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -184,7 +184,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             return requestInfo;
         }
         /// <summary>
-        /// Update a user record.&lt;div&gt;  &lt;code&gt;update:users&lt;/code&gt;&lt;/div&gt;
+        /// Update a user record.When `given_name` or `family_name` is updated and the user is theowner of a family billing customer, the change is also propagated tothe corresponding billing customer details.Users managed by directory sync cannot be updated (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -206,7 +206,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             return requestInfo;
         }
         /// <summary>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the emailaddress of the user.&lt;div&gt;  &lt;code&gt;create:users&lt;/code&gt;&lt;/div&gt;
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the emailaddress of the user.Users cannot be created in an organization managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider. If `organization_code` is omitted, this also applies to the default registration organization.&lt;div&gt;  &lt;code&gt;create:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -237,7 +237,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             return new global::Kinde.Api.Kiota.Management.Api.V1.User.UserRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Delete a user record.&lt;div&gt;  &lt;code&gt;delete:users&lt;/code&gt;&lt;/div&gt;
+        /// Delete a user record.Users managed by directory sync cannot be deleted (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;delete:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class UserRequestBuilderDeleteQueryParameters 
@@ -284,7 +284,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
 #endif
         }
         /// <summary>
-        /// Update a user record.&lt;div&gt;  &lt;code&gt;update:users&lt;/code&gt;&lt;/div&gt;
+        /// Update a user record.When `given_name` or `family_name` is updated and the user is theowner of a family billing customer, the change is also propagated tothe corresponding billing customer details.Users managed by directory sync cannot be updated (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class UserRequestBuilderPatchQueryParameters 

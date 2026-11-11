@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Model;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -14,15 +14,15 @@ using KiotaAccountsModels = Kinde.Api.Kiota.Accounts.Models;
 namespace Kinde.Api.Test.Integration.Mappers
 {
     /// <summary>
-    /// Tests for AutoMapper configuration and mappings between OpenAPI and Kiota models.
+    /// Tests for the model mapper and the mappings between the OpenAPI and Kiota models.
     /// These tests ensure that the facade layer can correctly translate models.
     /// </summary>
-    public class AutoMapperTests
+    public class ModelMappingTests
     {
         private readonly ITestOutputHelper _output;
-        private readonly IMapper _mapper;
+        private readonly IKindeMapper _mapper;
 
-        public AutoMapperTests(ITestOutputHelper output)
+        public ModelMappingTests(ITestOutputHelper output)
         {
             _output = output;
             _mapper = KindeMapperConfiguration.Mapper;
@@ -31,19 +31,13 @@ namespace Kinde.Api.Test.Integration.Mappers
         #region Configuration Validation Tests
 
         /// <summary>
-        /// Verifies that the AutoMapper configuration can be created without exceptions.
+        /// Verifies that the mapper can be built without exceptions.
         /// </summary>
         [Fact]
-        public void AutoMapperConfiguration_CanBeCreated()
+        public void MapperConfiguration_CanBeCreated()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<ManagementApiMapperProfile>();
-                cfg.AddProfile<AccountsApiMapperProfile>();
-            }, NullLoggerFactory.Instance);
+            var mapper = KindeMapperConfiguration.CreateIsolated();
 
-            Assert.NotNull(config);
-            var mapper = config.CreateMapper();
             Assert.NotNull(mapper);
         }
 
@@ -59,18 +53,106 @@ namespace Kinde.Api.Test.Integration.Mappers
         }
 
         /// <summary>
-        /// Verifies every configured map (all ~300 CreateMap calls across both profiles) is valid -
-        /// no unmapped destination members, no missing constructors. This is the same check the
-        /// demo project's VerifyMapper action runs.
+        /// Every pair the replaced AutoMapper profiles declared (315 CreateMap calls, both directions for ReverseMap) must still be
+        /// mappable. Replaces AssertConfigurationIsValid: an unconstructable destination fails here, not at runtime against the live API.
         /// </summary>
-        [Fact]
-        public void AutoMapperConfiguration_AssertConfigurationIsValid()
+        [Theory]
+        [MemberData(nameof(AllDeclaredMappings))]
+        public void EveryDeclaredMapping_MapsWithoutThrowing(Type sourceType, Type destinationType)
         {
-            var mapper = KindeMapperConfiguration.Mapper;
+            var source = TryCreateInstance(sourceType);
+            if (source is null)
+            {
+                // A source the test cannot instantiate standalone proves nothing either way; the
+                // pair is still covered by the populated round-trip tests elsewhere in this class.
+                return;
+            }
 
-            var exception = Record.Exception(() => mapper.ConfigurationProvider.AssertConfigurationIsValid());
+            var exception = Record.Exception(() => _mapper.Map(source, destinationType));
 
             Assert.Null(exception);
+        }
+
+        /// <summary>
+        /// A wrapper operation whose request or response model has no Kiota counterpart would be
+        /// mapped by name alone, dropping any field the two disagree on without an error.
+        /// </summary>
+        [Fact]
+        public void EveryModelOnTheApiSurface_HasAKiotaCounterpart()
+        {
+            var paired = ManagementMappingManifest.Pairs
+                .SelectMany(pair => new[] { pair.Source, pair.Destination })
+                .ToHashSet();
+
+            var unpaired = ManagementMappingManifest.ModelsOnTheApiSurface()
+                .Where(type => !paired.Contains(type) && !ManagementMappingManifest.WithoutKiotaCounterpart.Contains(type))
+                .Select(type => type.Name)
+                .OrderBy(name => name)
+                .ToList();
+
+            Assert.True(
+                unpaired.Count == 0,
+                "No Kiota counterpart was found for: " + string.Join(", ", unpaired)
+                + ". Add the pair to ExplicitPairs in ManagementMappingManifest.");
+        }
+
+        [Fact]
+        public void ModelsListedAsWithoutAKiotaCounterpart_ReallyHaveNone()
+        {
+            var paired = ManagementMappingManifest.Pairs
+                .SelectMany(pair => new[] { pair.Source, pair.Destination })
+                .ToHashSet();
+
+            var nowPaired = ManagementMappingManifest.WithoutKiotaCounterpart
+                .Where(paired.Contains)
+                .Select(type => type.Name)
+                .ToList();
+
+            Assert.True(
+                nowPaired.Count == 0,
+                "These now have a Kiota counterpart; remove them from WithoutKiotaCounterpart: " + string.Join(", ", nowPaired));
+        }
+
+        public static IEnumerable<object[]> AllDeclaredMappings() =>
+            ManagementMappingManifest.Pairs
+                .Concat(AccountsMappingManifest.Pairs)
+                .Distinct()
+                .Select(pair => new object[] { pair.Source, pair.Destination });
+
+        /// <summary>
+        /// Instantiates a type the way the mapper does, returning null when it has no constructor
+        /// that can be called with default arguments.
+        /// </summary>
+        private static object TryCreateInstance(Type type)
+        {
+            var constructor = type
+                .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(candidate => !candidate.IsPrivate)
+                .OrderBy(candidate => candidate.GetParameters().Length)
+                .FirstOrDefault();
+
+            if (constructor is null)
+            {
+                return null;
+            }
+
+            var arguments = constructor.GetParameters()
+                .Select(parameter => parameter.HasDefaultValue
+                    ? parameter.DefaultValue
+                    : parameter.ParameterType.IsValueType
+                        && Nullable.GetUnderlyingType(parameter.ParameterType) == null
+                            ? Activator.CreateInstance(parameter.ParameterType)
+                            : null)
+                .ToArray();
+
+            try
+            {
+                return constructor.Invoke(arguments);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         #endregion
@@ -311,6 +393,116 @@ namespace Kinde.Api.Test.Integration.Mappers
             Assert.Empty(result);
         }
 
+        [Fact]
+        public void Mapping_PlainDictionarySource_CopiesEveryEntry()
+        {
+            var source = new Dictionary<string, string> { ["a"] = "1", ["b"] = "2" };
+
+            var result = _mapper.Map<Dictionary<string, string>>(source);
+
+            Assert.Equal(source, result);
+        }
+
+        /// <summary>
+        /// A source that implements only the generic dictionary interfaces must still map entry by
+        /// entry rather than falling through to property mapping and yielding an empty result.
+        /// </summary>
+        [Fact]
+        public void Mapping_GenericOnlyDictionarySources_CopyEveryEntry()
+        {
+            var readWrite = new GenericOnlyDictionary(new Dictionary<string, string> { ["a"] = "1", ["b"] = "2" });
+            var readOnly = new GenericOnlyReadOnlyDictionary(new Dictionary<string, string> { ["c"] = "3" });
+
+            var fromReadWrite = _mapper.Map<Dictionary<string, string>>(readWrite);
+            var fromReadOnly = _mapper.Map<Dictionary<string, string>>(readOnly);
+
+            Assert.Equal(2, fromReadWrite.Count);
+            Assert.Equal("1", fromReadWrite["a"]);
+            Assert.Equal("2", fromReadWrite["b"]);
+            Assert.Single(fromReadOnly);
+            Assert.Equal("3", fromReadOnly["c"]);
+        }
+
+        /// <summary>
+        /// A value that cannot become the enum is reported as "not converted", never as an exception.
+        /// </summary>
+        [Theory]
+        [InlineData("Unknown")]
+        [InlineData(ulong.MaxValue)]
+        [InlineData(99)]
+        public void EnumConversion_WithUnconvertibleValue_ReturnsFalseInsteadOfThrowing(object value)
+        {
+            var converted = Kinde.Api.Mapping.KindeValueConverter.TryConvert(value, typeof(ConversionProbe), out var result);
+
+            Assert.False(converted);
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void EnumConversion_WithUnconvertibleSourceType_ReturnsFalseInsteadOfThrowing()
+        {
+            var converted = Kinde.Api.Mapping.KindeValueConverter.TryConvert(DateTime.UtcNow, typeof(ConversionProbe), out _);
+
+            Assert.False(converted);
+        }
+
+        [Theory]
+        [InlineData("second", ConversionProbe.Second)]
+        [InlineData(1, ConversionProbe.Second)]
+        [InlineData("1", ConversionProbe.Second)]
+        public void EnumConversion_WithRecognisedValue_StillConverts(object value, ConversionProbe expected)
+        {
+            Assert.True(Kinde.Api.Mapping.KindeValueConverter.TryConvert(value, typeof(ConversionProbe), out var result));
+            Assert.Equal(expected, result);
+        }
+
+        public enum ConversionProbe
+        {
+            First,
+            Second,
+        }
+
+        private sealed class GenericOnlyDictionary : IDictionary<string, string>
+        {
+            private readonly Dictionary<string, string> _inner;
+
+            public GenericOnlyDictionary(Dictionary<string, string> inner) => _inner = inner;
+
+            public string this[string key] { get => _inner[key]; set => _inner[key] = value; }
+            public ICollection<string> Keys => _inner.Keys;
+            public ICollection<string> Values => _inner.Values;
+            public int Count => _inner.Count;
+            public bool IsReadOnly => false;
+            public void Add(string key, string value) => _inner.Add(key, value);
+            public void Add(KeyValuePair<string, string> item) => _inner.Add(item.Key, item.Value);
+            public void Clear() => _inner.Clear();
+            public bool Contains(KeyValuePair<string, string> item) => _inner.Contains(item);
+            public bool ContainsKey(string key) => _inner.ContainsKey(key);
+            public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex) =>
+                ((ICollection<KeyValuePair<string, string>>)_inner).CopyTo(array, arrayIndex);
+            public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _inner.GetEnumerator();
+            public bool Remove(string key) => _inner.Remove(key);
+            public bool Remove(KeyValuePair<string, string> item) => _inner.Remove(item.Key);
+            public bool TryGetValue(string key, out string value) => _inner.TryGetValue(key, out value);
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _inner.GetEnumerator();
+        }
+
+        private sealed class GenericOnlyReadOnlyDictionary : IReadOnlyDictionary<string, string>
+        {
+            private readonly Dictionary<string, string> _inner;
+
+            public GenericOnlyReadOnlyDictionary(Dictionary<string, string> inner) => _inner = inner;
+
+            public string this[string key] => _inner[key];
+            public IEnumerable<string> Keys => _inner.Keys;
+            public IEnumerable<string> Values => _inner.Values;
+            public int Count => _inner.Count;
+            public bool ContainsKey(string key) => _inner.ContainsKey(key);
+            public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _inner.GetEnumerator();
+            public bool TryGetValue(string key, out string value) => _inner.TryGetValue(key, out value);
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _inner.GetEnumerator();
+        }
+
         /// <summary>
         /// Tests that collections with items map correctly.
         /// </summary>
@@ -397,7 +589,6 @@ namespace Kinde.Api.Test.Integration.Mappers
             var openApiModel = _mapper.Map<CreateUserResponse>(kiotaModel);
 
             Assert.NotNull(openApiModel);
-            // When mapping null bool? to bool, the result is false (default)
             Assert.False(openApiModel.Created);
         }
 
@@ -651,14 +842,14 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         [Fact]
         public void ReplaceConnectionRequest_SamlOptions_MapsToMember3AndIncludesEnums()
         {
-            var saml = new ReplaceConnectionRequestOptionsOneOf1
+            var saml = new ReplaceConnectionRequestOptionsOneOf2
             {
                 SamlEntityId = "https://example.okta.com/saml/metadata",
                 SamlIdpMetadataUrl = "https://example.okta.com/sso/saml/metadata",
                 SamlIdpMetadataXml = "<EntityDescriptor>metadata</EntityDescriptor>",
-                NameIdFormat = ReplaceConnectionRequestOptionsOneOf1.NameIdFormatEnum.Persistent,
-                ProtocolBinding = ReplaceConnectionRequestOptionsOneOf1.ProtocolBindingEnum.REDIRECT,
-                SignRequestAlgorithm = ReplaceConnectionRequestOptionsOneOf1.SignRequestAlgorithmEnum.SHA1,
+                NameIdFormat = ReplaceConnectionRequestOptionsOneOf2.NameIdFormatEnum.Persistent,
+                ProtocolBinding = ReplaceConnectionRequestOptionsOneOf2.ProtocolBindingEnum.REDIRECT,
+                SignRequestAlgorithm = ReplaceConnectionRequestOptionsOneOf2.SignRequestAlgorithmEnum.SHA1,
             };
             var request = new ReplaceConnectionRequest(
                 displayName: "Okta SAML",
@@ -683,6 +874,46 @@ private static object FindReachableInstance(object root, Type target, int maxDep
             Assert.Contains("\"sign_request_algorithm\":\"RSA-SHA1\"", json);
             Assert.Equal("<EntityDescriptor>metadata</EntityDescriptor>", member3.SamlIdpMetadataXml);
             Assert.Contains("\"saml_idp_metadata_xml\":\"\\u003CEntityDescriptor\\u003Emetadata\\u003C/EntityDescriptor\\u003E\"", json);
+        }
+
+        [Fact]
+        public void ReplaceConnectionRequest_EveryVariant_MapsToItsOwnMember()
+        {
+            var first = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>(
+                new ReplaceConnectionRequest
+                {
+                    Options = new ReplaceConnectionRequestOptions(
+                        new ReplaceConnectionRequestOptionsOneOf { ClientId = "client_1", ClientSecret = "secret_1" }),
+                });
+            Assert.Equal("client_1", first.Options.WithConnectionPutRequestBodyOptionsMember1.ClientId);
+            Assert.Null(first.Options.WithConnectionPutRequestBodyOptionsMember2);
+            Assert.Null(first.Options.WithConnectionPutRequestBodyOptionsMember3);
+
+            var second = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody>(
+                new ReplaceConnectionRequest
+                {
+                    Options = new ReplaceConnectionRequestOptions(
+                        new ReplaceConnectionRequestOptionsOneOf1 { ClientId = "client_2", EntraIdDomain = "contoso.onmicrosoft.com" }),
+                });
+            Assert.Equal("client_2", second.Options.WithConnectionPutRequestBodyOptionsMember2.ClientId);
+            Assert.Equal("contoso.onmicrosoft.com", second.Options.WithConnectionPutRequestBodyOptionsMember2.EntraIdDomain);
+            Assert.Null(second.Options.WithConnectionPutRequestBodyOptionsMember1);
+            Assert.Null(second.Options.WithConnectionPutRequestBodyOptionsMember3);
+        }
+
+        [Fact]
+        public void UpdateConnectionRequest_FirstVariant_MapsToMember1()
+        {
+            var kiota = _mapper.Map<Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PatchRequestBody>(
+                new UpdateConnectionRequest
+                {
+                    Options = new UpdateConnectionRequestOptions(
+                        new ReplaceConnectionRequestOptionsOneOf { ClientId = "client_1", ClientSecret = "secret_1" }),
+                });
+
+            Assert.Equal("client_1", kiota.Options.WithConnectionPatchRequestBodyOptionsMember1.ClientId);
+            Assert.Null(kiota.Options.WithConnectionPatchRequestBodyOptionsMember2);
+            Assert.Null(kiota.Options.WithConnectionPatchRequestBodyOptionsMember3);
         }
 
         [Fact]
@@ -963,10 +1194,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         /// <summary>
-        /// Serializes a Kiota model the way the request adapter does, through the backing
-        /// store proxy. A plain JsonSerializationWriter drops nulls, so it hides the
-        /// difference between "never assigned" and "assigned null" -- which is exactly the
-        /// difference that decides what goes on the wire.
+        /// Serializes a Kiota model through the backing store proxy, as the request adapter does. A plain JsonSerializationWriter drops
+        /// nulls, hiding the difference between "never assigned" and "assigned null" that decides what goes on the wire.
         /// </summary>
         private static string SerializeAsSent<T>(T model) where T : Microsoft.Kiota.Abstractions.Serialization.IParsable
         {
@@ -991,9 +1220,9 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
             _output.WriteLine("Wire body: " + json);
 
-            // The caller left the flag unset, so the Kiota model keeps the schema default
-            // (true) rather than having it overwritten with an explicit null. Sending
-            // "is_recovery_codes_enabled": null would be rejected by the API.
+            // The caller left the flag unset, so the Kiota model keeps the schema default (true).
+            // Assigning null would not send "...": null - it would erase the property, and the
+            // request would carry no value where the caller expected true.
             Assert.DoesNotContain("\"is_recovery_codes_enabled\":null", json);
             Assert.Contains("\"is_recovery_codes_enabled\":true", json);
         }
@@ -1674,37 +1903,29 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
         #region Global null-skip condition -- full IBackedModel coverage
 
-        // KindeMapperConfiguration applies a single global AutoMapper.Internal condition
-        // that skips *every* null source value when mapping into an IBackedModel (Kiota)
-        // destination, across both profiles. The two hand-picked endpoint tests above
-        // (ReplaceMFARequest, UpdateOrganizationUsersRequest) prove the condition does what
-        // it's meant to for those specific properties, but they say nothing about the other
-        // ~100 CreateMap entries the same condition applies to. This walks every
-        // (source, destination) pair the condition actually reaches and proves an explicit,
-        // non-null scalar value on the source still lands on the destination -- i.e. the
-        // condition is filtering out unset/null values, not real ones.
+        // The mapper skips every null source value when mapping into an IBackedModel (Kiota) destination, because assigning null
+        // erases a property carrying a schema default instead of sending that default. The endpoint tests above cover two specific
+        // properties; this sweep proves an explicit non-null scalar still lands on the destination for every pair the rule applies to.
 
         /// <summary>
-        /// Every (source, destination) type pair, across both mapper profiles, where the
-        /// destination is an IBackedModel -- i.e. every pair the global null-skip condition
-        /// in KindeMapperConfiguration.BuildMapper applies to.
+        /// Every (source, destination) type pair declared by the replaced mapper profiles where the
+        /// destination is an IBackedModel -- i.e. every pair the null-skip rule applies to.
         /// </summary>
         public static IEnumerable<object[]> IBackedModelTypeMaps()
         {
-            var mapper = KindeMapperConfiguration.Mapper;
-            var globalConfig = (AutoMapper.Internal.IGlobalConfiguration)mapper.ConfigurationProvider;
-            foreach (var typeMap in globalConfig.GetAllTypeMaps())
+            foreach (var pair in ManagementMappingManifest.Pairs.Concat(AccountsMappingManifest.Pairs).Distinct())
             {
-                if (!typeof(Microsoft.Kiota.Abstractions.Store.IBackedModel).IsAssignableFrom(typeMap.DestinationType))
-                {
-                    continue;
-                }
-                if (typeMap.SourceType.IsInterface || typeMap.SourceType.IsAbstract)
+                if (!typeof(Microsoft.Kiota.Abstractions.Store.IBackedModel).IsAssignableFrom(pair.Destination))
                 {
                     continue;
                 }
 
-                yield return new object[] { typeMap.SourceType, typeMap.DestinationType };
+                if (pair.Source.IsInterface || pair.Source.IsAbstract)
+                {
+                    continue;
+                }
+
+                yield return new object[] { pair.Source, pair.Destination };
             }
         }
 
@@ -1759,20 +1980,9 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         /// <summary>
-        /// Compares a mapped destination value against the sentinel that was set on the
-        /// source, tolerating the legitimate transformations AutoMapper applies along the
-        /// way -- cross-type enum conversion (by name, case-insensitively, since some
-        /// destination enums use a different casing/format for the same member, e.g.
-        /// "Oauth2apple" vs "Oauth2Apple", or "EntraIdAzureAd" vs "Entra_id_azure_ad"), and
-        /// DateTime -> DateTimeOffset conversion (which attaches the local offset, so the
-        /// two aren't Equal() as an absolute instant comparison in every environment; wall
-        /// clock components are what matters here). The name-based fallback is gated on
-        /// both sides actually being enums -- otherwise a dropped int/bool/string sentinel
-        /// could false-positive against an unrelated destination value that happens to
-        /// stringify the same way (e.g. 42 vs "42", true vs "True"), which is exactly the
-        /// silent-drop failure this test exists to catch. A value reverted to the
-        /// destination's own default by the null-skip condition would not satisfy any of
-        /// these fallbacks.
+        /// Compares a mapped value against the sentinel set on the source, tolerating legitimate mapper transformations: cross-type enum
+        /// conversion (by case-insensitive name) and DateTime to DateTimeOffset (wall clock compared). The name fallback requires both
+        /// sides to be enums, so a dropped int/bool/string cannot false-positive against a destination that stringifies the same (42 vs "42").
         /// </summary>
         private static bool ValuesMatch(object? destValue, object sentinel)
         {
@@ -1812,9 +2022,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         }
 
         /// <summary>
-        /// Serializes a mapped destination the way the Kiota request adapter does, through
-        /// the backing store proxy, without requiring the model's compile-time type (the
-        /// per-type-pair tests only know Type instances, not generic type parameters).
+        /// Serializes a mapped destination through the backing store proxy like the Kiota request adapter, without needing the
+        /// model's compile-time type (the per-type-pair tests only know Type instances).
         /// </summary>
         private static string SerializeAsSentDynamic(object model, Type modelType)
         {
@@ -1848,20 +2057,11 @@ private static object FindReachableInstance(object root, Type target, int maxDep
         [MemberData(nameof(IBackedModelTypeMaps))]
         public void IBackedModelDestinations_ExplicitScalarValues_SurviveMapping(Type sourceType, Type destType)
         {
-            // Some members are deliberately excluded from a mapping via .ForMember(...,
-            // opt => opt.Ignore()) in the profile, unrelated to the null-skip condition --
-            // e.g. CreatePropertyRequest.Type/.Context are ignored because of a pre-existing
-            // enum incompatibility. Only assert on members the config actually maps, so this
-            // test verifies the null-skip condition specifically, not every ignore-mapping
-            // decision already made elsewhere.
-            var globalConfig = (AutoMapper.Internal.IGlobalConfiguration)_mapper.ConfigurationProvider;
-            var typeMap = globalConfig.FindTypeMapFor(sourceType, destType);
-            var activelyMappedSourceNames = typeMap is null
-                ? new HashSet<string>()
-                : typeMap.PropertyMaps
-                    .Where(pm => !pm.Ignored && pm.SourceMember is not null)
-                    .Select(pm => pm.SourceMember!.Name)
-                    .ToHashSet();
+            // Some members are deliberately excluded from a mapping (e.g. CreatePropertyRequest.Type/.Context, due to an enum
+            // incompatibility). Only assert on members the mapper copies, so this tests the null-skip rule, not other ignore decisions.
+            var activelyMappedSourceNames = KindeMapperConfiguration
+                .DescribeMappedSourceMembers(sourceType, destType)
+                .ToHashSet();
 
             var settableScalarProps = sourceType
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -1900,20 +2100,14 @@ private static object FindReachableInstance(object root, Type target, int maxDep
                 return;
             }
 
-            // No swallowing here: this sweep exists to catch a future regression in the
-            // null-skip condition, so a mapping failure on any pair must fail the test, not
-            // get logged and skipped. Source types that legitimately can't map standalone
-            // (oneOf/discriminator wrappers) don't throw -- they either have no scalar
-            // properties to smuggle through (see the early return above) or map cleanly to
-            // a null destination (see the check just below), so there's nothing to allowlist.
-            object dest = _mapper.Map(source, sourceType, destType);
+            // No swallowing: a mapping failure on any pair must fail the test. oneOf/discriminator wrappers don't throw; they either
+            // have no scalar properties (early return above) or map to a null destination (check below).
+            object dest = _mapper.Map(source, destType);
 
             if (dest is null)
             {
-                // Wrapper/oneOf source types (e.g. *RequestOptions around a discriminated
-                // union) legitimately map to null when their real discriminator member
-                // (ActualInstance) isn't set -- setting unrelated scalar siblings doesn't
-                // change that. Not something the null-skip condition controls.
+                // oneOf wrapper types legitimately map to null when their discriminator member (ActualInstance) is unset;
+                // the null-skip condition does not control that.
                 return;
             }
 
@@ -1938,18 +2132,9 @@ private static object FindReachableInstance(object root, Type target, int maxDep
                 var ok = ValuesMatch(destValue, sentinel);
                 if (!ok && destUnderlying.IsEnum && sourceUnderlying.IsEnum)
                 {
-                    // Some enum pairs go through a custom, semantically-equivalent but
-                    // textually different conversion that ValuesMatch's name comparison
-                    // can't see through (e.g. BridgeEnumByMember mapping "SHA256" ->
-                    // "RSASHA256" by [EnumMember] value, or "EntraIdAzureAd" ->
-                    // "Entra_id_azure_ad") -- the exact converted value is covered by
-                    // dedicated wire-format tests elsewhere in this file. Every Kiota
-                    // IBackedModel enum destination here is Nullable<TEnum>, so a value the
-                    // null-skip condition actually dropped would be null, not some specific
-                    // member -- unlike a non-nullable value type, it can't coincidentally
-                    // collide with default(enum) (which happens for some of these, e.g.
-                    // RSASHA256 is ordinal 0). So "non-null" is the correct, precise check
-                    // for whether this sweep's condition let the value through.
+                    // Some enum pairs use a custom conversion ValuesMatch's name comparison cannot see through (e.g. "SHA256" ->
+                    // "RSASHA256" via [EnumMember]); the exact value is covered by wire-format tests elsewhere. Kiota enum destinations here
+                    // are Nullable<TEnum>, so a dropped value would be null and cannot collide with default(enum); non-null is the precise check.
                     ok = destValue is not null;
                 }
                 if (!ok)
@@ -1963,12 +2148,8 @@ private static object FindReachableInstance(object root, Type target, int maxDep
 
             if (typeof(Microsoft.Kiota.Abstractions.Serialization.IParsable).IsAssignableFrom(destType))
             {
-                // Not asserting on the JSON here -- the per-property comparison above is
-                // the real check for whether the null-skip condition dropped a value (a
-                // destination that dropped everything would still serialize to "{}", not an
-                // empty string, so an empty-body check wouldn't catch that anyway). This
-                // just exercises the backing-store serialization path so a pair that maps
-                // fine but can't actually be serialized still fails the test.
+                // The per-property comparison above is the real check; this only exercises the backing-store serialization
+                // path so a pair that maps but cannot be serialized still fails.
                 SerializeAsSentDynamic(dest, destType);
             }
         }

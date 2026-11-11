@@ -6,13 +6,12 @@ using Microsoft.Kiota.Abstractions.Store;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace Kinde.Api.Kiota.Management.Models
+namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles
 {
-    /// <summary>
-    /// A connection as returned in list responses (flat, not wrapped in code/message/connection).
-    /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class Connection_list_item : IAdditionalDataHolder, IBackedModel, IParsable
+    #pragma warning disable CS1591
+    public partial class RolesPostRequestBody : IAdditionalDataHolder, IBackedModel, IParsable
+    #pragma warning restore CS1591
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData
@@ -22,39 +21,39 @@ namespace Kinde.Api.Kiota.Management.Models
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>The connection&apos;s display name.</summary>
+        /// <summary>The role&apos;s description.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? DisplayName
+        public string? Description
         {
-            get { return BackingStore?.Get<string?>("display_name"); }
-            set { BackingStore?.Set("display_name", value); }
+            get { return BackingStore?.Get<string?>("description"); }
+            set { BackingStore?.Set("description", value); }
         }
 #nullable restore
 #else
-        public string DisplayName
+        public string Description
         {
-            get { return BackingStore?.Get<string>("display_name"); }
-            set { BackingStore?.Set("display_name", value); }
+            get { return BackingStore?.Get<string>("description"); }
+            set { BackingStore?.Set("description", value); }
         }
 #endif
-        /// <summary>The connection&apos;s ID.</summary>
+        /// <summary>The role identifier to use in code. Unique within the organization, and never the same as a business-wide role&apos;s key.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Id
+        public string? Key
         {
-            get { return BackingStore?.Get<string?>("id"); }
-            set { BackingStore?.Set("id", value); }
+            get { return BackingStore?.Get<string?>("key"); }
+            set { BackingStore?.Set("key", value); }
         }
 #nullable restore
 #else
-        public string Id
+        public string Key
         {
-            get { return BackingStore?.Get<string>("id"); }
-            set { BackingStore?.Set("id", value); }
+            get { return BackingStore?.Get<string>("key"); }
+            set { BackingStore?.Set("key", value); }
         }
 #endif
-        /// <summary>The connection&apos;s name.</summary>
+        /// <summary>The role&apos;s name.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Name
@@ -70,26 +69,26 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("name", value); }
         }
 #endif
-        /// <summary>The connection&apos;s authentication strategy.</summary>
+        /// <summary>The IDs of the permissions the role grants. Only business-wide permissions marked `is_organization_role_assignable`, and the organization&apos;s own permissions, can be used.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Strategy
+        public List<string>? Permissions
         {
-            get { return BackingStore?.Get<string?>("strategy"); }
-            set { BackingStore?.Set("strategy", value); }
+            get { return BackingStore?.Get<List<string>?>("permissions"); }
+            set { BackingStore?.Set("permissions", value); }
         }
 #nullable restore
 #else
-        public string Strategy
+        public List<string> Permissions
         {
-            get { return BackingStore?.Get<string>("strategy"); }
-            set { BackingStore?.Set("strategy", value); }
+            get { return BackingStore?.Get<List<string>>("permissions"); }
+            set { BackingStore?.Set("permissions", value); }
         }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Models.Connection_list_item"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.RolesPostRequestBody"/> and sets the default values.
         /// </summary>
-        public Connection_list_item()
+        public RolesPostRequestBody()
         {
             BackingStore = BackingStoreFactorySingleton.Instance.CreateBackingStore();
             AdditionalData = new Dictionary<string, object>();
@@ -97,12 +96,12 @@ namespace Kinde.Api.Kiota.Management.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Connection_list_item"/></returns>
+        /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.RolesPostRequestBody"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Kinde.Api.Kiota.Management.Models.Connection_list_item CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.RolesPostRequestBody CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Kinde.Api.Kiota.Management.Models.Connection_list_item();
+            return new global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.RolesPostRequestBody();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -112,10 +111,10 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "display_name", n => { DisplayName = n.GetStringValue(); } },
-                { "id", n => { Id = n.GetStringValue(); } },
+                { "description", n => { Description = n.GetStringValue(); } },
+                { "key", n => { Key = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "strategy", n => { Strategy = n.GetStringValue(); } },
+                { "permissions", n => { Permissions = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
             };
         }
         /// <summary>
@@ -125,10 +124,10 @@ namespace Kinde.Api.Kiota.Management.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("display_name", DisplayName);
-            writer.WriteStringValue("id", Id);
+            writer.WriteStringValue("description", Description);
+            writer.WriteStringValue("key", Key);
             writer.WriteStringValue("name", Name);
-            writer.WriteStringValue("strategy", Strategy);
+            writer.WriteCollectionOfPrimitiveValues<string>("permissions", Permissions);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

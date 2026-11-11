@@ -19,7 +19,7 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
 using Microsoft.Kiota.Abstractions.Authentication;
@@ -89,7 +89,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -101,7 +101,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -158,7 +158,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -171,7 +171,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -180,33 +180,79 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> CreateOrganizationUserRoleWithHttpInfo(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest);
         /// <summary>
-        /// Create Organization Invite
+        /// Create organization invite
         /// </summary>
         /// <remarks>
-        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <returns>CreateOrganizationInviteResponse</returns>
         CreateOrganizationInviteResponse CreateOrganizationInvite(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest);
 
         /// <summary>
-        /// Create Organization Invite
+        /// Create organization invite
         /// </summary>
         /// <remarks>
-        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <returns>ApiResponse of CreateOrganizationInviteResponse</returns>
         ApiResponse<CreateOrganizationInviteResponse> CreateOrganizationInviteWithHttpInfo(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest);
+        /// <summary>
+        /// Create organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse CreateOrganizationPermission(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest);
+
+        /// <summary>
+        /// Create organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> CreateOrganizationPermissionWithHttpInfo(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest);
+        /// <summary>
+        /// Create organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <returns>CreateRolesResponse</returns>
+        CreateRolesResponse CreateOrganizationRole(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest);
+
+        /// <summary>
+        /// Create organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <returns>ApiResponse of CreateRolesResponse</returns>
+        ApiResponse<CreateRolesResponse> CreateOrganizationRoleWithHttpInfo(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest);
         /// <summary>
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -217,7 +263,7 @@ namespace Kinde.Api.Api
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -289,6 +335,29 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteOrganizationHandleWithHttpInfo(string orgCode);
         /// <summary>
+        /// Delete organization invite
+        /// </summary>
+        /// <remarks>
+        /// Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteOrganizationInvite(string orgCode, string inviteCode);
+
+        /// <summary>
+        /// Delete organization invite
+        /// </summary>
+        /// <remarks>
+        /// Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteOrganizationInviteWithHttpInfo(string orgCode, string inviteCode);
+        /// <summary>
         /// Delete organization logo
         /// </summary>
         /// <remarks>
@@ -311,6 +380,52 @@ namespace Kinde.Api.Api
         /// <param name="type">The type of logo to delete.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> DeleteOrganizationLogoWithHttpInfo(string orgCode, string type);
+        /// <summary>
+        /// Delete organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteOrganizationPermission(string orgCode, string permissionId);
+
+        /// <summary>
+        /// Delete organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteOrganizationPermissionWithHttpInfo(string orgCode, string permissionId);
+        /// <summary>
+        /// Delete organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse DeleteOrganizationRole(string orgCode, string roleId);
+
+        /// <summary>
+        /// Delete organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> DeleteOrganizationRoleWithHttpInfo(string orgCode, string roleId);
         /// <summary>
         /// Delete scope from organization user API
         /// </summary>
@@ -367,7 +482,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -380,7 +495,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -415,7 +530,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -427,7 +542,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -441,9 +556,10 @@ namespace Kinde.Api.Api
         /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <returns>GetOrganizationResponse</returns>
-        GetOrganizationResponse GetOrganization(string code = default(string));
+        GetOrganizationResponse GetOrganization(string code, string expand = default(string));
 
         /// <summary>
         /// Get organization
@@ -452,9 +568,10 @@ namespace Kinde.Api.Api
         /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetOrganizationResponse</returns>
-        ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string code = default(string));
+        ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string code, string expand = default(string));
         /// <summary>
         /// Get connections
         /// </summary>
@@ -498,6 +615,81 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetOrganizationFeatureFlagsResponse</returns>
         ApiResponse<GetOrganizationFeatureFlagsResponse> GetOrganizationFeatureFlagsWithHttpInfo(string orgCode);
         /// <summary>
+        /// Get organization invite
+        /// </summary>
+        /// <remarks>
+        /// Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>GetOrganizationInviteResponse</returns>
+        GetOrganizationInviteResponse GetOrganizationInvite(string orgCode, string inviteCode);
+
+        /// <summary>
+        /// Get organization invite
+        /// </summary>
+        /// <remarks>
+        /// Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>ApiResponse of GetOrganizationInviteResponse</returns>
+        ApiResponse<GetOrganizationInviteResponse> GetOrganizationInviteWithHttpInfo(string orgCode, string inviteCode);
+        /// <summary>
+        /// Get organization invites
+        /// </summary>
+        /// <remarks>
+        /// Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <returns>GetOrganizationInvitesResponse</returns>
+        GetOrganizationInvitesResponse GetOrganizationInvites(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?));
+
+        /// <summary>
+        /// Get organization invites
+        /// </summary>
+        /// <remarks>
+        /// Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <returns>ApiResponse of GetOrganizationInvitesResponse</returns>
+        ApiResponse<GetOrganizationInvitesResponse> GetOrganizationInvitesWithHttpInfo(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?));
+        /// <summary>
+        /// Get Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <returns>GetOrganizationMFA200Response</returns>
+        GetOrganizationMFA200Response GetOrganizationMFA(string orgCode);
+
+        /// <summary>
+        /// Get Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <returns>ApiResponse of GetOrganizationMFA200Response</returns>
+        ApiResponse<GetOrganizationMFA200Response> GetOrganizationMFAWithHttpInfo(string orgCode);
+        /// <summary>
         /// Get organization passkey settings
         /// </summary>
         /// <remarks>
@@ -505,7 +697,7 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <returns>GetOrganizationPasskeyResponse</returns>
+        /// <returns>GetOrganizationPasskey200Response</returns>
         GetOrganizationPasskeyResponse GetOrganizationPasskey(string orgCode);
 
         /// <summary>
@@ -516,8 +708,58 @@ namespace Kinde.Api.Api
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <returns>ApiResponse of GetOrganizationPasskeyResponse</returns>
+        /// <returns>ApiResponse of GetOrganizationPasskey200Response</returns>
         ApiResponse<GetOrganizationPasskeyResponse> GetOrganizationPasskeyWithHttpInfo(string orgCode);
+        /// <summary>
+        /// Get organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>GetOrganizationPermissionResponse</returns>
+        GetOrganizationPermissionResponse GetOrganizationPermission(string orgCode, string permissionId);
+
+        /// <summary>
+        /// Get organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>ApiResponse of GetOrganizationPermissionResponse</returns>
+        ApiResponse<GetOrganizationPermissionResponse> GetOrganizationPermissionWithHttpInfo(string orgCode, string permissionId);
+        /// <summary>
+        /// List organization-managed permissions
+        /// </summary>
+        /// <remarks>
+        /// List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetOrganizationPermissionsResponse</returns>
+        GetOrganizationPermissionsResponse GetOrganizationPermissions(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
+
+        /// <summary>
+        /// List organization-managed permissions
+        /// </summary>
+        /// <remarks>
+        /// List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetOrganizationPermissionsResponse</returns>
+        ApiResponse<GetOrganizationPermissionsResponse> GetOrganizationPermissionsWithHttpInfo(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
         /// <summary>
         /// Get Organization Property Values
         /// </summary>
@@ -540,15 +782,142 @@ namespace Kinde.Api.Api
         /// <returns>ApiResponse of GetPropertyValuesResponse</returns>
         ApiResponse<GetPropertyValuesResponse> GetOrganizationPropertyValuesWithHttpInfo(string orgCode);
         /// <summary>
+        /// Get organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>GetOrganizationRoleResponse</returns>
+        GetOrganizationRoleResponse GetOrganizationRole(string orgCode, string roleId);
+
+        /// <summary>
+        /// Get organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>ApiResponse of GetOrganizationRoleResponse</returns>
+        ApiResponse<GetOrganizationRoleResponse> GetOrganizationRoleWithHttpInfo(string orgCode, string roleId);
+        /// <summary>
+        /// Get organization role active users count
+        /// </summary>
+        /// <remarks>
+        /// Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <returns>GetOrganizationRoleActiveUsersCountResponse</returns>
+        GetOrganizationRoleActiveUsersCountResponse GetOrganizationRoleActiveUsersCount(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo);
+
+        /// <summary>
+        /// Get organization role active users count
+        /// </summary>
+        /// <remarks>
+        /// Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <returns>ApiResponse of GetOrganizationRoleActiveUsersCountResponse</returns>
+        ApiResponse<GetOrganizationRoleActiveUsersCountResponse> GetOrganizationRoleActiveUsersCountWithHttpInfo(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo);
+        /// <summary>
+        /// List organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetOrganizationRoleUsersResponse</returns>
+        GetOrganizationRoleUsersResponse GetOrganizationRoleUsers(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string));
+
+        /// <summary>
+        /// List organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetOrganizationRoleUsersResponse</returns>
+        ApiResponse<GetOrganizationRoleUsersResponse> GetOrganizationRoleUsersWithHttpInfo(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string));
+        /// <summary>
+        /// Count organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <returns>GetOrganizationRoleUsersCountResponse</returns>
+        GetOrganizationRoleUsersCountResponse GetOrganizationRoleUsersCount(string orgCode, string roleId);
+
+        /// <summary>
+        /// Count organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <returns>ApiResponse of GetOrganizationRoleUsersCountResponse</returns>
+        ApiResponse<GetOrganizationRoleUsersCountResponse> GetOrganizationRoleUsersCountWithHttpInfo(string orgCode, string roleId);
+        /// <summary>
+        /// List organization-managed roles
+        /// </summary>
+        /// <remarks>
+        /// List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetOrganizationRolesResponse</returns>
+        GetOrganizationRolesResponse GetOrganizationRoles(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
+
+        /// <summary>
+        /// List organization-managed roles
+        /// </summary>
+        /// <remarks>
+        /// List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetOrganizationRolesResponse</returns>
+        ApiResponse<GetOrganizationRolesResponse> GetOrganizationRolesWithHttpInfo(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string));
+        /// <summary>
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <returns>GetOrganizationsUserPermissionsResponse</returns>
         GetOrganizationsUserPermissionsResponse GetOrganizationUserPermissions(string orgCode, string userId, string expand = default(string));
 
@@ -556,12 +925,12 @@ namespace Kinde.Api.Api
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetOrganizationsUserPermissionsResponse</returns>
         ApiResponse<GetOrganizationsUserPermissionsResponse> GetOrganizationUserPermissionsWithHttpInfo(string orgCode, string userId, string expand = default(string));
         /// <summary>
@@ -691,7 +1060,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -703,7 +1072,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -785,11 +1154,11 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <returns>SuccessResponse</returns>
         SuccessResponse UpdateOrganization(string orgCode, string expand = default(string), UpdateOrganizationRequest updateOrganizationRequest = default(UpdateOrganizationRequest));
@@ -798,11 +1167,11 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationWithHttpInfo(string orgCode, string expand = default(string), UpdateOrganizationRequest updateOrganizationRequest = default(UpdateOrganizationRequest));
@@ -840,7 +1209,7 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
-        /// <returns>UpdateOrganizationPasskeyResponse</returns>
+        /// <returns>UpdateOrganizationPasskey200Response</returns>
         UpdateOrganizationPasskeyResponse UpdateOrganizationPasskey(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest);
 
         /// <summary>
@@ -852,8 +1221,33 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
-        /// <returns>ApiResponse of UpdateOrganizationPasskeyResponse</returns>
+        /// <returns>ApiResponse of UpdateOrganizationPasskey200Response</returns>
         ApiResponse<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyWithHttpInfo(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest);
+        /// <summary>
+        /// Update organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateOrganizationPermission(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?));
+
+        /// <summary>
+        /// Update organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateOrganizationPermissionWithHttpInfo(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?));
         /// <summary>
         /// Update Organization Property values
         /// </summary>
@@ -881,12 +1275,12 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>SuccessResponse</returns>
         SuccessResponse UpdateOrganizationProperty(string orgCode, string propertyKey, string value);
 
@@ -894,14 +1288,39 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateOrganizationPropertyWithHttpInfo(string orgCode, string propertyKey, string value);
+        /// <summary>
+        /// Update organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse UpdateOrganizationRole(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?));
+
+        /// <summary>
+        /// Update organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> UpdateOrganizationRoleWithHttpInfo(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?));
         /// <summary>
         /// Update organization session configuration
         /// </summary>
@@ -929,7 +1348,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -941,7 +1360,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1017,7 +1436,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1030,7 +1449,7 @@ namespace Kinde.Api.Api
         /// Add Organization Users
         /// </summary>
         /// <remarks>
-        /// Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1092,7 +1511,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1106,7 +1525,7 @@ namespace Kinde.Api.Api
         /// Add Organization User Role
         /// </summary>
         /// <remarks>
-        /// Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1116,35 +1535,85 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateOrganizationUserRoleWithHttpInfoAsync(string orgCode, string userId, CreateOrganizationUserRoleRequest createOrganizationUserRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Create Organization Invite
+        /// Create organization invite
         /// </summary>
         /// <remarks>
-        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateOrganizationInviteResponse</returns>
         System.Threading.Tasks.Task<CreateOrganizationInviteResponse> CreateOrganizationInviteAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Create Organization Invite
+        /// Create organization invite
         /// </summary>
         /// <remarks>
-        /// Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateOrganizationInviteResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<CreateOrganizationInviteResponse>> CreateOrganizationInviteWithHttpInfoAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Create organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> CreateOrganizationPermissionAsync(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Create organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateOrganizationPermissionWithHttpInfoAsync(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Create organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateRolesResponse</returns>
+        System.Threading.Tasks.Task<CreateRolesResponse> CreateOrganizationRoleAsync(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Create organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateRolesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateRolesResponse>> CreateOrganizationRoleWithHttpInfoAsync(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1156,7 +1625,7 @@ namespace Kinde.Api.Api
         /// Delete Organization
         /// </summary>
         /// <remarks>
-        /// Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1235,6 +1704,31 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationHandleWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Delete organization invite
+        /// </summary>
+        /// <remarks>
+        /// Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationInviteAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete organization invite
+        /// </summary>
+        /// <remarks>
+        /// Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationInviteWithHttpInfoAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Delete organization logo
         /// </summary>
         /// <remarks>
@@ -1259,6 +1753,56 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationLogoWithHttpInfoAsync(string orgCode, string type, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Delete organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationPermissionAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationPermissionWithHttpInfoAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Delete organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationRoleAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Delete organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> DeleteOrganizationRoleWithHttpInfoAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Delete scope from organization user API
         /// </summary>
@@ -1319,7 +1863,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1333,7 +1877,7 @@ namespace Kinde.Api.Api
         /// Delete Organization User Role
         /// </summary>
         /// <remarks>
-        /// Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1371,7 +1915,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1384,7 +1928,7 @@ namespace Kinde.Api.Api
         /// Get an organization user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -1399,10 +1943,11 @@ namespace Kinde.Api.Api
         /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationResponse</returns>
-        System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string code = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string code, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get organization
@@ -1411,10 +1956,11 @@ namespace Kinde.Api.Api
         /// Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string code = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string code, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get connections
         /// </summary>
@@ -1462,6 +2008,87 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetOrganizationFeatureFlagsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationFeatureFlagsResponse>> GetOrganizationFeatureFlagsWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get organization invite
+        /// </summary>
+        /// <remarks>
+        /// Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationInviteResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationInviteResponse> GetOrganizationInviteAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get organization invite
+        /// </summary>
+        /// <remarks>
+        /// Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationInviteResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationInviteResponse>> GetOrganizationInviteWithHttpInfoAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get organization invites
+        /// </summary>
+        /// <remarks>
+        /// Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationInvitesResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationInvitesResponse> GetOrganizationInvitesAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get organization invites
+        /// </summary>
+        /// <remarks>
+        /// Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationInvitesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationInvitesResponse>> GetOrganizationInvitesWithHttpInfoAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationMFA200Response</returns>
+        System.Threading.Tasks.Task<GetOrganizationMFA200Response> GetOrganizationMFAAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get Organization MFA Configuration
+        /// </summary>
+        /// <remarks>
+        /// Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationMFA200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationMFA200Response>> GetOrganizationMFAWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Get organization passkey settings
         /// </summary>
         /// <remarks>
@@ -1470,7 +2097,7 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of GetOrganizationPasskeyResponse</returns>
+        /// <returns>Task of GetOrganizationPasskey200Response</returns>
         System.Threading.Tasks.Task<GetOrganizationPasskeyResponse> GetOrganizationPasskeyAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
@@ -1482,8 +2109,62 @@ namespace Kinde.Api.Api
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (GetOrganizationPasskeyResponse)</returns>
+        /// <returns>Task of ApiResponse (GetOrganizationPasskey200Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationPasskeyResponse>> GetOrganizationPasskeyWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPermissionResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationPermissionResponse> GetOrganizationPermissionAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPermissionResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationPermissionResponse>> GetOrganizationPermissionWithHttpInfoAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// List organization-managed permissions
+        /// </summary>
+        /// <remarks>
+        /// List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPermissionsResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationPermissionsResponse> GetOrganizationPermissionsAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// List organization-managed permissions
+        /// </summary>
+        /// <remarks>
+        /// List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPermissionsResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationPermissionsResponse>> GetOrganizationPermissionsWithHttpInfoAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get Organization Property Values
         /// </summary>
@@ -1508,15 +2189,152 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetPropertyValuesResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetPropertyValuesResponse>> GetOrganizationPropertyValuesWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Get organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationRoleResponse> GetOrganizationRoleAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationRoleResponse>> GetOrganizationRoleWithHttpInfoAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Get organization role active users count
+        /// </summary>
+        /// <remarks>
+        /// Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleActiveUsersCountResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationRoleActiveUsersCountResponse> GetOrganizationRoleActiveUsersCountAsync(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Get organization role active users count
+        /// </summary>
+        /// <remarks>
+        /// Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleActiveUsersCountResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationRoleActiveUsersCountResponse>> GetOrganizationRoleActiveUsersCountWithHttpInfoAsync(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// List organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleUsersResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationRoleUsersResponse> GetOrganizationRoleUsersAsync(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// List organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleUsersResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationRoleUsersResponse>> GetOrganizationRoleUsersWithHttpInfoAsync(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Count organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleUsersCountResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationRoleUsersCountResponse> GetOrganizationRoleUsersCountAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Count organization role users
+        /// </summary>
+        /// <remarks>
+        /// Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleUsersCountResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationRoleUsersCountResponse>> GetOrganizationRoleUsersCountWithHttpInfoAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// List organization-managed roles
+        /// </summary>
+        /// <remarks>
+        /// List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRolesResponse</returns>
+        System.Threading.Tasks.Task<GetOrganizationRolesResponse> GetOrganizationRolesAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// List organization-managed roles
+        /// </summary>
+        /// <remarks>
+        /// List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRolesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetOrganizationRolesResponse>> GetOrganizationRolesWithHttpInfoAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationsUserPermissionsResponse</returns>
         System.Threading.Tasks.Task<GetOrganizationsUserPermissionsResponse> GetOrganizationUserPermissionsAsync(string orgCode, string userId, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -1525,12 +2343,12 @@ namespace Kinde.Api.Api
         /// List Organization User Permissions
         /// </summary>
         /// <remarks>
-        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationsUserPermissionsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetOrganizationsUserPermissionsResponse>> GetOrganizationUserPermissionsWithHttpInfoAsync(string orgCode, string userId, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -1671,7 +2489,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1684,7 +2502,7 @@ namespace Kinde.Api.Api
         /// Remove Organization User
         /// </summary>
         /// <remarks>
-        /// Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1773,11 +2591,11 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
@@ -1787,11 +2605,11 @@ namespace Kinde.Api.Api
         /// Update Organization
         /// </summary>
         /// <remarks>
-        /// Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
@@ -1833,7 +2651,7 @@ namespace Kinde.Api.Api
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of UpdateOrganizationPasskeyResponse</returns>
+        /// <returns>Task of UpdateOrganizationPasskey200Response</returns>
         System.Threading.Tasks.Task<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
@@ -1846,8 +2664,35 @@ namespace Kinde.Api.Api
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (UpdateOrganizationPasskeyResponse)</returns>
+        /// <returns>Task of ApiResponse (UpdateOrganizationPasskey200Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<UpdateOrganizationPasskeyResponse>> UpdateOrganizationPasskeyWithHttpInfoAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPermissionAsync(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update organization-managed permission
+        /// </summary>
+        /// <remarks>
+        /// Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationPermissionWithHttpInfoAsync(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update Organization Property values
         /// </summary>
@@ -1877,12 +2722,12 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
         System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPropertyAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -1891,15 +2736,42 @@ namespace Kinde.Api.Api
         /// Update Organization Property value
         /// </summary>
         /// <remarks>
-        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationPropertyWithHttpInfoAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Update organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationRoleAsync(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Update organization-managed role
+        /// </summary>
+        /// <remarks>
+        /// Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateOrganizationRoleWithHttpInfoAsync(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update organization session configuration
         /// </summary>
@@ -1929,7 +2801,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1942,7 +2814,7 @@ namespace Kinde.Api.Api
         /// Update Organization Users
         /// </summary>
         /// <remarks>
-        /// Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -1971,13 +2843,13 @@ namespace Kinde.Api.Api
         private KindeManagementClient _kiotaClient;
         private Kinde.Api.Client.ApiClient _kindeApiClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _kiotaMapper;
+        private IKindeMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
@@ -2017,23 +2889,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public OrganizationsApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public OrganizationsApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -2047,13 +2919,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public OrganizationsApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -2069,33 +2940,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class.
+        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public OrganizationsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class.
+        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public OrganizationsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -2114,17 +2975,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="OrganizationsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public OrganizationsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -2150,7 +3006,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public OrganizationsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -2165,10 +3020,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrganizationsApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public OrganizationsApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -2422,7 +3278,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization Users Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2435,7 +3291,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization Users Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2448,7 +3304,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization Users Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2462,7 +3318,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization Users Add existing users to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization Users Add existing users to an organization.  Every key in &#x60;roles&#x60; must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped.  Users cannot be added to organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2661,7 +3517,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization User Role Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2675,7 +3531,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization User Role Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2689,7 +3545,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization User Role Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2704,7 +3560,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Add Organization User Role Add role to an organization user.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Add Organization User Role Add role to an organization user.  Roles cannot be added to users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;create:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -2750,11 +3606,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create organization invite Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <returns>CreateOrganizationInviteResponse</returns>
         public CreateOrganizationInviteResponse CreateOrganizationInvite(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest)
         {
@@ -2763,11 +3619,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create organization invite Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <returns>ApiResponse of CreateOrganizationInviteResponse</returns>
         public Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse> CreateOrganizationInviteWithHttpInfo(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest)
         {
@@ -2776,11 +3632,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create organization invite Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateOrganizationInviteResponse</returns>
         public async System.Threading.Tasks.Task<CreateOrganizationInviteResponse> CreateOrganizationInviteAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -2790,11 +3646,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create Organization Invite Invite a user to an organization.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
+        /// Create organization invite Create a new invitation for an organization. An invitation email will be sent to the provided email address if &#x60;send_email&#x60; is set to &#x60;true&#x60;.  Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.  Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside &#x60;owner&#x60;/&#x60;admin&#x60; additionally require the &#x60;extended_roles&#x60; entitlement.  Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.  &lt;div&gt;   &lt;code&gt;create:organization_invites&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <param name="createOrganizationInviteRequest">Invite details.</param>
+        /// <param name="createOrganizationInviteRequest">Invitation details. &#x60;email&#x60; is capped at 254 characters (RFC 5321). &#x60;first_name&#x60; and &#x60;last_name&#x60; are capped at 64 characters each. Inputs over these limits are rejected with &#x60;EMAIL_TOO_LONG&#x60;, &#x60;FIRST_NAME_TOO_LONG&#x60;, or &#x60;LAST_NAME_TOO_LONG&#x60;.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateOrganizationInviteResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateOrganizationInviteResponse>> CreateOrganizationInviteWithHttpInfoAsync(string orgCode, CreateOrganizationInviteRequest createOrganizationInviteRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -2831,7 +3687,169 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Create organization-managed permission Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse CreateOrganizationPermission(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = CreateOrganizationPermissionWithHttpInfo(orgCode, createOrganizationPermissionRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create organization-managed permission Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> CreateOrganizationPermissionWithHttpInfo(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest)
+        {
+            // ===== Kiota Implementation =====
+            return CreateOrganizationPermissionWithHttpInfoAsync(orgCode, createOrganizationPermissionRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Create organization-managed permission Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> CreateOrganizationPermissionAsync(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await CreateOrganizationPermissionWithHttpInfoAsync(orgCode, createOrganizationPermissionRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create organization-managed permission Define a permission that belongs to an organization. An organization can have up to 100 permissions of its own.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationPermissionRequest">Permission details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> CreateOrganizationPermissionWithHttpInfoAsync(string orgCode, CreateOrganizationPermissionRequest createOrganizationPermissionRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->CreateOrganizationPermission");
+
+            // verify the required parameter 'createOrganizationPermissionRequest' is set
+            if (createOrganizationPermissionRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationPermissionRequest' when calling OrganizationsApi->CreateOrganizationPermission");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Permissions.PermissionsPostRequestBody>(createOrganizationPermissionRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Permissions.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganizationPermission: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Create organization-managed role Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <returns>CreateRolesResponse</returns>
+        public CreateRolesResponse CreateOrganizationRole(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest)
+        {
+            Kinde.Api.Client.ApiResponse<CreateRolesResponse> localVarResponse = CreateOrganizationRoleWithHttpInfo(orgCode, createOrganizationRoleRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create organization-managed role Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <returns>ApiResponse of CreateRolesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreateRolesResponse> CreateOrganizationRoleWithHttpInfo(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest)
+        {
+            // ===== Kiota Implementation =====
+            return CreateOrganizationRoleWithHttpInfoAsync(orgCode, createOrganizationRoleRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Create organization-managed role Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateRolesResponse</returns>
+        public async System.Threading.Tasks.Task<CreateRolesResponse> CreateOrganizationRoleAsync(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<CreateRolesResponse> localVarResponse = await CreateOrganizationRoleWithHttpInfoAsync(orgCode, createOrganizationRoleRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create organization-managed role Create a role that belongs to an organization. An organization can have up to 100 roles of its own.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;create:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="createOrganizationRoleRequest">Role details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateRolesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateRolesResponse>> CreateOrganizationRoleWithHttpInfoAsync(string orgCode, CreateOrganizationRoleRequest createOrganizationRoleRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->CreateOrganizationRole");
+
+            // verify the required parameter 'createOrganizationRoleRequest' is set
+            if (createOrganizationRoleRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createOrganizationRoleRequest' when calling OrganizationsApi->CreateOrganizationRole");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Roles.RolesPostRequestBody>(createOrganizationRoleRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateRolesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateRolesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateOrganizationRole: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Delete Organization Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2843,7 +3861,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Delete Organization Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2855,7 +3873,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Delete Organization Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -2868,7 +3886,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization Delete an organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Delete Organization Delete an organization.  Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.  &lt;div&gt;   &lt;code&gt;delete:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3119,6 +4137,84 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
+        /// Delete organization invite Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteOrganizationInvite(string orgCode, string inviteCode)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteOrganizationInviteWithHttpInfo(orgCode, inviteCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization invite Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationInviteWithHttpInfo(string orgCode, string inviteCode)
+        {
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationInviteWithHttpInfoAsync(orgCode, inviteCode).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Delete organization invite Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationInviteAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteOrganizationInviteWithHttpInfoAsync(orgCode, inviteCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization invite Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.  &lt;div&gt;   &lt;code&gt;delete:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteOrganizationInviteWithHttpInfoAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationInvite");
+
+            // verify the required parameter 'inviteCode' is set
+            if (inviteCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'inviteCode' when calling OrganizationsApi->DeleteOrganizationInvite");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].Invites[inviteCode].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationInvite: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Delete organization logo Delete organization logo  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -3193,6 +4289,162 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationLogo: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Delete organization-managed permission Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteOrganizationPermission(string orgCode, string permissionId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteOrganizationPermissionWithHttpInfo(orgCode, permissionId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization-managed permission Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationPermissionWithHttpInfo(string orgCode, string permissionId)
+        {
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationPermissionWithHttpInfoAsync(orgCode, permissionId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Delete organization-managed permission Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationPermissionAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteOrganizationPermissionWithHttpInfoAsync(orgCode, permissionId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization-managed permission Delete a permission the organization owns. The organization&#39;s roles that hold it lose it. This works on any plan.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteOrganizationPermissionWithHttpInfoAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationPermission");
+
+            // verify the required parameter 'permissionId' is set
+            if (permissionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling OrganizationsApi->DeleteOrganizationPermission");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Permissions[permissionId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationPermission: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Delete organization-managed role Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse DeleteOrganizationRole(string orgCode, string roleId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = DeleteOrganizationRoleWithHttpInfo(orgCode, roleId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization-managed role Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> DeleteOrganizationRoleWithHttpInfo(string orgCode, string roleId)
+        {
+            // ===== Kiota Implementation =====
+            return DeleteOrganizationRoleWithHttpInfoAsync(orgCode, roleId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Delete organization-managed role Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> DeleteOrganizationRoleAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await DeleteOrganizationRoleWithHttpInfoAsync(orgCode, roleId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete organization-managed role Delete a role the organization owns. Members who hold it lose it. This works on any plan, so roles made while on Scale can be cleaned up after a downgrade.  &lt;div&gt;   &lt;code&gt;delete:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> DeleteOrganizationRoleWithHttpInfoAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->DeleteOrganizationRole");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->DeleteOrganizationRole");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles[roleId].DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteOrganizationRole: {ex.Message}", ex);
             }
         }
 
@@ -3374,7 +4626,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete Organization User Role Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3388,7 +4640,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete Organization User Role Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3402,7 +4654,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete Organization User Role Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3417,7 +4669,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete Organization User Role Delete role for an organization user.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// Delete Organization User Role Delete role for an organization user.  Roles cannot be removed from users in organizations managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_user_roles&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -3535,7 +4787,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3548,7 +4800,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3561,7 +4813,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3575,7 +4827,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get an organization user&#39;s MFA configuration Get an organization user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get an organization user&#39;s MFA configuration Get an organization user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:organization_user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
@@ -3616,11 +4868,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <returns>GetOrganizationResponse</returns>
-        public GetOrganizationResponse GetOrganization(string code = default(string))
+        public GetOrganizationResponse GetOrganization(string code, string expand = default(string))
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = GetOrganizationWithHttpInfo(code);
+            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = GetOrganizationWithHttpInfo(code, expand);
             return localVarResponse.Data;
         }
 
@@ -3628,24 +4881,26 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetOrganizationResponse</returns>
-        public Kinde.Api.Client.ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string code = default(string))
+        public Kinde.Api.Client.ApiResponse<GetOrganizationResponse> GetOrganizationWithHttpInfo(string code, string expand = default(string))
         {
             // ===== Kiota Implementation =====
-            return GetOrganizationWithHttpInfoAsync(code).GetAwaiter().GetResult();
+            return GetOrganizationWithHttpInfoAsync(code, expand).GetAwaiter().GetResult();
         }
 
         /// <summary>
         /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationResponse</returns>
-        public async System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string code = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<GetOrganizationResponse> GetOrganizationAsync(string code, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = await GetOrganizationWithHttpInfoAsync(code, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<GetOrganizationResponse> localVarResponse = await GetOrganizationWithHttpInfoAsync(code, expand, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -3653,17 +4908,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// Get organization Retrieve organization details by code.  &lt;div&gt;   &lt;code&gt;read:organizations&lt;/code&gt; &lt;/div&gt; 
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="code">The organization&#39;s code. (optional)</param>
+        /// <param name="code">The organization&#39;s code.</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string code = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationResponse>> GetOrganizationWithHttpInfoAsync(string code, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'code' is set
+            if (code == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'code' when calling OrganizationsApi->GetOrganization");
+
             // ===== Kiota Implementation =====
             try
             {
                 var kiotaResponse = await KiotaClient.Api.V1.Organization.GetAsync(config =>
                 {
                     config.QueryParameters.Code = code;
+                    config.QueryParameters.Expand = expand;
                 }, cancellationToken).ConfigureAwait(false);
 
                 var mappedResponse = KiotaMapper.Map<GetOrganizationResponse>(kiotaResponse);
@@ -3824,11 +5085,260 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
+        /// Get organization invite Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>GetOrganizationInviteResponse</returns>
+        public GetOrganizationInviteResponse GetOrganizationInvite(string orgCode, string inviteCode)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationInviteResponse> localVarResponse = GetOrganizationInviteWithHttpInfo(orgCode, inviteCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization invite Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <returns>ApiResponse of GetOrganizationInviteResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationInviteResponse> GetOrganizationInviteWithHttpInfo(string orgCode, string inviteCode)
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationInviteWithHttpInfoAsync(orgCode, inviteCode).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get organization invite Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationInviteResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationInviteResponse> GetOrganizationInviteAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationInviteResponse> localVarResponse = await GetOrganizationInviteWithHttpInfoAsync(orgCode, inviteCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization invite Get details of a specific invitation by its code.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="inviteCode">The invitation&#39;s code.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationInviteResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationInviteResponse>> GetOrganizationInviteWithHttpInfoAsync(string orgCode, string inviteCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationInvite");
+
+            // verify the required parameter 'inviteCode' is set
+            if (inviteCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'inviteCode' when calling OrganizationsApi->GetOrganizationInvite");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].Invites[inviteCode].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationInviteResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationInviteResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationInvite: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get organization invites Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <returns>GetOrganizationInvitesResponse</returns>
+        public GetOrganizationInvitesResponse GetOrganizationInvites(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationInvitesResponse> localVarResponse = GetOrganizationInvitesWithHttpInfo(orgCode, sort, pageSize, nextToken, includeRevoked, includeAccepted);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization invites Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <returns>ApiResponse of GetOrganizationInvitesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationInvitesResponse> GetOrganizationInvitesWithHttpInfo(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?))
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationInvitesWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, includeRevoked, includeAccepted).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get organization invites Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationInvitesResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationInvitesResponse> GetOrganizationInvitesAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationInvitesResponse> localVarResponse = await GetOrganizationInvitesWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, includeRevoked, includeAccepted, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization invites Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.  &lt;div&gt;   &lt;code&gt;read:organization_invites&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="includeRevoked">Include revoked invitations in the results. (optional, default to false)</param>
+        /// <param name="includeAccepted">Include accepted invitations in the results. (optional, default to false)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationInvitesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationInvitesResponse>> GetOrganizationInvitesWithHttpInfoAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), bool? includeRevoked = default(bool?), bool? includeAccepted = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationInvites");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.GetSortQueryParameterType? kiotaSort = null;
+                if (sort != null && Enum.TryParse<Kinde.Api.Kiota.Management.Api.V1.Organization.Item.Invites.GetSortQueryParameterType>(sort, true, out var parsedSort))
+                {
+                    kiotaSort = parsedSort;
+                }
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organization[orgCode].Invites.GetAsync(config =>
+                {
+                    config.QueryParameters.Sort = kiotaSort;
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.NextToken = nextToken;
+                    config.QueryParameters.IncludeRevoked = includeRevoked;
+                    config.QueryParameters.IncludeAccepted = includeAccepted;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationInvitesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationInvitesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationInvites: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get Organization MFA Configuration Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <returns>GetOrganizationMFA200Response</returns>
+        public GetOrganizationMFA200Response GetOrganizationMFA(string orgCode)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationMFA200Response> localVarResponse = GetOrganizationMFAWithHttpInfo(orgCode);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get Organization MFA Configuration Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <returns>ApiResponse of GetOrganizationMFA200Response</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationMFA200Response> GetOrganizationMFAWithHttpInfo(string orgCode)
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationMFAWithHttpInfoAsync(orgCode).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get Organization MFA Configuration Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationMFA200Response</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationMFA200Response> GetOrganizationMFAAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationMFA200Response> localVarResponse = await GetOrganizationMFAWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get Organization MFA Configuration Get the MFA configuration for an organization, including the enterprise connections exempt from organization MFA.  &lt;div&gt;   &lt;code&gt;read:organization_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The identifier for the organization</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationMFA200Response)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationMFA200Response>> GetOrganizationMFAWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationMFA");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Mfa.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationMFA200Response>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationMFA200Response>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationMFA: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
         /// Get organization passkey settings Retrieve passkey settings for an organization, including whether the organization overrides the environment default.  &lt;div&gt;   &lt;code&gt;read:organization_passkey&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <returns>GetOrganizationPasskeyResponse</returns>
+        /// <returns>GetOrganizationPasskey200Response</returns>
         public GetOrganizationPasskeyResponse GetOrganizationPasskey(string orgCode)
         {
             Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> localVarResponse = GetOrganizationPasskeyWithHttpInfo(orgCode);
@@ -3840,7 +5350,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
-        /// <returns>ApiResponse of GetOrganizationPasskeyResponse</returns>
+        /// <returns>ApiResponse of GetOrganizationPasskey200Response</returns>
         public Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> GetOrganizationPasskeyWithHttpInfo(string orgCode)
         {
             // verify the required parameter 'orgCode' is set
@@ -3891,7 +5401,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of GetOrganizationPasskeyResponse</returns>
+        /// <returns>Task of GetOrganizationPasskey200Response</returns>
         public async System.Threading.Tasks.Task<GetOrganizationPasskeyResponse> GetOrganizationPasskeyAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse> localVarResponse = await GetOrganizationPasskeyWithHttpInfoAsync(orgCode, cancellationToken).ConfigureAwait(false);
@@ -3904,7 +5414,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (GetOrganizationPasskeyResponse)</returns>
+        /// <returns>Task of ApiResponse (GetOrganizationPasskey200Response)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationPasskeyResponse>> GetOrganizationPasskeyWithHttpInfoAsync(string orgCode, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'orgCode' is set
@@ -3947,6 +5457,175 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             }
 
             return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get organization-managed permission Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>GetOrganizationPermissionResponse</returns>
+        public GetOrganizationPermissionResponse GetOrganizationPermission(string orgCode, string permissionId)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPermissionResponse> localVarResponse = GetOrganizationPermissionWithHttpInfo(orgCode, permissionId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization-managed permission Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <returns>ApiResponse of GetOrganizationPermissionResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationPermissionResponse> GetOrganizationPermissionWithHttpInfo(string orgCode, string permissionId)
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationPermissionWithHttpInfoAsync(orgCode, permissionId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get organization-managed permission Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPermissionResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationPermissionResponse> GetOrganizationPermissionAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPermissionResponse> localVarResponse = await GetOrganizationPermissionWithHttpInfoAsync(orgCode, permissionId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization-managed permission Get a permission the organization owns.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPermissionResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationPermissionResponse>> GetOrganizationPermissionWithHttpInfoAsync(string orgCode, string permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPermission");
+
+            // verify the required parameter 'permissionId' is set
+            if (permissionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling OrganizationsApi->GetOrganizationPermission");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Permissions[permissionId].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationPermissionResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationPermissionResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationPermission: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// List organization-managed permissions List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetOrganizationPermissionsResponse</returns>
+        public GetOrganizationPermissionsResponse GetOrganizationPermissions(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPermissionsResponse> localVarResponse = GetOrganizationPermissionsWithHttpInfo(orgCode, sort, pageSize, nextToken);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List organization-managed permissions List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetOrganizationPermissionsResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationPermissionsResponse> GetOrganizationPermissionsWithHttpInfo(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationPermissionsWithHttpInfoAsync(orgCode, sort, pageSize, nextToken).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// List organization-managed permissions List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationPermissionsResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationPermissionsResponse> GetOrganizationPermissionsAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationPermissionsResponse> localVarResponse = await GetOrganizationPermissionsWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List organization-managed permissions List the permissions an organization has defined for itself. Business-wide permissions are not included; use the permissions endpoints for those.  Organization-managed permissions are permissions an organization defines for itself. Only that organization&#39;s own roles can hold them, they appear in tokens through those roles, and they are available on the Scale plan alongside organization-managed roles (they use the same scopes). If the business moves off Scale they stay stored but stop appearing in tokens. They are not available on the Kinde business.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. Defaults to key_asc. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationPermissionsResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationPermissionsResponse>> GetOrganizationPermissionsWithHttpInfoAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationPermissions");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Permissions.GetSortQueryParameterType? kiotaSort = null;
+                if (sort != null && Enum.TryParse<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Permissions.GetSortQueryParameterType>(sort, true, out var parsedSort))
+                {
+                    kiotaSort = parsedSort;
+                }
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Permissions.GetAsync(config =>
+                {
+                    config.QueryParameters.Sort = kiotaSort;
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.NextToken = nextToken;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationPermissionsResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationPermissionsResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationPermissions: {ex.Message}", ex);
+            }
         }
 
         /// <summary>
@@ -4020,12 +5699,435 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// Get organization-managed role Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>GetOrganizationRoleResponse</returns>
+        public GetOrganizationRoleResponse GetOrganizationRole(string orgCode, string roleId)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleResponse> localVarResponse = GetOrganizationRoleWithHttpInfo(orgCode, roleId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization-managed role Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <returns>ApiResponse of GetOrganizationRoleResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationRoleResponse> GetOrganizationRoleWithHttpInfo(string orgCode, string roleId)
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationRoleWithHttpInfoAsync(orgCode, roleId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get organization-managed role Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationRoleResponse> GetOrganizationRoleAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleResponse> localVarResponse = await GetOrganizationRoleWithHttpInfoAsync(orgCode, roleId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization-managed role Get a role the organization owns, with its permissions.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationRoleResponse>> GetOrganizationRoleWithHttpInfoAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationRole");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->GetOrganizationRole");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles[roleId].GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationRoleResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationRoleResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationRole: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get organization role active users count Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <returns>GetOrganizationRoleActiveUsersCountResponse</returns>
+        public GetOrganizationRoleActiveUsersCountResponse GetOrganizationRoleActiveUsersCount(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleActiveUsersCountResponse> localVarResponse = GetOrganizationRoleActiveUsersCountWithHttpInfo(orgCode, roleId, dateTimeFrom, dateTimeTo);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization role active users count Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <returns>ApiResponse of GetOrganizationRoleActiveUsersCountResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationRoleActiveUsersCountResponse> GetOrganizationRoleActiveUsersCountWithHttpInfo(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo)
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationRoleActiveUsersCountWithHttpInfoAsync(orgCode, roleId, dateTimeFrom, dateTimeTo).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Get organization role active users count Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleActiveUsersCountResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationRoleActiveUsersCountResponse> GetOrganizationRoleActiveUsersCountAsync(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleActiveUsersCountResponse> localVarResponse = await GetOrganizationRoleActiveUsersCountWithHttpInfoAsync(orgCode, roleId, dateTimeFrom, dateTimeTo, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get organization role active users count Get the number of active users that hold a given role within a specific organization.  A user is counted as active if they were issued at least one access token during the requested period, regardless of organization context on the token. Only users who currently hold the role in the organization are included. The count is scoped to the current environment.  Both &#x60;date_time_from&#x60; and &#x60;date_time_to&#x60; are required, inclusive, and must be ISO 8601 datetimes in UTC. Provide them at second precision (no fractional seconds). If a value includes fractional seconds, it is normalized before any other processing: &#x60;date_time_from&#x60; is rounded down and &#x60;date_time_to&#x60; is rounded up to the nearest second. Window validation, the active-user query, and the echoed response bounds all use those normalized values.  The requested window must not exceed 3 days. Because both bounds are inclusive, this means &#x60;date_time_to&#x60; must be earlier than &#x60;date_time_from&#x60; plus 3 days. For example, &#x60;2026-07-01T00:00:00Z&#x60; to &#x60;2026-07-03T23:59:59Z&#x60; is a full 3 day window covering the whole of 1, 2 and 3 July. A longer window is rejected with &#x60;DATE_TIME_RANGE_TOO_LARGE&#x60;.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="dateTimeFrom">Start of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded down to the nearest second before validation.</param>
+        /// <param name="dateTimeTo">End of the active period (inclusive), as an ISO 8601 datetime in UTC at second precision. Fractional seconds are accepted but rounded up to the nearest second before validation. The window must not exceed 3 days, so this must be earlier than &#x60;date_time_from&#x60; plus 3 days.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleActiveUsersCountResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationRoleActiveUsersCountResponse>> GetOrganizationRoleActiveUsersCountWithHttpInfoAsync(string orgCode, string roleId, DateTimeOffset dateTimeFrom, DateTimeOffset dateTimeTo, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationRoleActiveUsersCount");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->GetOrganizationRoleActiveUsersCount");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles[roleId].Active_users.Count.GetAsync(config =>
+                {
+                    config.QueryParameters.DateTimeFrom = dateTimeFrom;
+                    config.QueryParameters.DateTimeTo = dateTimeTo;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationRoleActiveUsersCountResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationRoleActiveUsersCountResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationRoleActiveUsersCount: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// List organization role users Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetOrganizationRoleUsersResponse</returns>
+        public GetOrganizationRoleUsersResponse GetOrganizationRoleUsers(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersResponse> localVarResponse = GetOrganizationRoleUsersWithHttpInfo(orgCode, roleId, pageSize, nextToken);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List organization role users Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetOrganizationRoleUsersResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersResponse> GetOrganizationRoleUsersWithHttpInfo(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationRoleUsersWithHttpInfoAsync(orgCode, roleId, pageSize, nextToken).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// List organization role users Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleUsersResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationRoleUsersResponse> GetOrganizationRoleUsersAsync(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersResponse> localVarResponse = await GetOrganizationRoleUsersWithHttpInfoAsync(orgCode, roleId, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List organization role users Get users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10 if parameter not sent. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleUsersResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersResponse>> GetOrganizationRoleUsersWithHttpInfoAsync(string orgCode, string roleId, int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationRoleUsers");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->GetOrganizationRoleUsers");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles[roleId].Users.GetAsync(config =>
+                {
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.NextToken = nextToken;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationRoleUsersResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationRoleUsers: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Count organization role users Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <returns>GetOrganizationRoleUsersCountResponse</returns>
+        public GetOrganizationRoleUsersCountResponse GetOrganizationRoleUsersCount(string orgCode, string roleId)
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersCountResponse> localVarResponse = GetOrganizationRoleUsersCountWithHttpInfo(orgCode, roleId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Count organization role users Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <returns>ApiResponse of GetOrganizationRoleUsersCountResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersCountResponse> GetOrganizationRoleUsersCountWithHttpInfo(string orgCode, string roleId)
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationRoleUsersCountWithHttpInfoAsync(orgCode, roleId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Count organization role users Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRoleUsersCountResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationRoleUsersCountResponse> GetOrganizationRoleUsersCountAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersCountResponse> localVarResponse = await GetOrganizationRoleUsersCountWithHttpInfoAsync(orgCode, roleId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Count organization role users Get the number of users that have a given role within a specific organization.  &lt;div&gt;   &lt;code&gt;read:organization_user_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s public id.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRoleUsersCountResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersCountResponse>> GetOrganizationRoleUsersCountWithHttpInfoAsync(string orgCode, string roleId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationRoleUsersCount");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->GetOrganizationRoleUsersCount");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles[roleId].Users.Count.GetAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationRoleUsersCountResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationRoleUsersCountResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationRoleUsersCount: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// List organization-managed roles List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>GetOrganizationRolesResponse</returns>
+        public GetOrganizationRolesResponse GetOrganizationRoles(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRolesResponse> localVarResponse = GetOrganizationRolesWithHttpInfo(orgCode, sort, pageSize, nextToken);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List organization-managed roles List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <returns>ApiResponse of GetOrganizationRolesResponse</returns>
+        public Kinde.Api.Client.ApiResponse<GetOrganizationRolesResponse> GetOrganizationRolesWithHttpInfo(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return GetOrganizationRolesWithHttpInfoAsync(orgCode, sort, pageSize, nextToken).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// List organization-managed roles List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetOrganizationRolesResponse</returns>
+        public async System.Threading.Tasks.Task<GetOrganizationRolesResponse> GetOrganizationRolesAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<GetOrganizationRolesResponse> localVarResponse = await GetOrganizationRolesWithHttpInfoAsync(orgCode, sort, pageSize, nextToken, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List organization-managed roles List the roles an organization has created for itself. Business-wide roles are not included; use the roles endpoints for those.  Organization-managed roles are roles an organization owns. They can only be assigned to members of that organization, they hold only the permissions the business marks as &#x60;is_organization_role_assignable&#x60;, and they are available on the Scale plan. If the business moves off Scale they stay stored but stop appearing in tokens and permission checks.  &lt;div&gt;   &lt;code&gt;read:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="sort">Field and order to sort the result by. (optional)</param>
+        /// <param name="pageSize">Number of results per page. Defaults to 10, at most 500. (optional)</param>
+        /// <param name="nextToken">A string to get the next page of results if there are more results. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetOrganizationRolesResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationRolesResponse>> GetOrganizationRolesWithHttpInfoAsync(string orgCode, string sort = default(string), int? pageSize = default(int?), string nextToken = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->GetOrganizationRoles");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.GetSortQueryParameterType? kiotaSort = null;
+                if (sort != null && Enum.TryParse<Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Roles.GetSortQueryParameterType>(sort, true, out var parsedSort))
+                {
+                    kiotaSort = parsedSort;
+                }
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles.GetAsync(config =>
+                {
+                    config.QueryParameters.Sort = kiotaSort;
+                    config.QueryParameters.PageSize = pageSize;
+                    config.QueryParameters.NextToken = nextToken;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<GetOrganizationRolesResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<GetOrganizationRolesResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetOrganizationRoles: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <returns>GetOrganizationsUserPermissionsResponse</returns>
         public GetOrganizationsUserPermissionsResponse GetOrganizationUserPermissions(string orgCode, string userId, string expand = default(string))
         {
@@ -4034,12 +6136,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <returns>ApiResponse of GetOrganizationsUserPermissionsResponse</returns>
         public Kinde.Api.Client.ApiResponse<GetOrganizationsUserPermissionsResponse> GetOrganizationUserPermissionsWithHttpInfo(string orgCode, string userId, string expand = default(string))
         {
@@ -4048,12 +6150,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetOrganizationsUserPermissionsResponse</returns>
         public async System.Threading.Tasks.Task<GetOrganizationsUserPermissionsResponse> GetOrganizationUserPermissionsAsync(string orgCode, string userId, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -4063,12 +6165,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt; 
+        /// List Organization User Permissions Get permissions for an organization user.  &lt;div&gt;   &lt;code&gt;read:organization_user_permissions&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="userId">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;roles\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;roles\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetOrganizationsUserPermissionsResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<GetOrganizationsUserPermissionsResponse>> GetOrganizationUserPermissionsWithHttpInfoAsync(string orgCode, string userId, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -4525,7 +6627,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove Organization User Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4538,7 +6640,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove Organization User Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4551,7 +6653,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove Organization User Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4565,7 +6667,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Remove Organization User Remove user from an organization.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Remove Organization User Remove user from an organization.  Users cannot be removed from organizations that are managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -4867,11 +6969,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <returns>SuccessResponse</returns>
         public SuccessResponse UpdateOrganization(string orgCode, string expand = default(string), UpdateOrganizationRequest updateOrganizationRequest = default(UpdateOrganizationRequest))
@@ -4881,11 +6983,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationWithHttpInfo(string orgCode, string expand = default(string), UpdateOrganizationRequest updateOrganizationRequest = default(UpdateOrganizationRequest))
@@ -4895,11 +6997,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
@@ -4910,11 +7012,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Update an organization.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Update an organization.  When the organization name is updated and the organization is a billing customer, the change is also propagated to the corresponding billing customer details.  &lt;div&gt;   &lt;code&gt;update:organizations&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;billing\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. Allowed value: \&quot;billing\&quot;. (optional)</param>
         /// <param name="updateOrganizationRequest">Organization details. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
@@ -5048,7 +7150,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
-        /// <returns>UpdateOrganizationPasskeyResponse</returns>
+        /// <returns>UpdateOrganizationPasskey200Response</returns>
         public UpdateOrganizationPasskeyResponse UpdateOrganizationPasskey(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest)
         {
             Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> localVarResponse = UpdateOrganizationPasskeyWithHttpInfo(orgCode, updateOrganizationPasskeyRequest);
@@ -5061,7 +7163,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
-        /// <returns>ApiResponse of UpdateOrganizationPasskeyResponse</returns>
+        /// <returns>ApiResponse of UpdateOrganizationPasskey200Response</returns>
         public Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyWithHttpInfo(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest)
         {
             // verify the required parameter 'orgCode' is set
@@ -5119,7 +7221,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of UpdateOrganizationPasskeyResponse</returns>
+        /// <returns>Task of UpdateOrganizationPasskey200Response</returns>
         public async System.Threading.Tasks.Task<UpdateOrganizationPasskeyResponse> UpdateOrganizationPasskeyAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse> localVarResponse = await UpdateOrganizationPasskeyWithHttpInfoAsync(orgCode, updateOrganizationPasskeyRequest, cancellationToken).ConfigureAwait(false);
@@ -5133,7 +7235,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="orgCode">The organization&#39;s code.</param>
         /// <param name="updateOrganizationPasskeyRequest">Organization passkey settings.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (UpdateOrganizationPasskeyResponse)</returns>
+        /// <returns>Task of ApiResponse (UpdateOrganizationPasskey200Response)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UpdateOrganizationPasskeyResponse>> UpdateOrganizationPasskeyWithHttpInfoAsync(string orgCode, UpdateOrganizationPasskeyRequest updateOrganizationPasskeyRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'orgCode' is set
@@ -5182,6 +7284,91 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             }
 
             return localVarResponse;
+        }
+
+        /// <summary>
+        /// Update organization-managed permission Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateOrganizationPermission(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateOrganizationPermissionWithHttpInfo(orgCode, permissionId, updateOrganizationPermissionRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization-managed permission Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationPermissionWithHttpInfo(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?))
+        {
+            // ===== Kiota Implementation =====
+            return UpdateOrganizationPermissionWithHttpInfoAsync(orgCode, permissionId, updateOrganizationPermissionRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Update organization-managed permission Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPermissionAsync(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateOrganizationPermissionWithHttpInfoAsync(orgCode, permissionId, updateOrganizationPermissionRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization-managed permission Update a permission the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="permissionId">The permission&#39;s ID.</param>
+        /// <param name="updateOrganizationPermissionRequest">Permission details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateOrganizationPermissionWithHttpInfoAsync(string orgCode, string permissionId, UpdateOrganizationPermissionRequest? updateOrganizationPermissionRequest = default(UpdateOrganizationPermissionRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationPermission");
+
+            // verify the required parameter 'permissionId' is set
+            if (permissionId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'permissionId' when calling OrganizationsApi->UpdateOrganizationPermission");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Permissions.Item.WithPermission_PatchRequestBody>(updateOrganizationPermissionRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Permissions[permissionId].PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationPermission: {ex.Message}", ex);
+            }
         }
 
         /// <summary>
@@ -5265,12 +7452,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>SuccessResponse</returns>
         public SuccessResponse UpdateOrganizationProperty(string orgCode, string propertyKey, string value)
         {
@@ -5279,12 +7466,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationPropertyWithHttpInfo(string orgCode, string propertyKey, string value)
         {
@@ -5341,12 +7528,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
         public async System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationPropertyAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -5356,12 +7543,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Property value Update organization property value.  &lt;div&gt;   &lt;code&gt;update:organization_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The identifier for the organization</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateOrganizationPropertyWithHttpInfoAsync(string orgCode, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -5396,6 +7583,91 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationProperty: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Update organization-managed role Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse UpdateOrganizationRole(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = UpdateOrganizationRoleWithHttpInfo(orgCode, roleId, updateOrganizationRoleRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization-managed role Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateOrganizationRoleWithHttpInfo(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?))
+        {
+            // ===== Kiota Implementation =====
+            return UpdateOrganizationRoleWithHttpInfoAsync(orgCode, roleId, updateOrganizationRoleRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Update organization-managed role Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> UpdateOrganizationRoleAsync(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await UpdateOrganizationRoleWithHttpInfoAsync(orgCode, roleId, updateOrganizationRoleRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Update organization-managed role Update a role the organization owns. Fields you leave out are not changed. The key cannot be changed after creation.  &lt;div&gt;   &lt;code&gt;update:organization_roles&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orgCode">The organization&#39;s code.</param>
+        /// <param name="roleId">The role&#39;s ID.</param>
+        /// <param name="updateOrganizationRoleRequest">Role details. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateOrganizationRoleWithHttpInfoAsync(string orgCode, string roleId, UpdateOrganizationRoleRequest? updateOrganizationRoleRequest = default(UpdateOrganizationRoleRequest?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'orgCode' is set
+            if (orgCode == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'orgCode' when calling OrganizationsApi->UpdateOrganizationRole");
+
+            // verify the required parameter 'roleId' is set
+            if (roleId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'roleId' when calling OrganizationsApi->UpdateOrganizationRole");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Organizations.Item.Roles.Item.WithRole_PatchRequestBody>(updateOrganizationRoleRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Organizations[orgCode].Roles[roleId].PatchAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling UpdateOrganizationRole: {ex.Message}", ex);
             }
         }
 
@@ -5523,7 +7795,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Users Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -5536,7 +7808,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Users Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -5588,7 +7860,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Users Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>
@@ -5602,7 +7874,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Organization Users Update users that belong to an organization.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt; 
+        /// Update Organization Users Update users that belong to an organization.  &#x60;roles&#x60; replaces the user&#39;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&#39;s own roles while organization-managed roles are available on the business&#39;s plan. Any other key fails the whole request with &#x60;INVALID_ROLES&#x60; instead of being skipped. Below that plan the user&#39;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in &#x60;roles&#x60; until the plan is upgraded, and replacing &#x60;roles&#x60; does not remove them.  Users in organizations managed by directory sync cannot be updated (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:organization_users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orgCode">The organization&#39;s code.</param>

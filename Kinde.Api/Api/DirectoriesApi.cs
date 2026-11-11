@@ -19,7 +19,7 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
 using Microsoft.Kiota.Abstractions;
@@ -59,7 +59,7 @@ namespace Kinde.Api.Api
         /// Delete SCIM directory
         /// </summary>
         /// <remarks>
-        /// Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -70,7 +70,7 @@ namespace Kinde.Api.Api
         /// Delete SCIM directory
         /// </summary>
         /// <remarks>
-        /// Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -122,6 +122,27 @@ namespace Kinde.Api.Api
         /// <param name="directoryId">The directory&#39;s ID.</param>
         /// <returns>ApiResponse of GetDirectoryResponse</returns>
         ApiResponse<GetDirectoryResponse> GetDirectoryWithHttpInfo(string directoryId);
+        /// <summary>
+        /// Rotate SCIM directory secret token
+        /// </summary>
+        /// <remarks>
+        /// Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <returns>RotateDirectorySecretResponse</returns>
+        RotateDirectorySecretResponse RotateDirectorySecret(string directoryId);
+
+        /// <summary>
+        /// Rotate SCIM directory secret token
+        /// </summary>
+        /// <remarks>
+        /// Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <returns>ApiResponse of RotateDirectorySecretResponse</returns>
+        ApiResponse<RotateDirectorySecretResponse> RotateDirectorySecretWithHttpInfo(string directoryId);
         /// <summary>
         /// Update SCIM directory
         /// </summary>
@@ -181,7 +202,7 @@ namespace Kinde.Api.Api
         /// Delete SCIM directory
         /// </summary>
         /// <remarks>
-        /// Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -193,7 +214,7 @@ namespace Kinde.Api.Api
         /// Delete SCIM directory
         /// </summary>
         /// <remarks>
-        /// Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -251,6 +272,29 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (GetDirectoryResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetDirectoryResponse>> GetDirectoryWithHttpInfoAsync(string directoryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Rotate SCIM directory secret token
+        /// </summary>
+        /// <remarks>
+        /// Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RotateDirectorySecretResponse</returns>
+        System.Threading.Tasks.Task<RotateDirectorySecretResponse> RotateDirectorySecretAsync(string directoryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Rotate SCIM directory secret token
+        /// </summary>
+        /// <remarks>
+        /// Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RotateDirectorySecretResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<RotateDirectorySecretResponse>> RotateDirectorySecretWithHttpInfoAsync(string directoryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Update SCIM directory
         /// </summary>
         /// <remarks>
@@ -296,13 +340,13 @@ namespace Kinde.Api.Api
         private KindeManagementClient _kiotaClient;
         private Kinde.Api.Client.ApiClient _kindeApiClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _kiotaMapper;
+        private IKindeMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
@@ -351,23 +395,23 @@ namespace Kinde.Api.Api
         private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public DirectoriesApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public DirectoriesApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -381,13 +425,12 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public DirectoriesApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -403,33 +446,23 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class.
+        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public DirectoriesApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class.
+        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public DirectoriesApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -448,17 +481,12 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="DirectoriesApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public DirectoriesApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -484,7 +512,6 @@ namespace Kinde.Api.Api
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public DirectoriesApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -499,10 +526,11 @@ namespace Kinde.Api.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectoriesApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public DirectoriesApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -648,7 +676,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete SCIM directory Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete SCIM directory Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -660,7 +688,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete SCIM directory Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete SCIM directory Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -672,7 +700,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete SCIM directory Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete SCIM directory Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -685,7 +713,7 @@ namespace Kinde.Api.Api
         }
 
         /// <summary>
-        /// Delete SCIM directory Delete a SCIM directory.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
+        /// Delete SCIM directory Delete a SCIM directory and all associated data.  &lt;div&gt;   &lt;code&gt;delete:scim_directories&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="directoryId">The directory&#39;s ID.</param>
@@ -864,6 +892,76 @@ namespace Kinde.Api.Api
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetDirectory: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Rotate SCIM directory secret token Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <returns>RotateDirectorySecretResponse</returns>
+        public RotateDirectorySecretResponse RotateDirectorySecret(string directoryId)
+        {
+            Kinde.Api.Client.ApiResponse<RotateDirectorySecretResponse> localVarResponse = RotateDirectorySecretWithHttpInfo(directoryId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Rotate SCIM directory secret token Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <returns>ApiResponse of RotateDirectorySecretResponse</returns>
+        public Kinde.Api.Client.ApiResponse<RotateDirectorySecretResponse> RotateDirectorySecretWithHttpInfo(string directoryId)
+        {
+            // ===== Kiota Implementation =====
+            return RotateDirectorySecretWithHttpInfoAsync(directoryId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Rotate SCIM directory secret token Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of RotateDirectorySecretResponse</returns>
+        public async System.Threading.Tasks.Task<RotateDirectorySecretResponse> RotateDirectorySecretAsync(string directoryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<RotateDirectorySecretResponse> localVarResponse = await RotateDirectorySecretWithHttpInfoAsync(directoryId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Rotate SCIM directory secret token Rotate the SCIM directory bearer token. The previous token stops working immediately.  &lt;div&gt;   &lt;code&gt;update:scim_directories&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="directoryId">The directory&#39;s ID.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (RotateDirectorySecretResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<RotateDirectorySecretResponse>> RotateDirectorySecretWithHttpInfoAsync(string directoryId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'directoryId' is set
+            if (directoryId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'directoryId' when calling DirectoriesApi->RotateDirectorySecret");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Directories[directoryId].Rotate_secret.PostAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<RotateDirectorySecretResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<RotateDirectorySecretResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling RotateDirectorySecret: {ex.Message}", ex);
             }
         }
 

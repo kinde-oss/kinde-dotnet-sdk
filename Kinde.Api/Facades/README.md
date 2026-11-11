@@ -20,8 +20,8 @@ Consumer Code
      │
      ▼
 ┌─────────────────────────┐
-│  AutoMapper             │  ← Translates between OpenAPI and Kiota models
-│  (Kinde.Api.Mappers)    │
+│  Kinde model mapper     │  ← Translates between OpenAPI and Kiota models
+│  (Kinde.Api.Mapping)    │
 └─────────────────────────┘
      │
      ▼
@@ -37,14 +37,35 @@ Consumer Code
 
 Creates properly configured Kiota clients with:
 - Bearer token authentication
-- AutoMapper instance for model translation
+- The model mapper for OpenAPI/Kiota translation
 - Base URL configuration
 
 ### Model Mapping
 
-All model translation is handled by AutoMapper profiles in `Kinde.Api/Mappers/`:
-- `ManagementApiMapperProfile.cs` - Maps between OpenAPI and Kiota Management API models
-- `AccountsApiMapperProfile.cs` - Maps between OpenAPI and Kiota Accounts API models
+All model translation is handled by the SDK's own mapper in `Kinde.Api/Mapping/`, reached through
+`KindeMapperConfiguration.Mapper`:
+
+- `KindeMapper.cs` - Matches properties by name, recurses into nested models and collections, and
+  caches a mapping plan per type pair. Both generators produce the same PascalCase names from one
+  OpenAPI description, so this covers the great majority of mappings and keeps working when the
+  Kiota models are regenerated.
+- `KindeManagementMappings.cs` / `KindeAccountsMappings.cs` - The pairs where the two shapes
+  genuinely differ: `oneOf` wrappers, dynamically keyed `additionalProperties` objects, and enums
+  whose wire names the generators spell differently.
+- `KindeValueConverter.cs` - Scalar conversion: strings, primitives, enums and dates.
+
+When the destination is a Kiota model, null source values are skipped rather than assigned. The
+generated clients call `EnableBackingStore`, so the backing store records an assigned null as a
+deliberate change and the serializer writes it out as `"property": null`. On a PATCH that clears
+the field server-side: mapping a `UpdateUserRequest` that sets only `GivenName` would otherwise
+send `"family_name": null` and wipe the surname on the live account.
+
+Skipping nulls also preserves the schema defaults Kiota initialises, so leaving
+`ReplaceMFARequest.IsRecoveryCodesEnabled` unset still sends `"is_recovery_codes_enabled": true`.
+
+> The SDK previously used AutoMapper here. It no longer takes that dependency, and
+> `KindeMapperConfiguration.Mapper` returns `IKindeMapper` rather than AutoMapper's `IMapper`. The
+> `Map<TDestination>(object)` signature is unchanged, so call sites are unaffected.
 
 ### Facade Pattern Example
 
@@ -54,7 +75,7 @@ Each API class wraps Kiota calls:
 public partial class UsersApi : IUsersApi
 {
     private KindeManagementClient _kiotaClient;
-    private IMapper _mapper;
+    private IKindeMapper _mapper;
 
     // Async method (primary implementation)
     public async Task<CreateUserResponse> CreateUserAsync(
@@ -83,7 +104,7 @@ public partial class UsersApi : IUsersApi
 ## Migration Status
 
 - [x] Kiota generation infrastructure (`scripts/generate-kiota-clients.sh`)
-- [x] AutoMapper profiles for model translation
+- [x] Model mapping layer (`Kinde.Api/Mapping/`)
 - [x] KiotaClientFactory for client creation
 - [ ] 25 Management API facades (in progress)
 - [ ] 8 Accounts API facades (pending)

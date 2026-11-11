@@ -10,12 +10,14 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 | [**DeleteLogo**](EnvironmentsApi.md#deletelogo) | **DELETE** /api/v1/environment/logos/{type} | Delete logo |
 | [**GetEnvironementFeatureFlags**](EnvironmentsApi.md#getenvironementfeatureflags) | **GET** /api/v1/environment/feature_flags | List Environment Feature Flags |
 | [**GetEnvironment**](EnvironmentsApi.md#getenvironment) | **GET** /api/v1/environment | Get environment |
+| [**GetPasskey**](EnvironmentsApi.md#getpasskey) | **GET** /api/v1/passkey | Get environment passkey settings |
 | [**ReadLogo**](EnvironmentsApi.md#readlogo) | **GET** /api/v1/environment/logos | Read logo details |
 | [**UpdateEnvironementFeatureFlagOverride**](EnvironmentsApi.md#updateenvironementfeatureflagoverride) | **PATCH** /api/v1/environment/feature_flags/{feature_flag_key} | Update Environment Feature Flag Override |
+| [**UpdatePasskey**](EnvironmentsApi.md#updatepasskey) | **PUT** /api/v1/passkey | Update environment passkey settings |
 
 <a id="addlogo"></a>
 # **AddLogo**
-> SuccessResponse AddLogo (string type, FileParameter logo)
+> SuccessResponse AddLogo (string type, System.IO.Stream logo)
 
 Add logo
 
@@ -25,7 +27,6 @@ Add environment logo  <div>   <code>update:environments</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -41,12 +42,9 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
             var type = dark;  // string | The type of logo to add.
-            var logo = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | The logo file to upload.
+            var logo = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | The logo file to upload.
 
             try
             {
@@ -90,7 +88,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **type** | **string** | The type of logo to add. |  |
-| **logo** | **FileParameter****FileParameter** | The logo file to upload. |  |
+| **logo** | **System.IO.Stream****System.IO.Stream** | The logo file to upload. |  |
 
 ### Return type
 
@@ -128,7 +126,6 @@ Delete environment feature flag override.  <div>   <code>delete:environment_feat
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -144,10 +141,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
             var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag.
 
             try
@@ -229,7 +223,6 @@ Delete all environment feature flag overrides.  <div>   <code>delete:environment
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -245,10 +238,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
 
             try
             {
@@ -325,7 +315,6 @@ Delete environment logo  <div>   <code>update:environments</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -341,10 +330,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
             var type = dark;  // string | The type of logo to delete.
 
             try
@@ -427,7 +413,6 @@ Get environment feature flags.  <div>   <code>read:environment_feature_flags</co
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -443,10 +428,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
 
             try
             {
@@ -523,7 +505,6 @@ Gets the current environment.  <div>   <code>read:environments</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -539,10 +520,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
 
             try
             {
@@ -607,6 +585,98 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="getpasskey"></a>
+# **GetPasskey**
+> GetPasskey200Response GetPasskey ()
+
+Get environment passkey settings
+
+Retrieve passkey policy for the current environment.  <div>   <code>read:passkey</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class GetPasskeyExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new EnvironmentsApi(config);
+
+            try
+            {
+                // Get environment passkey settings
+                GetPasskey200Response result = apiInstance.GetPasskey();
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling EnvironmentsApi.GetPasskey: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetPasskeyWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get environment passkey settings
+    ApiResponse<GetPasskey200Response> response = apiInstance.GetPasskeyWithHttpInfo();
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling EnvironmentsApi.GetPasskeyWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+### Return type
+
+[**GetPasskey200Response**](GetPasskey200Response.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Passkey settings successfully retrieved. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="readlogo"></a>
 # **ReadLogo**
 > ReadEnvLogoResponse ReadLogo ()
@@ -619,7 +689,6 @@ Read environment logo details  <div>   <code>read:environments</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -635,10 +704,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
 
             try
             {
@@ -715,7 +781,6 @@ Update environment feature flag override.  <div>   <code>update:environment_feat
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -731,10 +796,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentsApi(config);
             var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag.
             var updateEnvironementFeatureFlagOverrideRequest = new UpdateEnvironementFeatureFlagOverrideRequest(); // UpdateEnvironementFeatureFlagOverrideRequest | Flag details.
 
@@ -803,6 +865,103 @@ catch (ApiException e)
 | **400** | Invalid request. |  -  |
 | **403** | Invalid credentials. |  -  |
 | **429** | Request was throttled. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="updatepasskey"></a>
+# **UpdatePasskey**
+> UpdatePasskey200Response UpdatePasskey (UpdatePasskeyRequest updatePasskeyRequest)
+
+Update environment passkey settings
+
+Set the passkey policy for the current environment. Policies other than `off` require the `passkeys` entitlement.  <div>   <code>update:passkey</code> </div> 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Kinde.Api.Api;
+using Kinde.Api.Client;
+using Kinde.Api.Model;
+
+namespace Example
+{
+    public class UpdatePasskeyExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://your_kinde_subdomain.kinde.com";
+            // Configure Bearer token for authorization: kindeBearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            var apiInstance = new EnvironmentsApi(config);
+            var updatePasskeyRequest = new UpdatePasskeyRequest(); // UpdatePasskeyRequest | Environment passkey settings.
+
+            try
+            {
+                // Update environment passkey settings
+                UpdatePasskey200Response result = apiInstance.UpdatePasskey(updatePasskeyRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling EnvironmentsApi.UpdatePasskey: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UpdatePasskeyWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Update environment passkey settings
+    ApiResponse<UpdatePasskey200Response> response = apiInstance.UpdatePasskeyWithHttpInfo(updatePasskeyRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling EnvironmentsApi.UpdatePasskeyWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **updatePasskeyRequest** | [**UpdatePasskeyRequest**](UpdatePasskeyRequest.md) | Environment passkey settings. |  |
+
+### Return type
+
+[**UpdatePasskey200Response**](UpdatePasskey200Response.md)
+
+### Authorization
+
+[kindeBearerAuth](../README.md#kindeBearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Passkey settings successfully updated. |  -  |
+| **400** | Invalid request. |  -  |
+| **403** | Unauthorized - invalid credentials. |  -  |
+| **429** | Too many requests. Request was throttled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

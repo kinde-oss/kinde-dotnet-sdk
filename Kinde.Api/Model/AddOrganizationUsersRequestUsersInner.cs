@@ -35,7 +35,7 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="AddOrganizationUsersRequestUsersInner" /> class.
         /// </summary>
         /// <param name="id">The users id..</param>
-        /// <param name="roles">Role keys to assign to the user..</param>
+        /// <param name="roles">Role keys to assign to the user. Business-wide role keys, or this organization&#39;s own role keys while organization-managed roles are available on the business&#39;s plan; any other key fails the request with &#x60;INVALID_ROLES&#x60;..</param>
         /// <param name="permissions">Permission keys to assign to the user..</param>
         public AddOrganizationUsersRequestUsersInner(string id = default(string), List<string> roles = default(List<string>), List<string> permissions = default(List<string>))
         {
@@ -53,9 +53,9 @@ namespace Kinde.Api.Model
         public string Id { get; set; }
 
         /// <summary>
-        /// Role keys to assign to the user.
+        /// Role keys to assign to the user. Business-wide role keys, or this organization&#39;s own role keys while organization-managed roles are available on the business&#39;s plan; any other key fails the request with &#x60;INVALID_ROLES&#x60;.
         /// </summary>
-        /// <value>Role keys to assign to the user.</value>
+        /// <value>Role keys to assign to the user. Business-wide role keys, or this organization&#39;s own role keys while organization-managed roles are available on the business&#39;s plan; any other key fails the request with &#x60;INVALID_ROLES&#x60;.</value>
         [DataMember(Name = "roles", EmitDefaultValue = false)]
         public List<string> Roles { get; set; }
 

@@ -19,7 +19,7 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
 using Microsoft.Kiota.Abstractions.Authentication;
@@ -37,7 +37,7 @@ namespace Kinde.Api.Api
         /// Create billing agreement
         /// </summary>
         /// <remarks>
-        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -48,12 +48,35 @@ namespace Kinde.Api.Api
         /// Create billing agreement
         /// </summary>
         /// <remarks>
-        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> CreateBillingAgreementWithHttpInfo(CreateBillingAgreementRequest createBillingAgreementRequest);
+        /// <summary>
+        /// Cancel billing agreement
+        /// </summary>
+        /// <remarks>
+        /// Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <returns>DeleteBillingAgreement200Response</returns>
+        DeleteBillingAgreement200Response DeleteBillingAgreement(string agreementId, string cancelAt = default(string));
+
+        /// <summary>
+        /// Cancel billing agreement
+        /// </summary>
+        /// <remarks>
+        /// Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <returns>ApiResponse of DeleteBillingAgreement200Response</returns>
+        ApiResponse<DeleteBillingAgreement200Response> DeleteBillingAgreementWithHttpInfo(string agreementId, string cancelAt = default(string));
         /// <summary>
         /// Get billing agreements
         /// </summary>
@@ -83,6 +106,27 @@ namespace Kinde.Api.Api
         /// <param name="featureCode">The feature code to filter by agreements only containing that feature (optional)</param>
         /// <returns>ApiResponse of GetBillingAgreementsResponse</returns>
         ApiResponse<GetBillingAgreementsResponse> GetBillingAgreementsWithHttpInfo(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string featureCode = default(string));
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation
+        /// </summary>
+        /// <remarks>
+        /// Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <returns>SuccessResponse</returns>
+        SuccessResponse RevertBillingAgreementCancellation(string agreementId);
+
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation
+        /// </summary>
+        /// <remarks>
+        /// Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        ApiResponse<SuccessResponse> RevertBillingAgreementCancellationWithHttpInfo(string agreementId);
         #endregion Synchronous Operations
     }
 
@@ -96,7 +140,7 @@ namespace Kinde.Api.Api
         /// Create billing agreement
         /// </summary>
         /// <remarks>
-        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -108,13 +152,38 @@ namespace Kinde.Api.Api
         /// Create billing agreement
         /// </summary>
         /// <remarks>
-        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> CreateBillingAgreementWithHttpInfoAsync(CreateBillingAgreementRequest createBillingAgreementRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Cancel billing agreement
+        /// </summary>
+        /// <remarks>
+        /// Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of DeleteBillingAgreement200Response</returns>
+        System.Threading.Tasks.Task<DeleteBillingAgreement200Response> DeleteBillingAgreementAsync(string agreementId, string cancelAt = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Cancel billing agreement
+        /// </summary>
+        /// <remarks>
+        /// Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (DeleteBillingAgreement200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DeleteBillingAgreement200Response>> DeleteBillingAgreementWithHttpInfoAsync(string agreementId, string cancelAt = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get billing agreements
         /// </summary>
@@ -146,6 +215,29 @@ namespace Kinde.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetBillingAgreementsResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetBillingAgreementsResponse>> GetBillingAgreementsWithHttpInfoAsync(string customerId, int? pageSize = default(int?), string startingAfter = default(string), string endingBefore = default(string), string featureCode = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation
+        /// </summary>
+        /// <remarks>
+        /// Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        System.Threading.Tasks.Task<SuccessResponse> RevertBillingAgreementCancellationAsync(string agreementId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation
+        /// </summary>
+        /// <remarks>
+        /// Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> RevertBillingAgreementCancellationWithHttpInfoAsync(string agreementId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -167,13 +259,13 @@ namespace Kinde.Api.Api
         private KindeManagementClient _kiotaClient;
         private Kinde.Api.Client.ApiClient _kindeApiClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _kiotaMapper;
+        private IKindeMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
@@ -213,23 +305,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingAgreementsApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingAgreementsApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -243,13 +335,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingAgreementsApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -265,33 +356,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class.
+        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingAgreementsApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class.
+        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingAgreementsApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -308,17 +389,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingAgreementsApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -342,7 +418,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public BillingAgreementsApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -357,10 +432,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BillingAgreementsApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public BillingAgreementsApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -433,7 +509,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -445,7 +521,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -495,7 +571,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -508,7 +584,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// Create billing agreement Creates a new billing agreement based on the plan code passed, and cancels the customer&#39;s existing agreements. Existing agreements are cancelled even if they belong to a different billing group. The new plan must be the same customer type as the customer (organization or user).  Changing plan starts a new subscription. One-time purchases stay on the previous agreement and are no longer current. Buying the same item on the new plan is a new purchase. This does not refund what was already paid.  &#x60;plan_version&#x60; selects a published version of &#x60;plan_code&#x60;. When it is omitted, the latest version is assigned. Posting the customer&#39;s current plan_code does not change their version. &#x60;plan_version&#x60; is required to move them onto a different published version.  &lt;div&gt;   &lt;code&gt;create:billing_agreements&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createBillingAgreementRequest">New agreement request values</param>
@@ -540,6 +616,87 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateBillingAgreement: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Cancel billing agreement Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <returns>DeleteBillingAgreement200Response</returns>
+        public DeleteBillingAgreement200Response DeleteBillingAgreement(string agreementId, string cancelAt = default(string))
+        {
+            Kinde.Api.Client.ApiResponse<DeleteBillingAgreement200Response> localVarResponse = DeleteBillingAgreementWithHttpInfo(agreementId, cancelAt);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Cancel billing agreement Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <returns>ApiResponse of DeleteBillingAgreement200Response</returns>
+        public Kinde.Api.Client.ApiResponse<DeleteBillingAgreement200Response> DeleteBillingAgreementWithHttpInfo(string agreementId, string cancelAt = default(string))
+        {
+            // ===== Kiota Implementation =====
+            return DeleteBillingAgreementWithHttpInfoAsync(agreementId, cancelAt).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Cancel billing agreement Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of DeleteBillingAgreement200Response</returns>
+        public async System.Threading.Tasks.Task<DeleteBillingAgreement200Response> DeleteBillingAgreementAsync(string agreementId, string cancelAt = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<DeleteBillingAgreement200Response> localVarResponse = await DeleteBillingAgreementWithHttpInfoAsync(agreementId, cancelAt, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Cancel billing agreement Cancels a billing agreement. The same action as Cancel plan in the self-serve portal and on the admin billing page.  When the cancellation takes effect is decided by &#x60;cancel_at&#x60;, or, when it is omitted, by the cancellation timing of the plan version the customer agreed to:  - &#x60;immediately&#x60; expires the agreement in Kinde (sets &#x60;expires_on&#x60;)   and cancels the linked billing-provider subscription when one   exists. The response code is &#x60;AGREEMENT_DELETED&#x60;. - &#x60;min_period_end&#x60; and &#x60;max_period_end&#x60; schedule the cancellation   for the end of the earliest or the latest billing period of the   subscription&#39;s charges. The agreement stays active, and the   customer keeps their entitlements, until &#x60;cancels_on&#x60;, which the   response returns with code &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60;.   The scheduled cancellation can be taken back with   &#x60;DELETE /api/v1/billing/agreements/{agreement_id}/cancellation&#x60;   until then. Without a provider subscription the end of the   current billing cycle is used; with no known period end, or   one that has already passed or is less than 15 minutes away,   the agreement is cancelled immediately.  A scheduled cancellation is idempotent: a further request for the same agreement without &#x60;cancel_at&#x60;, or with a deferred value, answers &#x60;AGREEMENT_CANCELLATION_SCHEDULED&#x60; with the existing &#x60;cancels_on&#x60; before any other check and runs no workflow. &#x60;cancel_at&#x3D;immediately&#x60; on a scheduled agreement ends it now.  One-time purchases stay on this agreement. Once it expires they are no longer current and do not appear on GET one-time purchases; for a scheduled cancellation that happens on &#x60;cancels_on&#x60;. This does not refund what was already paid.  Proration on cancellation follows the environment billing settings for both immediate and scheduled cancellations. Invoice-now applies to immediate cancellations only: a scheduled cancellation always receives the final period invoice, usage included, at the effective date. Neither can be overridden on this request.  If a live &#x60;user:plan_cancellation_request&#x60; workflow is attached, it runs first. A deny response returns HTTP 400 with &#x60;PLAN_CANCELLATION_BLOCKED_BY_WORKFLOW&#x60; and the agreement is not cancelled.  &lt;div&gt;   &lt;code&gt;delete:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement to cancel.</param>
+        /// <param name="cancelAt">When the cancellation takes effect. Defaults to the cancellation timing of the plan version the customer agreed to.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (DeleteBillingAgreement200Response)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<DeleteBillingAgreement200Response>> DeleteBillingAgreementWithHttpInfoAsync(string agreementId, string cancelAt = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'agreementId' is set
+            if (agreementId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'agreementId' when calling BillingAgreementsApi->DeleteBillingAgreement");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.Item.DeleteCancel_atQueryParameterType? kiotaCancelAt = null;
+                if (cancelAt != null && Enum.TryParse<Kinde.Api.Kiota.Management.Api.V1.Billing.Agreements.Item.DeleteCancel_atQueryParameterType>(cancelAt, true, out var parsedCancelAt))
+                {
+                    kiotaCancelAt = parsedCancelAt;
+                }
+
+                var kiotaResponse = await KiotaClient.Api.V1.Billing.Agreements[agreementId].DeleteAsync(config =>
+                {
+                    config.QueryParameters.CancelAt = kiotaCancelAt;
+                }, cancellationToken).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<DeleteBillingAgreement200Response>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<DeleteBillingAgreement200Response>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling DeleteBillingAgreement: {ex.Message}", ex);
             }
         }
 
@@ -685,6 +842,76 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             catch (Microsoft.Kiota.Abstractions.ApiException ex)
             {
                 throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling GetBillingAgreements: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <returns>SuccessResponse</returns>
+        public SuccessResponse RevertBillingAgreementCancellation(string agreementId)
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = RevertBillingAgreementCancellationWithHttpInfo(agreementId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <returns>ApiResponse of SuccessResponse</returns>
+        public Kinde.Api.Client.ApiResponse<SuccessResponse> RevertBillingAgreementCancellationWithHttpInfo(string agreementId)
+        {
+            // ===== Kiota Implementation =====
+            return RevertBillingAgreementCancellationWithHttpInfoAsync(agreementId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SuccessResponse</returns>
+        public async System.Threading.Tasks.Task<SuccessResponse> RevertBillingAgreementCancellationAsync(string agreementId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<SuccessResponse> localVarResponse = await RevertBillingAgreementCancellationWithHttpInfoAsync(agreementId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Revert a scheduled billing agreement cancellation Takes back a scheduled cancellation of a billing agreement. The agreement stays active and the linked billing-provider subscription is no longer set to cancel. The same action as Keep plan in the self-serve portal and on the admin billing page.  Only a cancellation that has not taken effect yet can be reverted. An agreement that has already expired returns HTTP 400 with &#x60;AGREEMENT_ALREADY_CANCELLED&#x60;; one with no scheduled cancellation returns &#x60;AGREEMENT_NOT_SCHEDULED_FOR_CANCELLATION&#x60;.  &lt;div&gt;   &lt;code&gt;update:billing_agreements&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="agreementId">The ID of the billing agreement whose scheduled cancellation to revert.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SuccessResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> RevertBillingAgreementCancellationWithHttpInfoAsync(string agreementId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'agreementId' is set
+            if (agreementId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'agreementId' when calling BillingAgreementsApi->RevertBillingAgreementCancellation");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaResponse = await KiotaClient.Api.V1.Billing.Agreements[agreementId].Cancellation.DeleteAsync(
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<SuccessResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<SuccessResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling RevertBillingAgreementCancellation: {ex.Message}", ex);
             }
         }
 

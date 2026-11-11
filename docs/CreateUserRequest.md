@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Profile** | [**CreateUserRequestProfile**](CreateUserRequestProfile.md) |  | [optional] 
-**OrganizationCode** | **string** | The unique code associated with the organization you want the user to join. | [optional] 
+**OrganizationCode** | **string** | The unique code associated with the organization you want the user to join. If omitted, the user is added to the default registration organization when that setting is enabled. | [optional] 
 **ProvidedId** | **string** | An external id to reference the user. | [optional] 
 **Identities** | [**List&lt;CreateUserRequestIdentitiesInner&gt;**](CreateUserRequestIdentitiesInner.md) | Array of identities to assign to the created user | [optional] 
 

@@ -37,7 +37,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             set { BackingStore?.Set("identities", value); }
         }
 #endif
-        /// <summary>The unique code associated with the organization you want the user to join.</summary>
+        /// <summary>The unique code associated with the organization you want the user to join. If omitted, the user is added to the default registration organization when that setting is enabled.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? OrganizationCode

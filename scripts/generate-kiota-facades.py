@@ -220,7 +220,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Client;
 using Kinde.Api.Facades;
 using Kinde.Api.Mappers;
@@ -242,13 +242,13 @@ namespace Kinde.Api.Api
         // Kiota infrastructure
         private KindeManagementClient _kiotaManagementClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _autoMapper;
+        private IKindeMapper _mapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation between OpenAPI and Kiota models.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper AutoMapper => _autoMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper Mapper => _mapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
@@ -322,7 +322,7 @@ namespace Kinde.Api.Api
         
         // TODO: Add Kiota-backed implementations for each API method.
         // Each method should:
-        // 1. Map OpenAPI request models to Kiota models using AutoMapper
+        // 1. Map OpenAPI request models to Kiota models using the SDK model mapper
         // 2. Call the appropriate Kiota endpoint (KiotaManagementClient.Api.V1.{kiota_endpoint})
         // 3. Map the Kiota response back to OpenAPI models
         // 4. Return the OpenAPI response type
@@ -332,13 +332,13 @@ namespace Kinde.Api.Api
         // public async Task<SomeResponse> SomeMethodViaKiotaAsync(SomeRequest request, CancellationToken cancellationToken = default)
         // {{
         //     // Map request
-        //     var kiotaRequest = AutoMapper.Map<KiotaModels.Some_request>(request);
+        //     var kiotaRequest = Mapper.Map<KiotaModels.Some_request>(request);
         //     
         //     // Call Kiota
         //     var kiotaResponse = await KiotaManagementClient.Api.V1.{kiota_endpoint}.PostAsync(kiotaRequest, cancellationToken: cancellationToken);
         //     
         //     // Map response
-        //     return AutoMapper.Map<SomeResponse>(kiotaResponse);
+        //     return Mapper.Map<SomeResponse>(kiotaResponse);
         // }}
 
         #endregion

@@ -74,7 +74,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Get_organization_users_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Get_organization_users_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Update users that belong to an organization.&lt;div&gt;  &lt;code&gt;update:organization_users&lt;/code&gt;&lt;/div&gt;
+        /// Update users that belong to an organization.`roles` replaces the user&apos;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&apos;s own roles while organization-managed roles are available on the business&apos;s plan. Any other key fails the whole request with `INVALID_ROLES` instead of being skipped. Below that plan the user&apos;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in `roles` until the plan is upgraded, and replacing `roles` does not remove them.Users in organizations managed by directory sync cannot be updated (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:organization_users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Update_organization_users_response"/></returns>
         /// <param name="body">The request body</param>
@@ -103,7 +103,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Update_organization_users_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Update_organization_users_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Add existing users to an organization.&lt;div&gt;  &lt;code&gt;create:organization_users&lt;/code&gt;&lt;/div&gt;
+        /// Add existing users to an organization.Every key in `roles` must be a business-wide role key, or the key of one of this organization&apos;s own roles while organization-managed roles are available on the business&apos;s plan. Any other key fails the whole request with `INVALID_ROLES` instead of being skipped.Users cannot be added to organizations that are managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;create:organization_users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Add_organization_users_response"/></returns>
         /// <param name="body">The request body</param>
@@ -151,7 +151,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users
             return requestInfo;
         }
         /// <summary>
-        /// Update users that belong to an organization.&lt;div&gt;  &lt;code&gt;update:organization_users&lt;/code&gt;&lt;/div&gt;
+        /// Update users that belong to an organization.`roles` replaces the user&apos;s roles. Every key in it must be a business-wide role key, or the key of one of this organization&apos;s own roles while organization-managed roles are available on the business&apos;s plan. Any other key fails the whole request with `INVALID_ROLES` instead of being skipped. Below that plan the user&apos;s organization-managed role assignments are kept but not issued in tokens; they cannot be named in `roles` until the plan is upgraded, and replacing `roles` does not remove them.Users in organizations managed by directory sync cannot be updated (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:organization_users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -173,7 +173,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Users
             return requestInfo;
         }
         /// <summary>
-        /// Add existing users to an organization.&lt;div&gt;  &lt;code&gt;create:organization_users&lt;/code&gt;&lt;/div&gt;
+        /// Add existing users to an organization.Every key in `roles` must be a business-wide role key, or the key of one of this organization&apos;s own roles while organization-managed roles are available on the business&apos;s plan. Any other key fails the whole request with `INVALID_ROLES` instead of being skipped.Users cannot be added to organizations that are managed by directory sync (`ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC`); user and role changes for those organizations must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;create:organization_users&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

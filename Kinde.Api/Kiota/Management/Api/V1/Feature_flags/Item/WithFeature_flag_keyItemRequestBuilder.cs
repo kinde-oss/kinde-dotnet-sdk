@@ -57,7 +57,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Feature_flags.Item
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Update feature flag.&lt;div&gt;  &lt;code&gt;update:feature_flags&lt;/code&gt;&lt;/div&gt;
+        /// Update feature flag.While the flag has overrides in this environment, a change to its type oroverride level is refused with `DELETE_NOT_ALLOWED`. Remove the overridesfirst.&lt;div&gt;  &lt;code&gt;update:feature_flags&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -99,7 +99,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Feature_flags.Item
             return requestInfo;
         }
         /// <summary>
-        /// Update feature flag.&lt;div&gt;  &lt;code&gt;update:feature_flags&lt;/code&gt;&lt;/div&gt;
+        /// Update feature flag.While the flag has overrides in this environment, a change to its type oroverride level is refused with `DELETE_NOT_ALLOWED`. Remove the overridesfirst.&lt;div&gt;  &lt;code&gt;update:feature_flags&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -127,7 +127,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Feature_flags.Item
             return new global::Kinde.Api.Kiota.Management.Api.V1.Feature_flags.Item.WithFeature_flag_keyItemRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Update feature flag.&lt;div&gt;  &lt;code&gt;update:feature_flags&lt;/code&gt;&lt;/div&gt;
+        /// Update feature flag.While the flag has overrides in this environment, a change to its type oroverride level is refused with `DELETE_NOT_ALLOWED`. Remove the overridesfirst.&lt;div&gt;  &lt;code&gt;update:feature_flags&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class WithFeature_flag_keyItemRequestBuilderPutQueryParameters 

@@ -21,7 +21,7 @@ namespace Kinde.Api.Kiota.Management.Models
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>The id property</summary>
+        /// <summary>The application&apos;s ID, which is also its client ID.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Id
@@ -37,7 +37,7 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("id", value); }
         }
 #endif
-        /// <summary>The name property</summary>
+        /// <summary>The application&apos;s name.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Name
@@ -53,7 +53,7 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("name", value); }
         }
 #endif
-        /// <summary>The type property</summary>
+        /// <summary>The display name of the application type. GET /api/v1/applications/{application_id} returns the type&apos;s code instead, for example `m2m`.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Type

@@ -21,7 +21,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>User&apos;s last name.</summary>
+        /// <summary>User&apos;s last name. If the user is the owner of a familybilling customer, this update is also propagated to thecorresponding billing customer details.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? FamilyName
@@ -37,7 +37,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.User
             set { BackingStore?.Set("family_name", value); }
         }
 #endif
-        /// <summary>User&apos;s first name.</summary>
+        /// <summary>User&apos;s first name. If the user is the owner of a familybilling customer, this update is also propagated to thecorresponding billing customer details.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? GivenName

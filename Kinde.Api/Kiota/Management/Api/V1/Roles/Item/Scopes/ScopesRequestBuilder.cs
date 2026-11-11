@@ -47,7 +47,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes
         {
         }
         /// <summary>
-        /// Get scopes for a role.&lt;div&gt;  &lt;code&gt;read:role_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Get scopes for a role.&lt;div&gt;  &lt;code&gt;read:role_permissions&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Role_scopes_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -70,7 +70,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Role_scopes_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Role_scopes_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Add scope to role.&lt;div&gt;  &lt;code&gt;create:role_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Add scope to role.&lt;div&gt;  &lt;code&gt;update:role_permissions&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Add_role_scope_response"/></returns>
         /// <param name="body">The request body</param>
@@ -99,7 +99,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Add_role_scope_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Add_role_scope_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Get scopes for a role.&lt;div&gt;  &lt;code&gt;read:role_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Get scopes for a role.&lt;div&gt;  &lt;code&gt;read:role_permissions&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -118,7 +118,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Roles.Item.Scopes
             return requestInfo;
         }
         /// <summary>
-        /// Add scope to role.&lt;div&gt;  &lt;code&gt;create:role_scopes&lt;/code&gt;&lt;/div&gt;
+        /// Add scope to role.&lt;div&gt;  &lt;code&gt;update:role_permissions&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

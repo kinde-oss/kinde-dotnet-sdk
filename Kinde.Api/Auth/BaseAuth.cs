@@ -9,7 +9,6 @@ namespace Kinde.Api.Auth
     /// <summary>
     /// Base class for authentication-related functionality that provides
     /// shared methods for accessing the session and token manager.
-    /// This follows the same pattern as the Java SDK's BaseAuth class.
     /// </summary>
     public abstract class BaseAuth
     {
@@ -54,8 +53,6 @@ namespace Kinde.Api.Auth
 
         /// <summary>
         /// Gets an accounts client for API calls.
-        /// This method should be overridden by derived classes to provide
-        /// the proper dependency injection setup.
         /// </summary>
         /// <returns>An accounts client instance</returns>
         public virtual Accounts.IKindeAccountsClient GetAccountsClient()

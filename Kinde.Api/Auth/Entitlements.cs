@@ -218,7 +218,6 @@ namespace Kinde.Api.Auth
 
             if (entitlement != null)
             {
-                // Extract properties from the entitlement object
                 if (entitlement.FeatureKey != null)
                     result["key"] = entitlement.FeatureKey;
                 if (entitlement.FeatureName != null)

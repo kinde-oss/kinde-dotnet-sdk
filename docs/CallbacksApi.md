@@ -25,7 +25,6 @@ Add additional logout redirect URLs.  <div>   <code>create:application_logout_ur
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -41,10 +40,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
             var replaceLogoutRedirectURLsRequest = new ReplaceLogoutRedirectURLsRequest(); // ReplaceLogoutRedirectURLsRequest | Callback details.
 
@@ -122,13 +118,12 @@ catch (ApiException e)
 
 Add Redirect Callback URLs
 
-Add additional redirect callback URLs.  <div>   <code>create:applications_redirect_uris</code> </div> 
+Add additional redirect callback URLs.  <div>   <code>create:application_redirect_uris</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -144,10 +139,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
             var replaceRedirectCallbackURLsRequest = new ReplaceRedirectCallbackURLsRequest(); // ReplaceRedirectCallbackURLsRequest | Callback details.
 
@@ -225,13 +217,12 @@ catch (ApiException e)
 
 Delete Callback URLs
 
-Delete callback URLs.  <div>   <code>delete:applications_redirect_uris</code> </div> 
+Delete callback URLs.  <div>   <code>delete:application_redirect_uris</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -247,10 +238,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
             var urls = "urls_example";  // string | Urls to delete, comma separated and url encoded.
 
@@ -334,7 +322,6 @@ Delete logout URLs.  <div>   <code>delete:application_logout_uris</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -350,10 +337,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
             var urls = "urls_example";  // string | Urls to delete, comma separated and url encoded.
 
@@ -437,7 +421,6 @@ Returns an application's redirect callback URLs.  <div>   <code>read:application
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -453,10 +436,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
 
             try
@@ -538,7 +518,6 @@ Returns an application's logout redirect URLs.  <div>   <code>read:application_l
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -554,10 +533,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
 
             try
@@ -639,7 +615,6 @@ Replace all logout redirect URLs.  <div>   <code>update:application_logout_uris<
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -655,10 +630,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
             var replaceLogoutRedirectURLsRequest = new ReplaceLogoutRedirectURLsRequest(); // ReplaceLogoutRedirectURLsRequest | Callback details.
 
@@ -736,13 +708,12 @@ catch (ApiException e)
 
 Replace Redirect Callback URLs
 
-Replace all redirect callback URLs.  <div>   <code>update:applications_redirect_uris</code> </div> 
+Replace all redirect callback URLs.  <div>   <code>update:application_redirect_uris</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -758,10 +729,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new CallbacksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new CallbacksApi(config);
             var appId = "appId_example";  // string | The identifier for the application.
             var replaceRedirectCallbackURLsRequest = new ReplaceRedirectCallbackURLsRequest(); // ReplaceRedirectCallbackURLsRequest | Callback details.
 

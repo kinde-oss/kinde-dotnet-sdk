@@ -38,19 +38,45 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             set { BackingStore?.Set("home_realm_domains", value); }
         }
 #endif
+        /// <summary>Users automatically join the organization that owns this connection when they sign in through it. Stored on any enterprise connection, but only takes effect once the connection has an owning organization. When omitted, the current value is kept.</summary>
+        public bool? IsAutoJoinOrganizationEnabled
+        {
+            get { return BackingStore?.Get<bool?>("is_auto_join_organization_enabled"); }
+            set { BackingStore?.Set("is_auto_join_organization_enabled", value); }
+        }
         /// <summary>Create user if they don&apos;t exist.</summary>
         public bool? IsCreateMissingUser
         {
             get { return BackingStore?.Get<bool?>("is_create_missing_user"); }
             set { BackingStore?.Set("is_create_missing_user", value); }
         }
-        /// <summary>Force showing the SSO button for this connection.</summary>
+        /// <summary>Accept unsolicited sign-in requests sent to Kinde by the IdP (IdP-initiated SSO). When enabled, any sign-in request that passes this connection&apos;s connection_id also skips the Kinde sign-in screen and goes straight to the IdP. When omitted, the current value is kept.</summary>
+        public bool? IsEnableIdpInitiatedSso
+        {
+            get { return BackingStore?.Get<bool?>("is_enable_idp_initiated_sso"); }
+            set { BackingStore?.Set("is_enable_idp_initiated_sso", value); }
+        }
+        /// <summary>Send the user&apos;s email address to the IdP as login_hint, so the IdP can skip account selection when the user is signed in to more than one account. On a sign-in that starts at Kinde, this is the email address the application sent as login_hint, and it is not sent when the user signs in with a different email address. On an IdP-initiated sign-in, it is the email address from the SAML response. It applies whether or not IdP-initiated SSO is enabled for the connection. When omitted, the current value is kept.</summary>
+        public bool? IsEnableLoginHint
+        {
+            get { return BackingStore?.Get<bool?>("is_enable_login_hint"); }
+            set { BackingStore?.Set("is_enable_login_hint", value); }
+        }
+        /// <summary>Deprecated - Use &apos;sso_button_display&apos; instead. True maps to &quot;show&quot;, false maps to &quot;auto&quot;. Ignored when sso_button_display is also sent.</summary>
+        [Obsolete("")]
         public bool? IsForceShowSsoButton
         {
             get { return BackingStore?.Get<bool?>("is_force_show_sso_button"); }
             set { BackingStore?.Set("is_force_show_sso_button", value); }
         }
-        /// <summary>Trust this connection for account merging.</summary>
+        /// <summary>Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory), and a passkey sign-in is not sent to this connection by home realm for a user who has signed in with this connection before (for a connection an organization owns, also only for its members); anyone else signs in through the connection once. A passkey sign-in does not contact the identity provider, so disabling a user there does not stop it; remove the user&apos;s passkeys in Kinde as well. When omitted, the current value is kept.</summary>
+        public bool? IsPasskeyAllowed
+        {
+            get { return BackingStore?.Get<bool?>("is_passkey_allowed"); }
+            set { BackingStore?.Set("is_passkey_allowed", value); }
+        }
+        /// <summary>Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.</summary>
+        [Obsolete("")]
         public bool? IsTrusted
         {
             get { return BackingStore?.Get<bool?>("is_trusted"); }
@@ -224,6 +250,18 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm?>("sign_request_algorithm"); }
             set { BackingStore?.Set("sign_request_algorithm", value); }
         }
+        /// <summary>Controls when the SSO sign-in button is shown for this connection. Replaces is_force_show_sso_button. &quot;auto&quot; shows the button unless a home realm domain is set, &quot;show&quot; always shows it, &quot;hide&quot; never shows it. Takes precedence over is_force_show_sso_button when both are sent.</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sso_button_display? SsoButtonDisplay
+        {
+            get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sso_button_display?>("sso_button_display"); }
+            set { BackingStore?.Set("sso_button_display", value); }
+        }
+        /// <summary>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address before it merges with an existing user, and before it creates a new user when is_strict_mode is false; trust merges immediately.</summary>
+        public global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_trust_mode? TrustMode
+        {
+            get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_trust_mode?>("trust_mode"); }
+            set { BackingStore?.Set("trust_mode", value); }
+        }
         /// <summary>Additional upstream parameters to pass to the identity provider.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -267,8 +305,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "home_realm_domains", n => { HomeRealmDomains = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
+                { "is_auto_join_organization_enabled", n => { IsAutoJoinOrganizationEnabled = n.GetBoolValue(); } },
                 { "is_create_missing_user", n => { IsCreateMissingUser = n.GetBoolValue(); } },
+                { "is_enable_idp_initiated_sso", n => { IsEnableIdpInitiatedSso = n.GetBoolValue(); } },
+                { "is_enable_login_hint", n => { IsEnableLoginHint = n.GetBoolValue(); } },
                 { "is_force_show_sso_button", n => { IsForceShowSsoButton = n.GetBoolValue(); } },
+                { "is_passkey_allowed", n => { IsPasskeyAllowed = n.GetBoolValue(); } },
                 { "is_trusted", n => { IsTrusted = n.GetBoolValue(); } },
                 { "is_use_custom_domain", n => { IsUseCustomDomain = n.GetBoolValue(); } },
                 { "name_id_format", n => { NameIdFormat = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_name_id_format>(); } },
@@ -283,6 +325,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
                 { "saml_signing_private_key", n => { SamlSigningPrivateKey = n.GetStringValue(); } },
                 { "saml_user_id_key_attr", n => { SamlUserIdKeyAttr = n.GetStringValue(); } },
                 { "sign_request_algorithm", n => { SignRequestAlgorithm = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm>(); } },
+                { "sso_button_display", n => { SsoButtonDisplay = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sso_button_display>(); } },
+                { "trust_mode", n => { TrustMode = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_trust_mode>(); } },
                 { "upstream_params", n => { UpstreamParams = n.GetObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_upstream_params>(global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_upstream_params.CreateFromDiscriminatorValue); } },
             };
         }
@@ -294,8 +338,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfPrimitiveValues<string>("home_realm_domains", HomeRealmDomains);
+            writer.WriteBoolValue("is_auto_join_organization_enabled", IsAutoJoinOrganizationEnabled);
             writer.WriteBoolValue("is_create_missing_user", IsCreateMissingUser);
+            writer.WriteBoolValue("is_enable_idp_initiated_sso", IsEnableIdpInitiatedSso);
+            writer.WriteBoolValue("is_enable_login_hint", IsEnableLoginHint);
             writer.WriteBoolValue("is_force_show_sso_button", IsForceShowSsoButton);
+            writer.WriteBoolValue("is_passkey_allowed", IsPasskeyAllowed);
             writer.WriteBoolValue("is_trusted", IsTrusted);
             writer.WriteBoolValue("is_use_custom_domain", IsUseCustomDomain);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_name_id_format>("name_id_format", NameIdFormat);
@@ -310,6 +358,8 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Connections.Item
             writer.WriteStringValue("saml_signing_private_key", SamlSigningPrivateKey);
             writer.WriteStringValue("saml_user_id_key_attr", SamlUserIdKeyAttr);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sign_request_algorithm>("sign_request_algorithm", SignRequestAlgorithm);
+            writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_sso_button_display>("sso_button_display", SsoButtonDisplay);
+            writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_trust_mode>("trust_mode", TrustMode);
             writer.WriteObjectValue<global::Kinde.Api.Kiota.Management.Api.V1.Connections.Item.WithConnection_PutRequestBody_optionsMember3_upstream_params>("upstream_params", UpstreamParams);
             writer.WriteAdditionalData(AdditionalData);
         }

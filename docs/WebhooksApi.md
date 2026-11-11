@@ -23,7 +23,6 @@ Create a webhook  <div>   <code>create:webhooks</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -39,10 +38,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new WebhooksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new WebhooksApi(config);
             var createWebHookRequest = new CreateWebHookRequest(); // CreateWebHookRequest | Webhook request specification.
 
             try
@@ -124,7 +120,6 @@ Delete webhook  <div>   <code>delete:webhooks</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -140,10 +135,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new WebhooksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new WebhooksApi(config);
             var webhookId = "webhookId_example";  // string | The webhook id.
 
             try
@@ -225,7 +217,6 @@ Returns an event  <div>   <code>read:events</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -241,10 +232,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new WebhooksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new WebhooksApi(config);
             var eventId = "eventId_example";  // string | The event id.
 
             try
@@ -326,7 +314,6 @@ Returns a list event type definitions  <div>   <code>read:event_types</code> </d
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -342,10 +329,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new WebhooksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new WebhooksApi(config);
 
             try
             {
@@ -422,7 +406,6 @@ List webhooks  <div>   <code>read:webhooks</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -438,10 +421,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new WebhooksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new WebhooksApi(config);
 
             try
             {
@@ -518,7 +498,6 @@ Update a webhook  <div>   <code>update:webhooks</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -534,10 +513,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new WebhooksApi(httpClient, config, httpClientHandler);
+            var apiInstance = new WebhooksApi(config);
             var webhookId = "webhookId_example";  // string | The webhook id.
             var updateWebHookRequest = new UpdateWebHookRequest(); // UpdateWebHookRequest | Update webhook request specification.
 

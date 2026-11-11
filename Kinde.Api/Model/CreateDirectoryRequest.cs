@@ -32,9 +32,9 @@ namespace Kinde.Api.Model
     public partial class CreateDirectoryRequest : IEquatable<CreateDirectoryRequest>
     {
         /// <summary>
-        /// The SCIM provider code to use for this directory.
+        /// The SCIM provider code to use for this directory. When omitted, the provider is inferred from the organization enterprise authentication method. If the inferred (or explicit) provider is disabled or missing endpoint configuration, INVALID_PROVIDER is returned. 
         /// </summary>
-        /// <value>The SCIM provider code to use for this directory.</value>
+        /// <value>The SCIM provider code to use for this directory. When omitted, the provider is inferred from the organization enterprise authentication method. If the inferred (or explicit) provider is disabled or missing endpoint configuration, INVALID_PROVIDER is returned. </value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum ProviderCodeEnum
         {
@@ -95,12 +95,12 @@ namespace Kinde.Api.Model
 
 
         /// <summary>
-        /// The SCIM provider code to use for this directory.
+        /// The SCIM provider code to use for this directory. When omitted, the provider is inferred from the organization enterprise authentication method. If the inferred (or explicit) provider is disabled or missing endpoint configuration, INVALID_PROVIDER is returned. 
         /// </summary>
-        /// <value>The SCIM provider code to use for this directory.</value>
+        /// <value>The SCIM provider code to use for this directory. When omitted, the provider is inferred from the organization enterprise authentication method. If the inferred (or explicit) provider is disabled or missing endpoint configuration, INVALID_PROVIDER is returned. </value>
         /// <example>entra_id_azure_ad</example>
-        [DataMember(Name = "provider_code", IsRequired = true, EmitDefaultValue = true)]
-        public ProviderCodeEnum ProviderCode { get; set; }
+        [DataMember(Name = "provider_code", EmitDefaultValue = false)]
+        public ProviderCodeEnum? ProviderCode { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateDirectoryRequest" /> class.
         /// </summary>
@@ -110,10 +110,10 @@ namespace Kinde.Api.Model
         /// Initializes a new instance of the <see cref="CreateDirectoryRequest" /> class.
         /// </summary>
         /// <param name="orgCode">The organization code to create the SCIM directory for. (required).</param>
-        /// <param name="directoryName">A descriptive name for the SCIM directory. (required).</param>
-        /// <param name="providerCode">The SCIM provider code to use for this directory. (required).</param>
+        /// <param name="directoryName">An optional descriptive name for the SCIM directory..</param>
+        /// <param name="providerCode">The SCIM provider code to use for this directory. When omitted, the provider is inferred from the organization enterprise authentication method. If the inferred (or explicit) provider is disabled or missing endpoint configuration, INVALID_PROVIDER is returned. .</param>
         /// <param name="enterpriseConnectionId">The enterprise connection ID to associate with this directory for SCIM-provisioned users. Required when the organization has multiple enabled enterprise connections. .</param>
-        public CreateDirectoryRequest(string orgCode = default(string), string directoryName = default(string), ProviderCodeEnum providerCode = default(ProviderCodeEnum), string enterpriseConnectionId = default(string))
+        public CreateDirectoryRequest(string orgCode = default(string), string directoryName = default(string), ProviderCodeEnum? providerCode = default(ProviderCodeEnum?), string enterpriseConnectionId = default(string))
         {
             // to ensure "orgCode" is required (not null)
             if (orgCode == null)
@@ -121,11 +121,6 @@ namespace Kinde.Api.Model
                 throw new ArgumentNullException("orgCode is a required property for CreateDirectoryRequest and cannot be null");
             }
             this.OrgCode = orgCode;
-            // to ensure "directoryName" is required (not null)
-            if (directoryName == null)
-            {
-                throw new ArgumentNullException("directoryName is a required property for CreateDirectoryRequest and cannot be null");
-            }
             this.DirectoryName = directoryName;
             this.ProviderCode = providerCode;
             this.EnterpriseConnectionId = enterpriseConnectionId;
@@ -140,15 +135,15 @@ namespace Kinde.Api.Model
         public string OrgCode { get; set; }
 
         /// <summary>
-        /// A descriptive name for the SCIM directory.
+        /// An optional descriptive name for the SCIM directory.
         /// </summary>
-        /// <value>A descriptive name for the SCIM directory.</value>
+        /// <value>An optional descriptive name for the SCIM directory.</value>
         /// <example>Production Directory</example>
-        [DataMember(Name = "directory_name", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "directory_name", EmitDefaultValue = false)]
         public string DirectoryName { get; set; }
 
         /// <summary>
-        /// The enterprise connection ID to associate with this directory for SCIM-provisioned users. Required when the organization has multiple enabled enterprise connections.
+        /// The enterprise connection ID to associate with this directory for SCIM-provisioned users. Required when the organization has multiple enabled enterprise connections. 
         /// </summary>
         /// <value>The enterprise connection ID to associate with this directory for SCIM-provisioned users. Required when the organization has multiple enabled enterprise connections. </value>
         /// <example>conn_01h9xyzabc123</example>
@@ -215,7 +210,7 @@ namespace Kinde.Api.Model
                 (
                     this.ProviderCode == input.ProviderCode ||
                     this.ProviderCode.Equals(input.ProviderCode)
-                ) &&
+                ) && 
                 (
                     this.EnterpriseConnectionId == input.EnterpriseConnectionId ||
                     (this.EnterpriseConnectionId != null &&

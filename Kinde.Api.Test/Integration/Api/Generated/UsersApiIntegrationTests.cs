@@ -12,15 +12,8 @@ namespace Kinde.Api.Test.Integration.Api.Generated
 {
     /// <summary>
     /// Integration tests for UsersApi with both mock and real API support.
-    /// 
-    /// These tests verify the complete flow through the Kiota-based API:
-    /// 1. OpenAPI method call
-    /// 2. Request mapping to Kiota format
-    /// 3. HTTP request (mocked or real)
-    /// 4. Response mapping from Kiota to OpenAPI format
-    /// 
-    /// Mock tests use KiotaMockHttpHandler which returns snake_case JSON responses
-    /// that are compatible with Kiota's deserialization.
+    /// Covers request mapping to Kiota, the HTTP call, and response mapping back.
+    /// Mock tests use KiotaMockHttpHandler, which returns snake_case JSON.
     /// </summary>
     public class UsersApiIntegrationTests : BaseIntegrationTest, IClassFixture<TestResourceFixture>
     {
@@ -53,7 +46,6 @@ namespace Kinde.Api.Test.Integration.Api.Generated
                     return;
                 }
 
-            // Set up Kiota-format response with actual data
             var kiotaResponse = new KiotaModels.Users_response
             {
                 Code = "200",
@@ -165,7 +157,6 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             var mockHandler = GetKiotaMockHandler();
             if (mockHandler == null) return;
 
-            // Response with Created = true
             var kiotaResponse = new KiotaModels.Create_user_response
             {
                 Created = true,
@@ -203,7 +194,6 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             var mockHandler = GetKiotaMockHandler();
             if (mockHandler == null) return;
 
-            // Response with Created = false (user already exists)
             var kiotaResponse = new KiotaModels.Create_user_response
             {
                 Created = false,
@@ -234,7 +224,6 @@ namespace Kinde.Api.Test.Integration.Api.Generated
             var mockHandler = GetKiotaMockHandler();
             if (mockHandler == null) return;
 
-            // Response with Created = null
             var kiotaResponse = new KiotaModels.Create_user_response
             {
                 Created = null,

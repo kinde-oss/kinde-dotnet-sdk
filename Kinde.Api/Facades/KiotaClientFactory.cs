@@ -1,5 +1,5 @@
 using System.Net.Http;
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
@@ -17,7 +17,7 @@ namespace Kinde.Api.Facades
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
-        private readonly IMapper _mapper;
+        private readonly IKindeMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of the KiotaClientFactory.
@@ -32,9 +32,9 @@ namespace Kinde.Api.Facades
         }
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        public IMapper Mapper => _mapper;
+        public IKindeMapper Mapper => _mapper;
 
         /// <summary>
         /// Creates a Kiota Management API client.

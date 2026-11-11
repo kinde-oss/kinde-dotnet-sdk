@@ -37,7 +37,19 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("billing_group_id", value); }
         }
 #endif
-        /// <summary>A list of billing entitlements that is part of this agreement</summary>
+        /// <summary>The end date of the agreement&apos;s current billing period (typically the next billing date). Null when the agreement has no current billing cycle; may be in the past if cycle roll or provider sync has lagged.</summary>
+        public DateTimeOffset? CurrentPeriodEnd
+        {
+            get { return BackingStore?.Get<DateTimeOffset?>("current_period_end"); }
+            set { BackingStore?.Set("current_period_end", value); }
+        }
+        /// <summary>The start date of the agreement&apos;s current billing period. Null when the agreement has no current billing cycle.</summary>
+        public DateTimeOffset? CurrentPeriodStart
+        {
+            get { return BackingStore?.Get<DateTimeOffset?>("current_period_start"); }
+            set { BackingStore?.Set("current_period_start", value); }
+        }
+        /// <summary>A list of billing entitlements that is part of this agreement. Empty when the agreement&apos;s plan has no features.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements_entitlements>? Entitlements
@@ -91,6 +103,18 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("plan_code", value); }
         }
 #endif
+        /// <summary>Whether this agreement is on the latest published version of its plan. Null when the agreement has no plan version.</summary>
+        public bool? PlanIsLatest
+        {
+            get { return BackingStore?.Get<bool?>("plan_is_latest"); }
+            set { BackingStore?.Set("plan_is_latest", value); }
+        }
+        /// <summary>Published version number on this agreement. Null when the agreement has no plan version.</summary>
+        public int? PlanVersion
+        {
+            get { return BackingStore?.Get<int?>("plan_version"); }
+            set { BackingStore?.Set("plan_version", value); }
+        }
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements"/> and sets the default values.
         /// </summary>
@@ -118,10 +142,14 @@ namespace Kinde.Api.Kiota.Management.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "billing_group_id", n => { BillingGroupId = n.GetStringValue(); } },
+                { "current_period_end", n => { CurrentPeriodEnd = n.GetDateTimeOffsetValue(); } },
+                { "current_period_start", n => { CurrentPeriodStart = n.GetDateTimeOffsetValue(); } },
                 { "entitlements", n => { Entitlements = n.GetCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements_entitlements>(global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements_entitlements.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "expires_on", n => { ExpiresOn = n.GetDateTimeOffsetValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "plan_code", n => { PlanCode = n.GetStringValue(); } },
+                { "plan_is_latest", n => { PlanIsLatest = n.GetBoolValue(); } },
+                { "plan_version", n => { PlanVersion = n.GetIntValue(); } },
             };
         }
         /// <summary>
@@ -132,10 +160,14 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("billing_group_id", BillingGroupId);
+            writer.WriteDateTimeOffsetValue("current_period_end", CurrentPeriodEnd);
+            writer.WriteDateTimeOffsetValue("current_period_start", CurrentPeriodStart);
             writer.WriteCollectionOfObjectValues<global::Kinde.Api.Kiota.Management.Models.Get_billing_agreements_response_agreements_entitlements>("entitlements", Entitlements);
             writer.WriteDateTimeOffsetValue("expires_on", ExpiresOn);
             writer.WriteStringValue("id", Id);
             writer.WriteStringValue("plan_code", PlanCode);
+            writer.WriteBoolValue("plan_is_latest", PlanIsLatest);
+            writer.WriteIntValue("plan_version", PlanVersion);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

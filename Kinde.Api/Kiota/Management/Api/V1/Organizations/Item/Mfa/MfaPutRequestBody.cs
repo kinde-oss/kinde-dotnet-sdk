@@ -37,7 +37,23 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
             set { BackingStore?.Set("enabled_factors", value); }
         }
 #endif
-        /// <summary>Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting.</summary>
+        /// <summary>IDs of the enterprise connections whose users are not required to use MFA for this organization. The list replaces the saved exemptions, so include every connection to keep exempt. Send an empty array to remove all exemptions. Omit the field, or send null, to leave the saved exemptions unchanged. Requires the advanced organizations plan entitlement.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<string>? ExemptEnterpriseConnections
+        {
+            get { return BackingStore?.Get<List<string>?>("exempt_enterprise_connections"); }
+            set { BackingStore?.Set("exempt_enterprise_connections", value); }
+        }
+#nullable restore
+#else
+        public List<string> ExemptEnterpriseConnections
+        {
+            get { return BackingStore?.Get<List<string>>("exempt_enterprise_connections"); }
+            set { BackingStore?.Set("exempt_enterprise_connections", value); }
+        }
+#endif
+        /// <summary>Determines whether recovery codes are shown to users during MFA setup for this specific organization. This overrides the environment-level setting. Omit the field to keep the current setting. An organization that has never set it uses the environment-level setting.</summary>
         public bool? IsRecoveryCodesEnabled
         {
             get { return BackingStore?.Get<bool?>("is_recovery_codes_enabled"); }
@@ -50,7 +66,6 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         {
             BackingStore = BackingStoreFactorySingleton.Instance.CreateBackingStore();
             AdditionalData = new Dictionary<string, object>();
-            IsRecoveryCodesEnabled = true;
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
@@ -71,6 +86,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "enabled_factors", n => { EnabledFactors = n.GetCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>()?.AsList(); } },
+                { "exempt_enterprise_connections", n => { ExemptEnterpriseConnections = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "is_recovery_codes_enabled", n => { IsRecoveryCodesEnabled = n.GetBoolValue(); } },
             };
         }
@@ -82,6 +98,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfEnumValues<global::Kinde.Api.Kiota.Management.Api.V1.Organizations.Item.Mfa.MfaPutRequestBody_enabled_factors>("enabled_factors", EnabledFactors);
+            writer.WriteCollectionOfPrimitiveValues<string>("exempt_enterprise_connections", ExemptEnterpriseConnections);
             writer.WriteBoolValue("is_recovery_codes_enabled", IsRecoveryCodesEnabled);
             writer.WriteAdditionalData(AdditionalData);
         }

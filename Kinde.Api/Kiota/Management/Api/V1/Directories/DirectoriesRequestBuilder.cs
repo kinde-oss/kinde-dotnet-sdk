@@ -75,7 +75,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Directories
         }
         /// <summary>
         /// Create a new SCIM directory for user and group synchronization.&lt;div&gt;  &lt;code&gt;create:scim_directories&lt;/code&gt;&lt;/div&gt;
-        /// SCIM Provisioning <see href="https://docs.kinde.com/developer-tools/scim-provisioning/" />
+        /// SCIM Provisioning <see href="https://docs.kinde.com/authenticate/enterprise-connections/scim-directory-sync/" />
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Create_directory_response"/></returns>
         /// <param name="body">The request body</param>

@@ -59,12 +59,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Checking permission via API (hard check): {PermissionKey}", permissionKey);
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use KindeClient's built-in permission checking (token-based)
                         var client = GetClient();
                         if (client != null)
                         {
@@ -82,7 +80,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use KindeClient's built-in permission checking (token-based)
                     _logger?.LogDebug("Checking permission via KindeClient (token-based): {PermissionKey}", permissionKey);
                     var client = GetClient();
                     if (client != null)
@@ -121,12 +118,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Checking any permission via API (hard check)");
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use token-based checking
                         var client = GetClient();
                         if (client != null)
                         {
@@ -145,7 +140,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use token-based checking
                     _logger?.LogDebug("Checking any permission via token-based approach");
                     var client = GetClient();
                     if (client != null)
@@ -185,12 +179,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Checking all permissions via API (hard check)");
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use token-based checking
                         var client = GetClient();
                         if (client != null)
                         {
@@ -209,7 +201,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use token-based checking
                     _logger?.LogDebug("Checking all permissions via token-based approach");
                     var client = GetClient();
                     if (client != null)
@@ -242,12 +233,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Retrieving permissions via API (hard check)");
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use KindeClient's built-in permission retrieval (token-based)
                         var client = GetClient();
                         if (client != null)
                         {
@@ -266,7 +255,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use KindeClient's built-in permission retrieval (token-based)
                     _logger?.LogDebug("Retrieving permissions via KindeClient (token-based)");
                     var client = GetClient();
                     if (client != null)

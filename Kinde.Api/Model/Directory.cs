@@ -153,7 +153,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The enterprise connection ID used for SCIM-provisioned users.</value>
         /// <example>conn_01h9xyzabc123</example>
-        [DataMember(Name = "enterprise_connection_id", EmitDefaultValue = false)]
+        [DataMember(Name = "enterprise_connection_id", EmitDefaultValue = true)]
         public string EnterpriseConnectionId { get; set; }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <value>The display name of the selected enterprise connection.</value>
         /// <example>ACME SAML</example>
-        [DataMember(Name = "enterprise_connection_name", EmitDefaultValue = false)]
+        [DataMember(Name = "enterprise_connection_name", EmitDefaultValue = true)]
         public string EnterpriseConnectionName { get; set; }
 
         /// <summary>
@@ -279,17 +279,17 @@ namespace Kinde.Api.Model
                     this.OrganizationCode == input.OrganizationCode ||
                     (this.OrganizationCode != null &&
                     this.OrganizationCode.Equals(input.OrganizationCode))
-                ) &&
+                ) && 
                 (
                     this.EnterpriseConnectionId == input.EnterpriseConnectionId ||
                     (this.EnterpriseConnectionId != null &&
                     this.EnterpriseConnectionId.Equals(input.EnterpriseConnectionId))
-                ) &&
+                ) && 
                 (
                     this.EnterpriseConnectionName == input.EnterpriseConnectionName ||
                     (this.EnterpriseConnectionName != null &&
                     this.EnterpriseConnectionName.Equals(input.EnterpriseConnectionName))
-                ) &&
+                ) && 
                 (
                     this.LastSyncStartedAt == input.LastSyncStartedAt ||
                     (this.LastSyncStartedAt != null &&

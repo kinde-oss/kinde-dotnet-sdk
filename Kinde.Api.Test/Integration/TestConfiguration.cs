@@ -16,27 +16,20 @@ namespace Kinde.Api.Test.Integration
 
         private TestConfiguration()
         {
-            // Get the project directory (where appsettings.json is located)
-            // Tests run from bin/Debug/net8.0, so we need to go up to the project directory
+            // Tests run from bin/<Configuration>/<TargetFramework>; walk up to this project's own .csproj, since any
+            // other one above a custom output directory would point the configuration at the wrong folder.
             var currentDir = Directory.GetCurrentDirectory();
             var projectDir = currentDir;
-            
-            // If we're in bin/Debug/net8.0, go up to the project directory
-            if (currentDir.Contains("bin" + Path.DirectorySeparatorChar + "Debug") || 
-                currentDir.Contains("bin" + Path.DirectorySeparatorChar + "Release"))
+
+            for (var dir = new DirectoryInfo(currentDir); dir != null; dir = dir.Parent)
             {
-                var dir = new DirectoryInfo(currentDir);
-                // Go up from bin/Debug/net8.0 to project root
-                while (dir != null && (dir.Name == "net8.0" || dir.Name == "Debug" || dir.Name == "Release" || dir.Name == "bin"))
-                {
-                    dir = dir.Parent;
-                }
-                if (dir != null)
+                if (dir.GetFiles("Kinde.Api.Test.csproj").Length > 0)
                 {
                     projectDir = dir.FullName;
+                    break;
                 }
             }
-            
+
             Console.WriteLine($"[TEST CONFIG] Current directory: {currentDir}");
             Console.WriteLine($"[TEST CONFIG] Project directory: {projectDir}");
             
@@ -53,7 +46,6 @@ namespace Kinde.Api.Test.Integration
 
             _configuration = builder.Build();
             
-            // Debug logging - check all sources
             var envMode = Environment.GetEnvironmentVariable("KINDE_TEST_MODE") ?? Environment.GetEnvironmentVariable("TestMode");
             var configMode = _configuration["TestMode"];
             var configKindeMode = _configuration["KindeManagementApi:Domain"] != null ? "configured" : "not configured";
@@ -63,12 +55,10 @@ namespace Kinde.Api.Test.Integration
             Console.WriteLine($"[TEST CONFIG] Config TestMode: {configMode ?? "not set"}");
             Console.WriteLine($"[TEST CONFIG] Config KindeManagementApi: {configKindeMode}");
             
-            // Get final test mode
             var testMode = GetValue("KINDE_TEST_MODE") ?? GetValue("TestMode") ?? "Mock";
             Console.WriteLine($"[TEST CONFIG] Final Test Mode: {testMode}");
             Console.WriteLine($"[TEST CONFIG] UseRealApi: {testMode.Equals("Real", StringComparison.OrdinalIgnoreCase)}");
             
-            // Log configuration source
             if (!string.IsNullOrEmpty(envMode))
             {
                 Console.WriteLine($"[TEST CONFIG] Configuration source: Environment variable");

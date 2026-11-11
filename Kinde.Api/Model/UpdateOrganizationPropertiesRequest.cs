@@ -39,7 +39,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateOrganizationPropertiesRequest" /> class.
         /// </summary>
-        /// <param name="properties">Property keys and values (required).</param>
+        /// <param name="properties">Property keys and values. Set a value to an empty string or null to unset it. (required).</param>
         public UpdateOrganizationPropertiesRequest(Object properties = default(Object))
         {
             // to ensure "properties" is required (not null)
@@ -51,9 +51,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// Property keys and values
+        /// Property keys and values. Set a value to an empty string or null to unset it.
         /// </summary>
-        /// <value>Property keys and values</value>
+        /// <value>Property keys and values. Set a value to an empty string or null to unset it.</value>
         [DataMember(Name = "properties", IsRequired = true, EmitDefaultValue = true)]
         public Object Properties { get; set; }
 

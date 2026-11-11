@@ -68,7 +68,7 @@ namespace Kinde.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateOrganizationRequest" /> class.
         /// </summary>
-        /// <param name="name">The organization&#39;s name..</param>
+        /// <param name="name">The organization&#39;s name. If the organization is a billing customer, this update is also propagated to the corresponding billing customer details. .</param>
         /// <param name="externalId">The organization&#39;s ID..</param>
         /// <param name="backgroundColor">The organization&#39;s brand settings - background color..</param>
         /// <param name="buttonColor">The organization&#39;s brand settings - button color..</param>
@@ -115,9 +115,9 @@ namespace Kinde.Api.Model
         }
 
         /// <summary>
-        /// The organization&#39;s name.
+        /// The organization&#39;s name. If the organization is a billing customer, this update is also propagated to the corresponding billing customer details. 
         /// </summary>
-        /// <value>The organization&#39;s name.</value>
+        /// <value>The organization&#39;s name. If the organization is a billing customer, this update is also propagated to the corresponding billing customer details. </value>
         /// <example>Acme Corp</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }

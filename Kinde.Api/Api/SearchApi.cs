@@ -19,7 +19,7 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
 using Microsoft.Kiota.Abstractions.Authentication;
@@ -46,8 +46,9 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <returns>SearchUsersResponse</returns>
-        SearchUsersResponse SearchUsers(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string));
+        SearchUsersResponse SearchUsers(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string));
 
         /// <summary>
         /// Search users
@@ -62,8 +63,9 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <returns>ApiResponse of SearchUsersResponse</returns>
-        ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string));
+        ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string));
         #endregion Synchronous Operations
     }
 
@@ -86,9 +88,10 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SearchUsersResponse</returns>
-        System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Search users
@@ -103,9 +106,10 @@ namespace Kinde.Api.Api
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SearchUsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -127,13 +131,13 @@ namespace Kinde.Api.Api
         private KindeManagementClient _kiotaClient;
         private Kinde.Api.Client.ApiClient _kindeApiClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _kiotaMapper;
+        private IKindeMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
@@ -173,23 +177,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="SearchApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public SearchApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="SearchApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public SearchApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -203,13 +207,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="SearchApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public SearchApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -225,33 +228,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchApi"/> class.
+        /// Initializes a new instance of the <see cref="SearchApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public SearchApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchApi"/> class.
+        /// Initializes a new instance of the <see cref="SearchApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public SearchApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -268,17 +261,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="SearchApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public SearchApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -302,7 +290,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public SearchApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -317,10 +304,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public SearchApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -402,10 +390,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <returns>SearchUsersResponse</returns>
-        public SearchUsersResponse SearchUsers(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string))
+        public SearchUsersResponse SearchUsers(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string))
         {
-            Kinde.Api.Client.ApiResponse<SearchUsersResponse> localVarResponse = SearchUsersWithHttpInfo(pageSize, query, properties, startingAfter, endingBefore, expand);
+            Kinde.Api.Client.ApiResponse<SearchUsersResponse> localVarResponse = SearchUsersWithHttpInfo(pageSize, query, properties, startingAfter, endingBefore, expand, apiScopes);
             return localVarResponse.Data;
         }
 
@@ -419,8 +408,9 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <returns>ApiResponse of SearchUsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string))
+        public Kinde.Api.Client.ApiResponse<SearchUsersResponse> SearchUsersWithHttpInfo(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string))
         {
             Kinde.Api.Client.RequestOptions localVarRequestOptions = new Kinde.Api.Client.RequestOptions();
 
@@ -461,6 +451,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
             {
                 localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "expand", expand));
             }
+            if (apiScopes != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Kinde.Api.Client.ClientUtils.ParameterToMultiMap("", "api_scopes", apiScopes));
+            }
 
             // authentication (kindeBearerAuth) required
             // bearer authentication required
@@ -491,11 +485,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SearchUsersResponse</returns>
-        public async System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<SearchUsersResponse> SearchUsersAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<SearchUsersResponse> localVarResponse = await SearchUsersWithHttpInfoAsync(pageSize, query, properties, startingAfter, endingBefore, expand, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<SearchUsersResponse> localVarResponse = await SearchUsersWithHttpInfoAsync(pageSize, query, properties, startingAfter, endingBefore, expand, apiScopes, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -509,9 +504,10 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="startingAfter">The ID of the user to start after. (optional)</param>
         /// <param name="endingBefore">The ID of the user to end before. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="apiScopes">Search the users by api scopes. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SearchUsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SearchUsersResponse>> SearchUsersWithHttpInfoAsync(int? pageSize = default(int?), string query = default(string), Dictionary<string, List<string>> properties = default(Dictionary<string, List<string>>), string startingAfter = default(string), string endingBefore = default(string), string expand = default(string), string apiScopes = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // ===== Kiota Implementation =====
             try
@@ -523,6 +519,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
                     config.QueryParameters.StartingAfter = startingAfter;
                     config.QueryParameters.EndingBefore = endingBefore;
                     config.QueryParameters.Expand = expand;
+                    config.QueryParameters.ApiScopes = apiScopes;
                 }, cancellationToken).ConfigureAwait(false);
 
                 var mappedResponse = KiotaMapper.Map<SearchUsersResponse>(kiotaResponse);

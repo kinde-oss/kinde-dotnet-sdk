@@ -5,6 +5,7 @@ using Kinde.Api.Models.Tokens;
 using Kinde.Api.Models.User;
 using Kinde.Api.Models.Utils;
 using Kinde.Api.Model;
+using OrganizationPermission = Kinde.Api.Models.User.OrganizationPermission;
 using Kinde.Api.Auth;
 using Kinde.Api.Accounts;
 using Microsoft.Extensions.Logging;
@@ -36,9 +37,8 @@ namespace Kinde.Api.Client
         public OauthToken Token => AuthorizationFlow?.Token;
 
         /// <summary>
-        /// Exposes the OAuth access token to generated API classes so they can populate
-        /// Configuration.AccessToken when constructed via XApi(ApiClient client).
-        /// Without this, every Kiota-backed call from such an API class is unauthenticated.
+        /// Exposes the OAuth access token so generated API classes can populate
+        /// Configuration.AccessToken; without it Kiota-backed calls are unauthenticated.
         /// </summary>
         public override string AccessToken => Token?.AccessToken;
 
@@ -69,7 +69,6 @@ namespace Kinde.Api.Client
             IdentityProviderConfiguration = identityProviderConfiguration;
             CodeStore = new AuthorizationCodeStore<string, string>();
             
-            // Initialize the accounts client and Auth helper
             InitializeAuthComponents();
         }
 
@@ -78,10 +77,8 @@ namespace Kinde.Api.Client
         /// </summary>
         private void InitializeAuthComponents()
         {
-            // Create a logger factory for the Auth helper
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Warning));
             
-            // Create the Auth helper with ForceApi flag from configuration
             Auth = new Kinde.Api.Auth.Auth(this, HttpClient, IdentityProviderConfiguration.ForceApi, loggerFactory.CreateLogger<Kinde.Api.Auth.Auth>());
         }
 
@@ -190,11 +187,8 @@ namespace Kinde.Api.Client
         #region User profile methods
 
         /// <summary>
-        /// It returns user's information after successful authentication
+        /// Returns the id, given name, family name, email and picture of the signed-in user.
         /// </summary>
-        /// <remarks>
-        /// Contains the id, given_name, family_name, email and picture of the currently logged in user. 
-        /// </remarks>
         /// <returns>KindeUserDetail</returns>
         public KindeUserDetail GetUserDetails()
         {
@@ -324,13 +318,11 @@ namespace Kinde.Api.Client
                 throw new ArgumentException("ReturnUrl is required", nameof(options));
             }
 
-            // Validate that returnUrl is an absolute URL
             if (!Uri.IsWellFormedUriString(options.ReturnUrl, UriKind.Absolute))
             {
                 throw new ArgumentException("ReturnUrl must be an absolute URL", nameof(options));
             }
 
-            // Check if user is authenticated
             if (!IsAuthenticated)
             {
                 throw new ApplicationException("User must be authenticated to generate profile URL");
@@ -342,7 +334,6 @@ namespace Kinde.Api.Client
                 throw new ApplicationException("Access token not found");
             }
 
-            // Build the request URL with query parameters
             var queryParams = new List<string>
             {
                 $"sub_nav={Uri.EscapeDataString(options.SubNav.ToString().ToLower())}",
@@ -351,11 +342,9 @@ namespace Kinde.Api.Client
 
             var requestUrl = $"{options.Domain.TrimEnd('/')}/account_api/v1/portal_link?{string.Join("&", queryParams)}";
 
-            // Create HTTP request
             using var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            // Make the request
             var response = await HttpClient.SendAsync(request);
             
             if (!response.IsSuccessStatusCode)
@@ -377,7 +366,6 @@ namespace Kinde.Api.Client
                     throw new ApplicationException("Invalid URL received from API");
                 }
 
-                // Validate the returned URL
                 if (!Uri.IsWellFormedUriString(result.Url, UriKind.Absolute))
                 {
                     throw new ApplicationException($"Invalid URL format received from API: {result.Url}");

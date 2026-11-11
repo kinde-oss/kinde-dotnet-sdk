@@ -13,7 +13,8 @@ Name | Type | Description | Notes
 **Logo** | **string** | The organization&#39;s logo URL. | [optional] 
 **LogoDark** | **string** | The organization&#39;s logo URL to be used for dark themes. | [optional] 
 **FaviconSvg** | **string** | The organization&#39;s SVG favicon URL. Optimal format for most browsers | [optional] 
-**FaviconFallback** | **string** | The favicon URL to be used as a fallback in browsers that don’t support SVG, add a PNG | [optional] 
+**FaviconFallback** | **string** | The favicon URL to be used as a fallback in browsers that don&#39;t support SVG, add a PNG | [optional] 
+**AllowedDomains** | **List&lt;string&gt;** | Domains allowed for self-sign up to this environment.  Empty array means no restrictions. | [optional] 
 **LinkColor** | [**GetEnvironmentResponseEnvironmentLinkColor**](GetEnvironmentResponseEnvironmentLinkColor.md) |  | [optional] 
 **BackgroundColor** | [**GetEnvironmentResponseEnvironmentBackgroundColor**](GetEnvironmentResponseEnvironmentBackgroundColor.md) |  | [optional] 
 **ButtonColor** | [**GetEnvironmentResponseEnvironmentLinkColor**](GetEnvironmentResponseEnvironmentLinkColor.md) |  | [optional] 
@@ -31,6 +32,8 @@ Name | Type | Description | Notes
 **IsAllowRegistrations** | **bool?** | Deprecated - Use &#39;is_auto_membership_enabled&#39; instead | [optional] 
 **SenderName** | **string** | The name of the organization that will be used in emails | [optional] 
 **SenderEmail** | **string** | The email address that will be used in emails. Requires custom SMTP to be set up. | [optional] 
+**IsSuspended** | **bool** | Whether the organization is currently suspended or not. | [optional] 
+**SuspendedOn** | **string** | The date the organization was suspended in ISO 8601 format. Null if not suspended. | [optional] 
 **Billing** | [**GetOrganizationResponseBilling**](GetOrganizationResponseBilling.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

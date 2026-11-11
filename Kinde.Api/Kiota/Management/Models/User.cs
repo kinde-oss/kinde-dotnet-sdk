@@ -53,7 +53,7 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("created_on", value); }
         }
 #endif
-        /// <summary>Number of consecutive failed user sign ins.</summary>
+        /// <summary>Total number of failed user sign-in attempts.</summary>
         public int? FailedSignIns
         {
             get { return BackingStore?.Get<int?>("failed_sign_ins"); }

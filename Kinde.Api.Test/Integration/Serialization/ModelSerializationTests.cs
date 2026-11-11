@@ -296,7 +296,6 @@ namespace Kinde.Api.Test.Integration.Serialization
             Assert.Contains("\"is_verified\":true", json.Replace(" ", ""));
             Assert.Contains("\"is_verified\":false", json.Replace(" ", ""));
             
-            // Also verify we can deserialize back correctly
             var deserialized = JsonConvert.DeserializeObject<CreateUserRequest>(json, ApiSerializerSettings);
             Assert.NotNull(deserialized);
             Assert.NotNull(deserialized.Identities);
@@ -328,7 +327,6 @@ namespace Kinde.Api.Test.Integration.Serialization
             // Assert - The DataMember attribute should have the expected name
             Assert.Equal(expectedJsonName, dataMemberAttr.Name);
 
-            // Also verify that the DataMemberContractResolver would use this name
             var resolver = new DataMemberContractResolver();
             var contract = resolver.ResolveContract(modelType) as Newtonsoft.Json.Serialization.JsonObjectContract;
             Assert.NotNull(contract);
@@ -402,7 +400,6 @@ namespace Kinde.Api.Test.Integration.Serialization
                 // Handle special case where serialization produces a string (e.g., UpdateApplicationsPropertyRequestValue)
                 if (json.StartsWith("\"") && json.EndsWith("\""))
                 {
-                    // This is a string value, try to deserialize directly
                     deserialized = JsonConvert.DeserializeObject(json, modelType, new JsonSerializerSettings
                     {
                         DateFormatHandling = DateFormatHandling.IsoDateFormat,
@@ -486,14 +483,12 @@ namespace Kinde.Api.Test.Integration.Serialization
         {
             try
             {
-                // Try parameterless constructor first
                 var parameterlessCtor = modelType.GetConstructor(Type.EmptyTypes);
                 if (parameterlessCtor != null)
                 {
                     return Activator.CreateInstance(modelType);
                 }
 
-                // Try constructors with parameters
                 var constructors = modelType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
                 foreach (var ctor in constructors.OrderBy(c => c.GetParameters().Length))
                 {
@@ -597,7 +592,6 @@ namespace Kinde.Api.Test.Integration.Serialization
                     var enumValues = Enum.GetValues(propType);
                     if (enumValues.Length > 0)
                     {
-                        // Get the enum value's DataMember name if available
                         var enumValue = enumValues.GetValue(0);
                         var enumField = propType.GetField(enumValue!.ToString()!);
                         var enumMemberAttr = enumField?.GetCustomAttribute<System.Runtime.Serialization.EnumMemberAttribute>();

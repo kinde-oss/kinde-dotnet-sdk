@@ -12,24 +12,8 @@ using Xunit.Abstractions;
 namespace Kinde.Api.Test.Integration.Kiota
 {
     /// <summary>
-    /// Tests for error handling scenarios in the Kiota-based API integration.
-    /// 
-    /// These tests verify that all error responses are properly handled and translated
-    /// from Kiota exceptions to the expected OpenAPI ApiException format.
-    /// 
-    /// Test scenarios covered:
-    /// - 400 Bad Request
-    /// - 401 Unauthorized
-    /// - 403 Forbidden
-    /// - 404 Not Found
-    /// - 409 Conflict
-    /// - 422 Unprocessable Entity
-    /// - 429 Rate Limited
-    /// - 500 Internal Server Error
-    /// - 502 Bad Gateway
-    /// - 503 Service Unavailable
-    /// - Network/Timeout errors
-    /// - Malformed JSON responses
+    /// Verifies that HTTP error statuses (4xx/5xx), network/timeout failures and malformed JSON surface as the expected
+    /// ApiException when Kiota exceptions are translated.
     /// </summary>
     public class KiotaErrorHandlingTests : IDisposable
     {
@@ -311,7 +295,7 @@ namespace Kinde.Api.Test.Integration.Kiota
 
             var api = new UsersApi(_httpClient, _configuration);
 
-            // Act - Kiota handles empty responses gracefully (returns null or empty model)
+            // Act
             var result = await api.GetUsersAsync();
             
             // Assert - Result should be null for empty response

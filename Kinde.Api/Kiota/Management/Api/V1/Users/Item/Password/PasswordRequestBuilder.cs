@@ -34,7 +34,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
         {
         }
         /// <summary>
-        /// Set user password.&lt;div&gt;  &lt;code&gt;update:user_passwords&lt;/code&gt;&lt;/div&gt;
+        /// Set user password.Passwords cannot be set on a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:user_passwords&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="body">The request body</param>
@@ -59,7 +59,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Set user password.&lt;div&gt;  &lt;code&gt;update:user_passwords&lt;/code&gt;&lt;/div&gt;
+        /// Set user password.Passwords cannot be set on a user managed by directory sync (`USER_MANAGED_BY_DIRECTORY_SYNC`); user and role changes must be made in the upstream identity provider.&lt;div&gt;  &lt;code&gt;update:user_passwords&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

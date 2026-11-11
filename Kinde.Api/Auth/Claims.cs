@@ -47,8 +47,6 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // For API mode, we would need to implement API-based claim retrieval
-                    // Since claims are typically token-based, we'll fall back to token parsing
                     _logger?.LogDebug("ForceApi is enabled, but claims are typically token-based. Using token parsing for claim: {ClaimName}", claimName);
                 }
 
@@ -59,7 +57,6 @@ namespace Kinde.Api.Auth
                     return null;
                 }
 
-                // Use KindeClient's built-in GetClaim method
                 var kindeClaim = client.GetClaim(claimName);
                 if (kindeClaim != null)
                 {
@@ -92,7 +89,6 @@ namespace Kinde.Api.Auth
                     return new Dictionary<string, object>();
                 }
 
-                // Get the token from the client and parse it directly
                 var token = GetToken();
                 if (token?.AccessToken == null)
                 {
@@ -100,7 +96,6 @@ namespace Kinde.Api.Auth
                     return new Dictionary<string, object>();
                 }
 
-                // Parse JWT token to extract all claims
                 var claims = ParseJwtClaims(token.AccessToken);
                 _logger?.LogDebug("Retrieved {Count} claims from token", claims?.Count ?? 0);
                 return claims ?? new Dictionary<string, object>();

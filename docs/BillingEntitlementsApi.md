@@ -8,7 +8,7 @@ All URIs are relative to *https://your_kinde_subdomain.kinde.com*
 
 <a id="getbillingentitlements"></a>
 # **GetBillingEntitlements**
-> GetBillingEntitlementsResponse GetBillingEntitlements (string customerId, int? pageSize = null, string startingAfter = null, string endingBefore = null, string maxValue = null, string expand = null)
+> GetBillingEntitlementsResponse GetBillingEntitlements (string customerId, int? pageSize = null, string? startingAfter = null, string? endingBefore = null, string? maxValue = null, string? expand = null)
 
 Get billing entitlements
 
@@ -18,7 +18,6 @@ Returns all the entitlements a billing customer currently has access to  <div>  
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -34,16 +33,13 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new BillingEntitlementsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new BillingEntitlementsApi(config);
             var customerId = "customerId_example";  // string | The ID of the billing customer to retrieve entitlements for
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var startingAfter = "startingAfter_example";  // string | The ID of the billing entitlement to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string | The ID of the billing entitlement to end before. (optional) 
-            var maxValue = "maxValue_example";  // string | When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional) 
-            var expand = "plans";  // string | Specify additional plan data to retrieve. Use \"plans\". (optional) 
+            var startingAfter = "startingAfter_example";  // string? | The ID of the billing entitlement to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the billing entitlement to end before. (optional) 
+            var maxValue = "maxValue_example";  // string? | When the maximum limit of an entitlement is null, this value is returned as the maximum limit (optional) 
+            var expand = "plans";  // string? | Additional plan data to include in the response. Allowed value: \"plans\". (optional) 
 
             try
             {
@@ -88,10 +84,10 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **customerId** | **string** | The ID of the billing customer to retrieve entitlements for |  |
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **startingAfter** | **string** | The ID of the billing entitlement to start after. | [optional]  |
-| **endingBefore** | **string** | The ID of the billing entitlement to end before. | [optional]  |
-| **maxValue** | **string** | When the maximum limit of an entitlement is null, this value is returned as the maximum limit | [optional]  |
-| **expand** | **string** | Specify additional plan data to retrieve. Use \&quot;plans\&quot;. | [optional]  |
+| **startingAfter** | **string?** | The ID of the billing entitlement to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the billing entitlement to end before. | [optional]  |
+| **maxValue** | **string?** | When the maximum limit of an entitlement is null, this value is returned as the maximum limit | [optional]  |
+| **expand** | **string?** | Additional plan data to include in the response. Allowed value: \&quot;plans\&quot;. | [optional]  |
 
 ### Return type
 

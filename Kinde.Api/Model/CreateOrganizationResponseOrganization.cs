@@ -36,10 +36,18 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="code">The organization&#39;s unique code..</param>
         /// <param name="billingCustomerId">The billing customer id if the organization was created with the is_create_billing_customer as true.</param>
-        public CreateOrganizationResponseOrganization(string code = default(string), string billingCustomerId = default(string))
+        /// <param name="agreementId">The billing agreement id if the organization was created with is_create_billing_customer as true.</param>
+        /// <param name="planVersion">The published version number assigned with that agreement.</param>
+        /// <param name="planCode">The published version&#39;s code. This can differ from billing_plan_code on the request after a draft edit..</param>
+        /// <param name="planName">The published version&#39;s name. A draft rename is not returned..</param>
+        public CreateOrganizationResponseOrganization(string code = default(string), string billingCustomerId = default(string), string agreementId = default(string), int? planVersion = default(int?), string planCode = default(string), string planName = default(string))
         {
             this.Code = code;
             this.BillingCustomerId = billingCustomerId;
+            this.AgreementId = agreementId;
+            this.PlanVersion = planVersion;
+            this.PlanCode = planCode;
+            this.PlanName = planName;
         }
 
         /// <summary>
@@ -59,6 +67,38 @@ namespace Kinde.Api.Model
         public string BillingCustomerId { get; set; }
 
         /// <summary>
+        /// The billing agreement id if the organization was created with is_create_billing_customer as true
+        /// </summary>
+        /// <value>The billing agreement id if the organization was created with is_create_billing_customer as true</value>
+        /// <example>agreement_a1234b</example>
+        [DataMember(Name = "agreement_id", EmitDefaultValue = false)]
+        public string AgreementId { get; set; }
+
+        /// <summary>
+        /// The published version number assigned with that agreement
+        /// </summary>
+        /// <value>The published version number assigned with that agreement</value>
+        /// <example>1</example>
+        [DataMember(Name = "plan_version", EmitDefaultValue = true)]
+        public int? PlanVersion { get; set; }
+
+        /// <summary>
+        /// The published version&#39;s code. This can differ from billing_plan_code on the request after a draft edit.
+        /// </summary>
+        /// <value>The published version&#39;s code. This can differ from billing_plan_code on the request after a draft edit.</value>
+        /// <example>pro</example>
+        [DataMember(Name = "plan_code", EmitDefaultValue = true)]
+        public string PlanCode { get; set; }
+
+        /// <summary>
+        /// The published version&#39;s name. A draft rename is not returned.
+        /// </summary>
+        /// <value>The published version&#39;s name. A draft rename is not returned.</value>
+        /// <example>Pro</example>
+        [DataMember(Name = "plan_name", EmitDefaultValue = true)]
+        public string PlanName { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -68,6 +108,10 @@ namespace Kinde.Api.Model
             sb.Append("class CreateOrganizationResponseOrganization {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  BillingCustomerId: ").Append(BillingCustomerId).Append("\n");
+            sb.Append("  AgreementId: ").Append(AgreementId).Append("\n");
+            sb.Append("  PlanVersion: ").Append(PlanVersion).Append("\n");
+            sb.Append("  PlanCode: ").Append(PlanCode).Append("\n");
+            sb.Append("  PlanName: ").Append(PlanName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -112,6 +156,26 @@ namespace Kinde.Api.Model
                     this.BillingCustomerId == input.BillingCustomerId ||
                     (this.BillingCustomerId != null &&
                     this.BillingCustomerId.Equals(input.BillingCustomerId))
+                ) && 
+                (
+                    this.AgreementId == input.AgreementId ||
+                    (this.AgreementId != null &&
+                    this.AgreementId.Equals(input.AgreementId))
+                ) && 
+                (
+                    this.PlanVersion == input.PlanVersion ||
+                    (this.PlanVersion != null &&
+                    this.PlanVersion.Equals(input.PlanVersion))
+                ) && 
+                (
+                    this.PlanCode == input.PlanCode ||
+                    (this.PlanCode != null &&
+                    this.PlanCode.Equals(input.PlanCode))
+                ) && 
+                (
+                    this.PlanName == input.PlanName ||
+                    (this.PlanName != null &&
+                    this.PlanName.Equals(input.PlanName))
                 );
         }
 
@@ -131,6 +195,22 @@ namespace Kinde.Api.Model
                 if (this.BillingCustomerId != null)
                 {
                     hashCode = (hashCode * 59) + this.BillingCustomerId.GetHashCode();
+                }
+                if (this.AgreementId != null)
+                {
+                    hashCode = (hashCode * 59) + this.AgreementId.GetHashCode();
+                }
+                if (this.PlanVersion != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanVersion.GetHashCode();
+                }
+                if (this.PlanCode != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanCode.GetHashCode();
+                }
+                if (this.PlanName != null)
+                {
+                    hashCode = (hashCode * 59) + this.PlanName.GetHashCode();
                 }
                 return hashCode;
             }

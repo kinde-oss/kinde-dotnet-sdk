@@ -18,7 +18,6 @@ Replace MFA Configuration.  <div>   <code>update:mfa</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -34,10 +33,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new MFAApi(httpClient, config, httpClientHandler);
+            var apiInstance = new MFAApi(config);
             var replaceMFARequest = new ReplaceMFARequest(); // ReplaceMFARequest | MFA details.
 
             try

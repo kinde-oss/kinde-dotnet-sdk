@@ -69,6 +69,22 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("users_added", value); }
         }
 #endif
+        /// <summary>Users that were not added because directory sync manages them in another organization. A directory-managed user belongs only to the organization their directory owns.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<string>? UsersBlocked
+        {
+            get { return BackingStore?.Get<List<string>?>("users_blocked"); }
+            set { BackingStore?.Set("users_blocked", value); }
+        }
+#nullable restore
+#else
+        public List<string> UsersBlocked
+        {
+            get { return BackingStore?.Get<List<string>>("users_blocked"); }
+            set { BackingStore?.Set("users_blocked", value); }
+        }
+#endif
         /// <summary>The users_removed property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -130,6 +146,7 @@ namespace Kinde.Api.Kiota.Management.Models
                 { "code", n => { Code = n.GetStringValue(); } },
                 { "message", n => { Message = n.GetStringValue(); } },
                 { "users_added", n => { UsersAdded = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
+                { "users_blocked", n => { UsersBlocked = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "users_removed", n => { UsersRemoved = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "users_updated", n => { UsersUpdated = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
             };
@@ -144,6 +161,7 @@ namespace Kinde.Api.Kiota.Management.Models
             writer.WriteStringValue("code", Code);
             writer.WriteStringValue("message", Message);
             writer.WriteCollectionOfPrimitiveValues<string>("users_added", UsersAdded);
+            writer.WriteCollectionOfPrimitiveValues<string>("users_blocked", UsersBlocked);
             writer.WriteCollectionOfPrimitiveValues<string>("users_removed", UsersRemoved);
             writer.WriteCollectionOfPrimitiveValues<string>("users_updated", UsersUpdated);
             writer.WriteAdditionalData(AdditionalData);

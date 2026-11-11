@@ -22,7 +22,6 @@ Create a new environment variable. This feature is in beta and admin UI is not y
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -38,10 +37,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentVariablesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentVariablesApi(config);
             var createEnvironmentVariableRequest = new CreateEnvironmentVariableRequest(); // CreateEnvironmentVariableRequest | The environment variable details.
 
             try
@@ -123,7 +119,6 @@ Delete an environment variable you previously created. This feature is in beta a
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -139,10 +134,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentVariablesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentVariablesApi(config);
             var variableId = env_var_0192b1941f125645fa15bf28a662a0b3;  // string | The environment variable's ID.
 
             try
@@ -224,7 +216,6 @@ Retrieve environment variable details by ID. This feature is in beta and admin U
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -240,10 +231,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentVariablesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentVariablesApi(config);
             var variableId = env_var_0192b1941f125645fa15bf28a662a0b3;  // string | The environment variable's ID.
 
             try
@@ -325,7 +313,6 @@ Get environment variables. This feature is in beta and admin UI is not yet avail
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -341,10 +328,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentVariablesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentVariablesApi(config);
 
             try
             {
@@ -421,7 +405,6 @@ Update an environment variable you previously created. This feature is in beta a
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -437,10 +420,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new EnvironmentVariablesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new EnvironmentVariablesApi(config);
             var variableId = env_var_0192b1941f125645fa15bf28a662a0b3;  // string | The environment variable's ID.
             var updateEnvironmentVariableRequest = new UpdateEnvironmentVariableRequest(); // UpdateEnvironmentVariableRequest | The new details for the environment variable
 

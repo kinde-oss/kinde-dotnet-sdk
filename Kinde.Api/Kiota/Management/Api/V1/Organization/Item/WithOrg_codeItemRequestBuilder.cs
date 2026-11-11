@@ -46,7 +46,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
         {
         }
         /// <summary>
-        /// Delete an organization.&lt;div&gt;  &lt;code&gt;delete:organizations&lt;/code&gt;&lt;/div&gt;
+        /// Delete an organization.Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.&lt;div&gt;  &lt;code&gt;delete:organizations&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -75,7 +75,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Update an organization.&lt;div&gt;  &lt;code&gt;update:organizations&lt;/code&gt;&lt;/div&gt;
+        /// Update an organization.When the organization name is updated and the organization is a billingcustomer, the change is also propagated to the corresponding billingcustomer details.&lt;div&gt;  &lt;code&gt;update:organizations&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="body">The request body</param>
@@ -104,7 +104,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Delete an organization.&lt;div&gt;  &lt;code&gt;delete:organizations&lt;/code&gt;&lt;/div&gt;
+        /// Delete an organization.Deletion is refused when a billing customer linked to the organization has agreements. Billing customers with no agreements are removed with the organization.&lt;div&gt;  &lt;code&gt;delete:organizations&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -123,7 +123,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
             return requestInfo;
         }
         /// <summary>
-        /// Update an organization.&lt;div&gt;  &lt;code&gt;update:organizations&lt;/code&gt;&lt;/div&gt;
+        /// Update an organization.When the organization name is updated and the organization is a billingcustomer, the change is also propagated to the corresponding billingcustomer details.&lt;div&gt;  &lt;code&gt;update:organizations&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -154,7 +154,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Organization.Item
             return new global::Kinde.Api.Kiota.Management.Api.V1.Organization.Item.WithOrg_codeItemRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Update an organization.&lt;div&gt;  &lt;code&gt;update:organizations&lt;/code&gt;&lt;/div&gt;
+        /// Update an organization.When the organization name is updated and the organization is a billingcustomer, the change is also propagated to the corresponding billingcustomer details.&lt;div&gt;  &lt;code&gt;update:organizations&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class WithOrg_codeItemRequestBuilderPatchQueryParameters 

@@ -50,6 +50,7 @@ namespace Kinde.Api.Model
         /// The system permission&#39;s ID.
         /// </summary>
         /// <value>The system permission&#39;s ID.</value>
+        /// <example>perm_019541f3fa0c874fc47b3ae73585b21c</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
 
@@ -57,6 +58,7 @@ namespace Kinde.Api.Model
         /// The system permission identifier to use in code.
         /// </summary>
         /// <value>The system permission identifier to use in code.</value>
+        /// <example>org:read:billing</example>
         [DataMember(Name = "key", EmitDefaultValue = false)]
         public string Key { get; set; }
 
@@ -64,6 +66,7 @@ namespace Kinde.Api.Model
         /// The system permission&#39;s name.
         /// </summary>
         /// <value>The system permission&#39;s name.</value>
+        /// <example>Read billing details</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
@@ -71,6 +74,7 @@ namespace Kinde.Api.Model
         /// The system permission&#39;s description.
         /// </summary>
         /// <value>The system permission&#39;s description.</value>
+        /// <example>View plan and update card details</example>
         [DataMember(Name = "description", EmitDefaultValue = false)]
         public string Description { get; set; }
 
@@ -175,3 +179,4 @@ namespace Kinde.Api.Model
     }
 
 }
+

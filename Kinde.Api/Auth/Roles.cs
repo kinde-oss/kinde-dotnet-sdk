@@ -60,12 +60,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Checking role via API (hard check): {RoleKey}", roleKey);
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // For token-based role checking, we'll use the claims approach
                         var client = GetClient();
                         if (client != null)
                         {
@@ -87,7 +85,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use token-based approach for role checking
                     _logger?.LogDebug("Checking role via token-based approach: {RoleKey}", roleKey);
                     var client = GetClient();
                     if (client != null)
@@ -132,12 +129,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Checking any role via API (hard check)");
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use token-based approach for role checking
                         var client = GetClient();
                         if (client != null)
                         {
@@ -159,7 +154,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use token-based approach for role checking
                     _logger?.LogDebug("Checking any role via token-based approach");
                     var client = GetClient();
                     if (client != null)
@@ -202,12 +196,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Checking all roles via API (hard check)");
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use token-based approach for role checking
                         var client = GetClient();
                         if (client != null)
                         {
@@ -229,7 +221,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use token-based approach for role checking
                     _logger?.LogDebug("Checking all roles via token-based approach");
                     var client = GetClient();
                     if (client != null)
@@ -265,12 +256,10 @@ namespace Kinde.Api.Auth
             {
                 if (ShouldUseApi())
                 {
-                    // Use API call for hard check
                     _logger?.LogDebug("Retrieving roles via API (hard check)");
                     if (_accountsClient == null)
                     {
                         _logger?.LogWarning("ForceApi is enabled but accounts client is not available. Falling back to token-based check.");
-                        // Use token-based approach for role retrieval
                         var client = GetClient();
                         if (client != null)
                         {
@@ -293,7 +282,6 @@ namespace Kinde.Api.Auth
                 }
                 else
                 {
-                    // Use token-based approach for role retrieval
                     _logger?.LogDebug("Retrieving roles via token-based approach");
                     var client = GetClient();
                     if (client != null)

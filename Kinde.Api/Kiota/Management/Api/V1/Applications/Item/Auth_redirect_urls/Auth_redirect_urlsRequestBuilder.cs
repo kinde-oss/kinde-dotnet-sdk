@@ -34,7 +34,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls
         {
         }
         /// <summary>
-        /// Delete callback URLs.&lt;div&gt;  &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt;&lt;/div&gt;
+        /// Delete callback URLs.&lt;div&gt;  &lt;code&gt;delete:application_redirect_uris&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -82,7 +82,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Redirect_callback_urls>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Redirect_callback_urls.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Add additional redirect callback URLs.&lt;div&gt;  &lt;code&gt;create:applications_redirect_uris&lt;/code&gt;&lt;/div&gt;
+        /// Add additional redirect callback URLs.&lt;div&gt;  &lt;code&gt;create:application_redirect_uris&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="body">The request body</param>
@@ -109,7 +109,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Replace all redirect callback URLs.&lt;div&gt;  &lt;code&gt;update:applications_redirect_uris&lt;/code&gt;&lt;/div&gt;
+        /// Replace all redirect callback URLs.&lt;div&gt;  &lt;code&gt;update:application_redirect_uris&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="global::Kinde.Api.Kiota.Management.Models.Success_response"/></returns>
         /// <param name="body">The request body</param>
@@ -134,7 +134,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls
             return await RequestAdapter.SendAsync<global::Kinde.Api.Kiota.Management.Models.Success_response>(requestInfo, global::Kinde.Api.Kiota.Management.Models.Success_response.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Delete callback URLs.&lt;div&gt;  &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt;&lt;/div&gt;
+        /// Delete callback URLs.&lt;div&gt;  &lt;code&gt;delete:application_redirect_uris&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -172,7 +172,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls
             return requestInfo;
         }
         /// <summary>
-        /// Add additional redirect callback URLs.&lt;div&gt;  &lt;code&gt;create:applications_redirect_uris&lt;/code&gt;&lt;/div&gt;
+        /// Add additional redirect callback URLs.&lt;div&gt;  &lt;code&gt;create:application_redirect_uris&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -194,7 +194,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls
             return requestInfo;
         }
         /// <summary>
-        /// Replace all redirect callback URLs.&lt;div&gt;  &lt;code&gt;update:applications_redirect_uris&lt;/code&gt;&lt;/div&gt;
+        /// Replace all redirect callback URLs.&lt;div&gt;  &lt;code&gt;update:application_redirect_uris&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -225,7 +225,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls
             return new global::Kinde.Api.Kiota.Management.Api.V1.Applications.Item.Auth_redirect_urls.Auth_redirect_urlsRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Delete callback URLs.&lt;div&gt;  &lt;code&gt;delete:applications_redirect_uris&lt;/code&gt;&lt;/div&gt;
+        /// Delete callback URLs.&lt;div&gt;  &lt;code&gt;delete:application_redirect_uris&lt;/code&gt;&lt;/div&gt;
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class Auth_redirect_urlsRequestBuilderDeleteQueryParameters 

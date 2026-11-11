@@ -32,18 +32,56 @@ namespace Kinde.Api.Model
     public partial class CreateConnectionRequestOptionsOneOf : IEquatable<CreateConnectionRequestOptionsOneOf>
     {
         /// <summary>
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.
+        /// </summary>
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum TrustModeEnum
+        {
+            /// <summary>
+            /// Enum None for value: none
+            /// </summary>
+            [EnumMember(Value = "none")]
+            None = 1,
+
+            /// <summary>
+            /// Enum Validate for value: validate
+            /// </summary>
+            [EnumMember(Value = "validate")]
+            Validate = 2,
+
+            /// <summary>
+            /// Enum Trust for value: trust
+            /// </summary>
+            [EnumMember(Value = "trust")]
+            Trust = 3
+        }
+
+
+        /// <summary>
+        /// How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.
+        /// </summary>
+        /// <value>How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately.</value>
+        /// <example>validate</example>
+        [DataMember(Name = "trust_mode", EmitDefaultValue = false)]
+        public TrustModeEnum? TrustMode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="CreateConnectionRequestOptionsOneOf" /> class.
         /// </summary>
         /// <param name="clientId">OAuth client ID..</param>
         /// <param name="clientSecret">OAuth client secret..</param>
         /// <param name="isUseCustomDomain">Use custom domain callback URL..</param>
-        /// <param name="isTrusted">Trust this connection for account merging..</param>
-        public CreateConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool))
+        /// <param name="isTrusted">Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate..</param>
+        /// <param name="trustMode">How email addresses from this connection are trusted for account merging. none never merges on email alone; validate sends a one-time code to the address on the first sign-in through the connection, and creates or merges the user only once it is verified; trust merges immediately..</param>
+        /// <param name="isPasskeyAllowed">Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory). Home realm never sends users to a social connection, so a passkey sign-in has nothing to skip here. Defaults to false..</param>
+        public CreateConnectionRequestOptionsOneOf(string clientId = default(string), string clientSecret = default(string), bool isUseCustomDomain = default(bool), bool isTrusted = default(bool), TrustModeEnum? trustMode = default(TrustModeEnum?), bool isPasskeyAllowed = default(bool))
         {
             this.ClientId = clientId;
             this.ClientSecret = clientSecret;
             this.IsUseCustomDomain = isUseCustomDomain;
             this.IsTrusted = isTrusted;
+            this.TrustMode = trustMode;
+            this.IsPasskeyAllowed = isPasskeyAllowed;
         }
 
         /// <summary>
@@ -71,12 +109,21 @@ namespace Kinde.Api.Model
         public bool IsUseCustomDomain { get; set; }
 
         /// <summary>
-        /// Trust this connection for account merging.
+        /// Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.
         /// </summary>
-        /// <value>Trust this connection for account merging.</value>
+        /// <value>Deprecated. Use trust_mode instead. true maps to trust_mode trust, false to none. Ignored when trust_mode is also sent. On update, a stored mode is kept unless this flag contradicts it (false clears trust, true sets trust). Echoing false does not clear validate.</value>
         /// <example>true</example>
         [DataMember(Name = "is_trusted", EmitDefaultValue = true)]
+        [Obsolete]
         public bool IsTrusted { get; set; }
+
+        /// <summary>
+        /// Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory). Home realm never sends users to a social connection, so a passkey sign-in has nothing to skip here. Defaults to false.
+        /// </summary>
+        /// <value>Allow passkeys for users of this connection. When true, users are offered passkey setup after signing in with this connection (required when the passkey policy is mandatory). Home realm never sends users to a social connection, so a passkey sign-in has nothing to skip here. Defaults to false.</value>
+        /// <example>false</example>
+        [DataMember(Name = "is_passkey_allowed", EmitDefaultValue = true)]
+        public bool IsPasskeyAllowed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -90,6 +137,8 @@ namespace Kinde.Api.Model
             sb.Append("  ClientSecret: ").Append(ClientSecret).Append("\n");
             sb.Append("  IsUseCustomDomain: ").Append(IsUseCustomDomain).Append("\n");
             sb.Append("  IsTrusted: ").Append(IsTrusted).Append("\n");
+            sb.Append("  TrustMode: ").Append(TrustMode).Append("\n");
+            sb.Append("  IsPasskeyAllowed: ").Append(IsPasskeyAllowed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -142,6 +191,14 @@ namespace Kinde.Api.Model
                 (
                     this.IsTrusted == input.IsTrusted ||
                     this.IsTrusted.Equals(input.IsTrusted)
+                ) && 
+                (
+                    this.TrustMode == input.TrustMode ||
+                    this.TrustMode.Equals(input.TrustMode)
+                ) && 
+                (
+                    this.IsPasskeyAllowed == input.IsPasskeyAllowed ||
+                    this.IsPasskeyAllowed.Equals(input.IsPasskeyAllowed)
                 );
         }
 
@@ -164,6 +221,8 @@ namespace Kinde.Api.Model
                 }
                 hashCode = (hashCode * 59) + this.IsUseCustomDomain.GetHashCode();
                 hashCode = (hashCode * 59) + this.IsTrusted.GetHashCode();
+                hashCode = (hashCode * 59) + this.TrustMode.GetHashCode();
+                hashCode = (hashCode * 59) + this.IsPasskeyAllowed.GetHashCode();
                 return hashCode;
             }
         }

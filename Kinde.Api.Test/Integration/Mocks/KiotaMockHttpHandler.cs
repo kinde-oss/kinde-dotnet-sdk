@@ -13,17 +13,8 @@ using System.Threading.Tasks;
 namespace Kinde.Api.Test.Integration.Mocks
 {
     /// <summary>
-    /// HTTP message handler for mocking Kiota API responses.
-    /// 
-    /// This handler is designed to work with the Kiota-based API architecture where:
-    /// 1. Requests come from Kiota-generated clients
-    /// 2. Responses must be in Kiota-compatible JSON format (snake_case by default)
-    /// 3. The handler can validate request bodies to ensure proper request mapping
-    /// 
-    /// Key differences from MockApiResponseHandler:
-    /// - Uses System.Text.Json with snake_case naming policy (Kiota default)
-    /// - Supports request body validation
-    /// - Supports multiple response scenarios (success, error, timeout)
+    /// Mock HTTP handler for Kiota clients: responses are serialized with System.Text.Json snake_case (Kiota default),
+    /// request bodies are captured for validation, and success, error and timeout scenarios are supported.
     /// </summary>
     public class KiotaMockHttpHandler : HttpMessageHandler
     {
@@ -175,7 +166,6 @@ namespace Kinde.Api.Test.Integration.Mocks
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            // Capture the request for verification
             await CaptureRequestAsync(request);
 
             var method = request.Method.Method;
@@ -203,7 +193,6 @@ namespace Kinde.Api.Test.Integration.Mocks
                 return CreateResponse(response);
             }
 
-            // Return 404 if no match found
             return new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 Content = new StringContent(

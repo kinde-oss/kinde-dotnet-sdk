@@ -32,9 +32,9 @@ namespace Kinde.Api.Model
     public partial class CreateMeterUsageRecordRequest : IEquatable<CreateMeterUsageRecordRequest>
     {
         /// <summary>
-        /// Absolutes overrides the current usage
+        /// How this record updates the running total. &#x60;absolute&#x60; replaces the last calculated total with &#x60;meter_value&#x60;. &#x60;delta&#x60; adds &#x60;meter_value&#x60; to the last calculated total. The caller is responsible for sending the correct type. See the operation description for which total is updated (current billing cycle vs never-expires lifetime). 
         /// </summary>
-        /// <value>Absolutes overrides the current usage</value>
+        /// <value>How this record updates the running total. &#x60;absolute&#x60; replaces the last calculated total with &#x60;meter_value&#x60;. &#x60;delta&#x60; adds &#x60;meter_value&#x60; to the last calculated total. The caller is responsible for sending the correct type. See the operation description for which total is updated (current billing cycle vs never-expires lifetime). </value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum MeterTypeCodeEnum
         {
@@ -53,9 +53,9 @@ namespace Kinde.Api.Model
 
 
         /// <summary>
-        /// Absolutes overrides the current usage
+        /// How this record updates the running total. &#x60;absolute&#x60; replaces the last calculated total with &#x60;meter_value&#x60;. &#x60;delta&#x60; adds &#x60;meter_value&#x60; to the last calculated total. The caller is responsible for sending the correct type. See the operation description for which total is updated (current billing cycle vs never-expires lifetime). 
         /// </summary>
-        /// <value>Absolutes overrides the current usage</value>
+        /// <value>How this record updates the running total. &#x60;absolute&#x60; replaces the last calculated total with &#x60;meter_value&#x60;. &#x60;delta&#x60; adds &#x60;meter_value&#x60; to the last calculated total. The caller is responsible for sending the correct type. See the operation description for which total is updated (current billing cycle vs never-expires lifetime). </value>
         [DataMember(Name = "meter_type_code", EmitDefaultValue = false)]
         public MeterTypeCodeEnum? MeterTypeCode { get; set; }
         /// <summary>
@@ -68,10 +68,10 @@ namespace Kinde.Api.Model
         /// </summary>
         /// <param name="customerAgreementId">The billing agreement against which to record usage (required).</param>
         /// <param name="billingFeatureCode">The code of the feature within the agreement against which to record usage (required).</param>
-        /// <param name="meterValue">The value of usage to record (required).</param>
-        /// <param name="meterUsageTimestamp">The date and time the usage needs to be recorded for (defaults to current date/time).</param>
-        /// <param name="meterTypeCode">Absolutes overrides the current usage.</param>
-        public CreateMeterUsageRecordRequest(string customerAgreementId = default(string), string billingFeatureCode = default(string), string meterValue = default(string), DateTimeOffset meterUsageTimestamp = default(DateTimeOffset), MeterTypeCodeEnum? meterTypeCode = default(MeterTypeCodeEnum?))
+        /// <param name="meterValue">The value of usage to record. Must be greater than zero. For absolute this becomes the new running total. For delta this is added to the last calculated running total.  (required).</param>
+        /// <param name="meterUsageTimestamp">When this event happened. Defaults to the current date and time. Stored on the record and, for plan-metered entitlements, sent to the billing provider. Not used to choose a billing cycle, to order this record against earlier ones, or to calculate the running total. A timestamp in the past still replaces (absolute) or adds to (delta) the last calculated total. .</param>
+        /// <param name="meterTypeCode">How this record updates the running total. &#x60;absolute&#x60; replaces the last calculated total with &#x60;meter_value&#x60;. &#x60;delta&#x60; adds &#x60;meter_value&#x60; to the last calculated total. The caller is responsible for sending the correct type. See the operation description for which total is updated (current billing cycle vs never-expires lifetime).  (default to MeterTypeCodeEnum.Absolute).</param>
+        public CreateMeterUsageRecordRequest(string customerAgreementId = default(string), string billingFeatureCode = default(string), int meterValue = default(int), DateTimeOffset meterUsageTimestamp = default(DateTimeOffset), MeterTypeCodeEnum? meterTypeCode = MeterTypeCodeEnum.Absolute)
         {
             // to ensure "customerAgreementId" is required (not null)
             if (customerAgreementId == null)
@@ -85,11 +85,6 @@ namespace Kinde.Api.Model
                 throw new ArgumentNullException("billingFeatureCode is a required property for CreateMeterUsageRecordRequest and cannot be null");
             }
             this.BillingFeatureCode = billingFeatureCode;
-            // to ensure "meterValue" is required (not null)
-            if (meterValue == null)
-            {
-                throw new ArgumentNullException("meterValue is a required property for CreateMeterUsageRecordRequest and cannot be null");
-            }
             this.MeterValue = meterValue;
             this.MeterUsageTimestamp = meterUsageTimestamp;
             this.MeterTypeCode = meterTypeCode;
@@ -112,17 +107,17 @@ namespace Kinde.Api.Model
         public string BillingFeatureCode { get; set; }
 
         /// <summary>
-        /// The value of usage to record
+        /// The value of usage to record. Must be greater than zero. For absolute this becomes the new running total. For delta this is added to the last calculated running total. 
         /// </summary>
-        /// <value>The value of usage to record</value>
-        /// <example>pro_gym</example>
+        /// <value>The value of usage to record. Must be greater than zero. For absolute this becomes the new running total. For delta this is added to the last calculated running total. </value>
+        /// <example>200</example>
         [DataMember(Name = "meter_value", IsRequired = true, EmitDefaultValue = true)]
-        public string MeterValue { get; set; }
+        public int MeterValue { get; set; }
 
         /// <summary>
-        /// The date and time the usage needs to be recorded for (defaults to current date/time)
+        /// When this event happened. Defaults to the current date and time. Stored on the record and, for plan-metered entitlements, sent to the billing provider. Not used to choose a billing cycle, to order this record against earlier ones, or to calculate the running total. A timestamp in the past still replaces (absolute) or adds to (delta) the last calculated total. 
         /// </summary>
-        /// <value>The date and time the usage needs to be recorded for (defaults to current date/time)</value>
+        /// <value>When this event happened. Defaults to the current date and time. Stored on the record and, for plan-metered entitlements, sent to the billing provider. Not used to choose a billing cycle, to order this record against earlier ones, or to calculate the running total. A timestamp in the past still replaces (absolute) or adds to (delta) the last calculated total. </value>
         /// <example>2024-11-18T13:32:03+11:00</example>
         [DataMember(Name = "meter_usage_timestamp", EmitDefaultValue = false)]
         public DateTimeOffset MeterUsageTimestamp { get; set; }
@@ -187,8 +182,7 @@ namespace Kinde.Api.Model
                 ) && 
                 (
                     this.MeterValue == input.MeterValue ||
-                    (this.MeterValue != null &&
-                    this.MeterValue.Equals(input.MeterValue))
+                    this.MeterValue.Equals(input.MeterValue)
                 ) && 
                 (
                     this.MeterUsageTimestamp == input.MeterUsageTimestamp ||
@@ -218,10 +212,7 @@ namespace Kinde.Api.Model
                 {
                     hashCode = (hashCode * 59) + this.BillingFeatureCode.GetHashCode();
                 }
-                if (this.MeterValue != null)
-                {
-                    hashCode = (hashCode * 59) + this.MeterValue.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.MeterValue.GetHashCode();
                 if (this.MeterUsageTimestamp != null)
                 {
                     hashCode = (hashCode * 59) + this.MeterUsageTimestamp.GetHashCode();

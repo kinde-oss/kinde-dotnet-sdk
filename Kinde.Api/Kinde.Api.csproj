@@ -1,5 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <!-- The mapping layer keeps its engine, registry and plan internals out of the public API;
+         the test project asserts against them directly. -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Kinde.Api.Test</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <PackageId>Kinde.SDK</PackageId>
@@ -61,8 +69,6 @@
     <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="2.1.*" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="2.1.*" />
     
-    <!-- AutoMapper for model translation between OpenAPI and Kiota models -->
-    <PackageReference Include="AutoMapper" Version="16.2.*" />
   </ItemGroup>
 
 

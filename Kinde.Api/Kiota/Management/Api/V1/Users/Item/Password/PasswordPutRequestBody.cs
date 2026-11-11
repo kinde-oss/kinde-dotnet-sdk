@@ -21,7 +21,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
-        /// <summary>The hashed password.</summary>
+        /// <summary>The hashed password. For aspnet-identity-v2, provide the base64-encoded AspNetUsers.PasswordHash value as-is.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? HashedPassword
@@ -37,7 +37,7 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             set { BackingStore?.Set("hashed_password", value); }
         }
 #endif
-        /// <summary>The hashing method or algorithm used to encrypt the user&apos;s password. Default is bcrypt.</summary>
+        /// <summary>The hashing method or algorithm used to encrypt the user’s password. Default is bcrypt.</summary>
         public global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method? HashingMethod
         {
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method?>("hashing_method"); }
@@ -49,13 +49,25 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             get { return BackingStore?.Get<bool?>("is_temporary_password"); }
             set { BackingStore?.Set("is_temporary_password", value); }
         }
-        /// <summary>The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor).</summary>
+        /// <summary>The iteration count (factor) used to derive the hash. Optional for pbkdf2; when omitted, verification defaults to 24000 (the FusionAuth default factor). Rejected for firebase-scrypt.</summary>
         public int? Iterations
         {
             get { return BackingStore?.Get<int?>("iterations"); }
             set { BackingStore?.Set("iterations", value); }
         }
-        /// <summary>Extra characters added to passwords to make them stronger. Not required for bcrypt. Required for pbkdf2; provide the base64-encoded salt.</summary>
+        /// <summary>The scrypt memory cost from the Firebase project&apos;s password hash parameters (1-20). Required for firebase-scrypt; rejected for other hashing methods.</summary>
+        public int? MemCost
+        {
+            get { return BackingStore?.Get<int?>("mem_cost"); }
+            set { BackingStore?.Set("mem_cost", value); }
+        }
+        /// <summary>The scrypt rounds from the Firebase project&apos;s password hash parameters (1-16). Required for firebase-scrypt; rejected for other hashing methods.</summary>
+        public int? Rounds
+        {
+            get { return BackingStore?.Get<int?>("rounds"); }
+            set { BackingStore?.Set("rounds", value); }
+        }
+        /// <summary>Extra characters added to passwords to make them stronger. Not required for bcrypt. Required for pbkdf2; provide the base64-encoded salt. Required for firebase-scrypt; provide the base64-encoded per-user salt. Not used for aspnet-identity-v2 (the salt is embedded in the hash); do not provide salt, salt_position, iterations, or variant with aspnet-identity-v2.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Salt
@@ -77,7 +89,39 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             get { return BackingStore?.Get<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_salt_position?>("salt_position"); }
             set { BackingStore?.Set("salt_position", value); }
         }
-        /// <summary>The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512).</summary>
+        /// <summary>The base64-encoded salt separator from the Firebase project&apos;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SaltSeparator
+        {
+            get { return BackingStore?.Get<string?>("salt_separator"); }
+            set { BackingStore?.Set("salt_separator", value); }
+        }
+#nullable restore
+#else
+        public string SaltSeparator
+        {
+            get { return BackingStore?.Get<string>("salt_separator"); }
+            set { BackingStore?.Set("salt_separator", value); }
+        }
+#endif
+        /// <summary>The base64-encoded signer key from the Firebase project&apos;s password hash parameters. Required for firebase-scrypt; rejected for other hashing methods.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SignerKey
+        {
+            get { return BackingStore?.Get<string?>("signer_key"); }
+            set { BackingStore?.Set("signer_key", value); }
+        }
+#nullable restore
+#else
+        public string SignerKey
+        {
+            get { return BackingStore?.Get<string>("signer_key"); }
+            set { BackingStore?.Set("signer_key", value); }
+        }
+#endif
+        /// <summary>The hashing variant. Required for pbkdf2 (e.g. salted-pbkdf2-hmac-sha256, salted-pbkdf2-hmac-sha256-512, salted-pbkdf2-hmac-sha512-512). Rejected for firebase-scrypt.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Variant
@@ -123,8 +167,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
                 { "hashing_method", n => { HashingMethod = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method>(); } },
                 { "is_temporary_password", n => { IsTemporaryPassword = n.GetBoolValue(); } },
                 { "iterations", n => { Iterations = n.GetIntValue(); } },
+                { "mem_cost", n => { MemCost = n.GetIntValue(); } },
+                { "rounds", n => { Rounds = n.GetIntValue(); } },
                 { "salt", n => { Salt = n.GetStringValue(); } },
                 { "salt_position", n => { SaltPosition = n.GetEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_salt_position>(); } },
+                { "salt_separator", n => { SaltSeparator = n.GetStringValue(); } },
+                { "signer_key", n => { SignerKey = n.GetStringValue(); } },
                 { "variant", n => { Variant = n.GetStringValue(); } },
             };
         }
@@ -139,8 +187,12 @@ namespace Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_hashing_method>("hashing_method", HashingMethod);
             writer.WriteBoolValue("is_temporary_password", IsTemporaryPassword);
             writer.WriteIntValue("iterations", Iterations);
+            writer.WriteIntValue("mem_cost", MemCost);
+            writer.WriteIntValue("rounds", Rounds);
             writer.WriteStringValue("salt", Salt);
             writer.WriteEnumValue<global::Kinde.Api.Kiota.Management.Api.V1.Users.Item.Password.PasswordPutRequestBody_salt_position>("salt_position", SaltPosition);
+            writer.WriteStringValue("salt_separator", SaltSeparator);
+            writer.WriteStringValue("signer_key", SignerKey);
             writer.WriteStringValue("variant", Variant);
             writer.WriteAdditionalData(AdditionalData);
         }

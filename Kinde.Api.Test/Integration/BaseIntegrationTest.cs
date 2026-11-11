@@ -11,13 +11,8 @@ using Xunit;
 namespace Kinde.Api.Test.Integration
 {
     /// <summary>
-    /// Base class for integration tests that supports both mock and real API testing.
-    /// 
-    /// The class supports two mock handlers:
-    /// 1. MockApiResponseHandler - Original handler for backward compatibility
-    /// 2. KiotaMockHttpHandler - New handler designed for Kiota-based API integration
-    /// 
-    /// Uses lazy initialization to avoid network calls until actually needed.
+    /// Base class for integration tests supporting mock and real API modes. Offers KiotaMockHttpHandler (preferred) and the legacy
+    /// MockApiResponseHandler; initialization is lazy so no network calls happen until needed.
     /// </summary>
     public abstract class BaseIntegrationTest : IDisposable
     {

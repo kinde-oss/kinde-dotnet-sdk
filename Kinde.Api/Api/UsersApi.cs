@@ -19,7 +19,7 @@ using System.Net.Mime;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
 
-using AutoMapper;
+using Kinde.Api.Mapping;
 using Kinde.Api.Mappers;
 using Kinde.Api.Kiota.Management;
 using Microsoft.Kiota.Abstractions;
@@ -38,7 +38,7 @@ namespace Kinde.Api.Api
         /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -49,17 +49,40 @@ namespace Kinde.Api.Api
         /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
         /// <returns>ApiResponse of CreateUserResponse</returns>
         ApiResponse<CreateUserResponse> CreateUserWithHttpInfo(CreateUserRequest createUserRequest = default(CreateUserRequest));
         /// <summary>
+        /// Create user billing customer
+        /// </summary>
+        /// <remarks>
+        /// Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <returns>CreateUserBillingCustomerResponse</returns>
+        CreateUserBillingCustomerResponse CreateUserBillingCustomer(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest);
+
+        /// <summary>
+        /// Create user billing customer
+        /// </summary>
+        /// <remarks>
+        /// Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <returns>ApiResponse of CreateUserBillingCustomerResponse</returns>
+        ApiResponse<CreateUserBillingCustomerResponse> CreateUserBillingCustomerWithHttpInfo(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest);
+        /// <summary>
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -71,7 +94,7 @@ namespace Kinde.Api.Api
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -82,7 +105,7 @@ namespace Kinde.Api.Api
         /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -94,7 +117,7 @@ namespace Kinde.Api.Api
         /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -126,11 +149,11 @@ namespace Kinde.Api.Api
         /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <returns>User</returns>
         User GetUserData(string id, string expand = default(string));
 
@@ -138,11 +161,11 @@ namespace Kinde.Api.Api
         /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <returns>ApiResponse of User</returns>
         ApiResponse<User> GetUserDataWithHttpInfo(string id, string expand = default(string));
         /// <summary>
@@ -226,8 +249,10 @@ namespace Kinde.Api.Api
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <returns>UsersResponse</returns>
-        UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?));
+        UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?));
 
         /// <summary>
         /// Get users
@@ -243,13 +268,15 @@ namespace Kinde.Api.Api
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?));
+        ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?));
         /// <summary>
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -260,7 +287,7 @@ namespace Kinde.Api.Api
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -335,7 +362,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -347,7 +374,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -358,7 +385,7 @@ namespace Kinde.Api.Api
         /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -370,7 +397,7 @@ namespace Kinde.Api.Api
         /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -429,12 +456,12 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>SuccessResponse</returns>
         SuccessResponse UpdateUserProperty(string userId, string propertyKey, string value);
 
@@ -442,12 +469,12 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         ApiResponse<SuccessResponse> UpdateUserPropertyWithHttpInfo(string userId, string propertyKey, string value);
         #endregion Synchronous Operations
@@ -463,7 +490,7 @@ namespace Kinde.Api.Api
         /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -475,7 +502,7 @@ namespace Kinde.Api.Api
         /// Create user
         /// </summary>
         /// <remarks>
-        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -483,10 +510,35 @@ namespace Kinde.Api.Api
         /// <returns>Task of ApiResponse (CreateUserResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<CreateUserResponse>> CreateUserWithHttpInfoAsync(CreateUserRequest createUserRequest = default(CreateUserRequest), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Create user billing customer
+        /// </summary>
+        /// <remarks>
+        /// Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateUserBillingCustomerResponse</returns>
+        System.Threading.Tasks.Task<CreateUserBillingCustomerResponse> CreateUserBillingCustomerAsync(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Create user billing customer
+        /// </summary>
+        /// <remarks>
+        /// Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </remarks>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateUserBillingCustomerResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CreateUserBillingCustomerResponse>> CreateUserBillingCustomerWithHttpInfoAsync(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -499,7 +551,7 @@ namespace Kinde.Api.Api
         /// Create identity
         /// </summary>
         /// <remarks>
-        /// Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -511,7 +563,7 @@ namespace Kinde.Api.Api
         /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -524,7 +576,7 @@ namespace Kinde.Api.Api
         /// Delete user
         /// </summary>
         /// <remarks>
-        /// Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -559,11 +611,11 @@ namespace Kinde.Api.Api
         /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
         System.Threading.Tasks.Task<User> GetUserDataAsync(string id, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -572,11 +624,11 @@ namespace Kinde.Api.Api
         /// Get user
         /// </summary>
         /// <remarks>
-        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
         System.Threading.Tasks.Task<ApiResponse<User>> GetUserDataWithHttpInfoAsync(string id, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -667,9 +719,11 @@ namespace Kinde.Api.Api
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get users
@@ -685,14 +739,16 @@ namespace Kinde.Api.Api
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -704,7 +760,7 @@ namespace Kinde.Api.Api
         /// Get user&#39;s MFA configuration
         /// </summary>
         /// <remarks>
-        /// Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -786,7 +842,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -799,7 +855,7 @@ namespace Kinde.Api.Api
         /// Set User password
         /// </summary>
         /// <remarks>
-        /// Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -811,7 +867,7 @@ namespace Kinde.Api.Api
         /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -824,7 +880,7 @@ namespace Kinde.Api.Api
         /// Update user
         /// </summary>
         /// <remarks>
-        /// Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -888,12 +944,12 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
         System.Threading.Tasks.Task<SuccessResponse> UpdateUserPropertyAsync(string userId, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -902,12 +958,12 @@ namespace Kinde.Api.Api
         /// Update Property value
         /// </summary>
         /// <remarks>
-        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </remarks>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         System.Threading.Tasks.Task<ApiResponse<SuccessResponse>> UpdateUserPropertyWithHttpInfoAsync(string userId, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -932,13 +988,13 @@ namespace Kinde.Api.Api
         private KindeManagementClient _kiotaClient;
         private Kinde.Api.Client.ApiClient _kindeApiClient;
         private HttpClient _kiotaHttpClient;
-        private IMapper _kiotaMapper;
+        private IKindeMapper _kiotaMapper;
         private readonly object _kiotaLock = new object();
 
         /// <summary>
-        /// Gets the AutoMapper instance for model translation.
+        /// Gets the mapper used to translate between the OpenAPI and Kiota models.
         /// </summary>
-        protected IMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
+        protected IKindeMapper KiotaMapper => _kiotaMapper ??= KindeMapperConfiguration.Mapper;
 
         /// <summary>
         /// Gets or creates the Kiota Management API client.
@@ -987,23 +1043,23 @@ namespace Kinde.Api.Api
 private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="UsersApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public UsersApi() : this((string)null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersApi"/> class.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="UsersApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public UsersApi(string basePath)
         {
             this.Configuration = Kinde.Api.Client.Configuration.MergeConfigurations(
@@ -1017,13 +1073,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersApi"/> class using Configuration object.
-        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
+        /// Initializes a new instance of the <see cref="UsersApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public UsersApi(Kinde.Api.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -1039,33 +1094,23 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersApi"/> class.
+        /// Initializes a new instance of the <see cref="UsersApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public UsersApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersApi"/> class.
+        /// Initializes a new instance of the <see cref="UsersApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public UsersApi(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -1084,17 +1129,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersApi"/> class using Configuration object.
+        /// Initializes a new instance of the <see cref="UsersApi"/> class
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        /// <remarks>
-        /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public UsersApi(HttpClient client, Kinde.Api.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -1120,7 +1160,6 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public UsersApi(Kinde.Api.Client.ISynchronousClient client, Kinde.Api.Client.IAsynchronousClient asyncClient, Kinde.Api.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -1135,10 +1174,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersApi"/> class
-        /// using a client instance.
+        /// using a Configuration object and client instance.
         /// </summary>
-        /// <param name="client">The client API</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="client">The client interface for synchronous API access.</param>
+        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
+        /// <param name="configuration">The configuration object.</param>
         public UsersApi(Kinde.Api.Client.ApiClient client)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -1211,7 +1251,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -1223,7 +1263,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -1235,7 +1275,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -1248,7 +1288,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt; 
+        /// Create user Creates a user record and optionally zero or more identities for the user. An example identity could be the email address of the user.  Users cannot be created in an organization managed by directory sync (&#x60;ORGANIZATION_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes for those organizations must be made in the upstream identity provider. If &#x60;organization_code&#x60; is omitted, this also applies to the default registration organization.  &lt;div&gt;   &lt;code&gt;create:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createUserRequest">The details of the user to create. (optional)</param>
@@ -1280,7 +1320,88 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Create user billing customer Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <returns>CreateUserBillingCustomerResponse</returns>
+        public CreateUserBillingCustomerResponse CreateUserBillingCustomer(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest)
+        {
+            Kinde.Api.Client.ApiResponse<CreateUserBillingCustomerResponse> localVarResponse = CreateUserBillingCustomerWithHttpInfo(userId, createUserBillingCustomerRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create user billing customer Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <returns>ApiResponse of CreateUserBillingCustomerResponse</returns>
+        public Kinde.Api.Client.ApiResponse<CreateUserBillingCustomerResponse> CreateUserBillingCustomerWithHttpInfo(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest)
+        {
+            // ===== Kiota Implementation =====
+            return CreateUserBillingCustomerWithHttpInfoAsync(userId, createUserBillingCustomerRequest).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Create user billing customer Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CreateUserBillingCustomerResponse</returns>
+        public async System.Threading.Tasks.Task<CreateUserBillingCustomerResponse> CreateUserBillingCustomerAsync(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Kinde.Api.Client.ApiResponse<CreateUserBillingCustomerResponse> localVarResponse = await CreateUserBillingCustomerWithHttpInfoAsync(userId, createUserBillingCustomerRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Create user billing customer Creates a billing customer for a user in an organization, and assigns a published user billing plan.  This mirrors the admin \&quot;Start billing customer\&quot; action on the user billing page.  At most one billing customer is created per user in an organization. If one already exists, the request fails with &#x60;BILLING_CUSTOMER_EXISTS&#x60;. Concurrent creates that both pass the existence check before either finishes may both return success with the same customer and agreement ids (onboarding reuses the row created under the advisory lock).  &lt;div&gt;   &lt;code&gt;create:user_billing_customers&lt;/code&gt; &lt;/div&gt; 
+        /// </summary>
+        /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="userId">The user&#39;s ID.</param>
+        /// <param name="createUserBillingCustomerRequest">Billing customer details.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CreateUserBillingCustomerResponse)</returns>
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<CreateUserBillingCustomerResponse>> CreateUserBillingCustomerWithHttpInfoAsync(string userId, CreateUserBillingCustomerRequest createUserBillingCustomerRequest, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'userId' is set
+            if (userId == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'userId' when calling UsersApi->CreateUserBillingCustomer");
+
+            // verify the required parameter 'createUserBillingCustomerRequest' is set
+            if (createUserBillingCustomerRequest == null)
+                throw new Kinde.Api.Client.ApiException(400, "Missing required parameter 'createUserBillingCustomerRequest' when calling UsersApi->CreateUserBillingCustomer");
+
+            // ===== Kiota Implementation =====
+            try
+            {
+                var kiotaRequest = KiotaMapper.Map<Kiota.Management.Api.V1.Users.Item.Billing_customer.Billing_customerPostRequestBody>(createUserBillingCustomerRequest);
+
+                var kiotaResponse = await KiotaClient.Api.V1.Users[userId].Billing_customer.PostAsync(
+                    kiotaRequest,
+                    cancellationToken: cancellationToken
+                ).ConfigureAwait(false);
+
+                var mappedResponse = KiotaMapper.Map<CreateUserBillingCustomerResponse>(kiotaResponse);
+                return new Kinde.Api.Client.ApiResponse<CreateUserBillingCustomerResponse>(
+                    System.Net.HttpStatusCode.OK,
+                    new Multimap<string, string>(),
+                    mappedResponse
+                );
+            }
+            catch (Microsoft.Kiota.Abstractions.ApiException ex)
+            {
+                throw new Kinde.Api.Client.ApiException((int)ex.ResponseStatusCode, $"Error calling CreateUserBillingCustomer: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// Create identity Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1293,7 +1414,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Create identity Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1306,7 +1427,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Create identity Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1320,7 +1441,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Create identity Creates an identity for a user.  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt; 
+        /// Create identity Creates an identity for a user.  Identities cannot be added to a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  Adding an &#x60;enterprise&#x60; identity pre-provisions the user for that connection and replaces all of their other identities. A user with an enterprise identity cannot be given any other identity (&#x60;CANNOT_ADD_ENTERPRISE_USER_IDENTITY&#x60;).  &lt;div&gt;   &lt;code&gt;create:user_identities&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The user&#39;s ID.</param>
@@ -1357,7 +1478,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete user Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1370,7 +1491,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete user Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1383,7 +1504,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete user Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1397,7 +1518,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Delete user Delete a user record.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt; 
+        /// Delete user Delete a user record.  Users managed by directory sync cannot be deleted (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;delete:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -1503,11 +1624,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <returns>User</returns>
         public User GetUserData(string id, string expand = default(string))
         {
@@ -1516,11 +1637,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <returns>ApiResponse of User</returns>
         public Kinde.Api.Client.ApiResponse<User> GetUserDataWithHttpInfo(string id, string expand = default(string))
         {
@@ -1529,11 +1650,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
         public async System.Threading.Tasks.Task<User> GetUserDataAsync(string id, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -1543,11 +1664,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt; 
+        /// Get user Retrieve a user record.  &lt;div&gt;   &lt;code&gt;read:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
-        /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
+        /// <param name="expand">Additional data to include in the response. One or more of (comma-separated): \&quot;organizations\&quot;, \&quot;identities\&quot;, \&quot;billing\&quot;. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<User>> GetUserDataWithHttpInfoAsync(string id, string expand = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -1809,10 +1930,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <returns>UsersResponse</returns>
-        public UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?))
+        public UsersResponse GetUsers(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?))
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = GetUsersWithHttpInfo(pageSize, userId, nextToken, email, username, expand, hasOrganization, phone, activeSince);
             return localVarResponse.Data;
         }
 
@@ -1827,11 +1950,13 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <returns>ApiResponse of UsersResponse</returns>
-        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?))
+        public Kinde.Api.Client.ApiResponse<UsersResponse> GetUsersWithHttpInfo(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?))
         {
             // ===== Kiota Implementation =====
-            return GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization).GetAwaiter().GetResult();
+            return GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization, phone, activeSince).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1845,11 +1970,13 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of UsersResponse</returns>
-        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<UsersResponse> GetUsersAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization, cancellationToken).ConfigureAwait(false);
+            Kinde.Api.Client.ApiResponse<UsersResponse> localVarResponse = await GetUsersWithHttpInfoAsync(pageSize, userId, nextToken, email, username, expand, hasOrganization, phone, activeSince, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1864,9 +1991,11 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         /// <param name="username">Filter the results by username. The query string should be comma separated and url encoded. (optional)</param>
         /// <param name="expand">Specify additional data to retrieve. Use \&quot;organizations\&quot; and/or \&quot;identities\&quot;. (optional)</param>
         /// <param name="hasOrganization">Filter the results by if the user has at least one organization assigned. (optional)</param>
+        /// <param name="phone">Filter the results by phone. The query string should be comma separated and url encoded. (optional)</param>
+        /// <param name="activeSince">Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (UsersResponse)</returns>
-        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<UsersResponse>> GetUsersWithHttpInfoAsync(int? pageSize = default(int?), string userId = default(string), string nextToken = default(string), string email = default(string), string username = default(string), string expand = default(string), bool? hasOrganization = default(bool?), string phone = default(string), DateTimeOffset? activeSince = default(DateTimeOffset?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // ===== Kiota Implementation =====
             try
@@ -1880,6 +2009,8 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
                     config.QueryParameters.Username = username;
                     config.QueryParameters.Expand = expand;
                     config.QueryParameters.HasOrganization = hasOrganization;
+                    config.QueryParameters.Phone = phone;
+                    config.QueryParameters.ActiveSince = activeSince;
                 }, cancellationToken).ConfigureAwait(false);
 
                 var mappedResponse = KiotaMapper.Map<UsersResponse>(kiotaResponse);
@@ -1896,7 +2027,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -1908,7 +2039,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -1920,7 +2051,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -1933,7 +2064,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Get user&#39;s MFA configuration Get a user's MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt; 
+        /// Get user&#39;s MFA configuration Get a user’s MFA configuration.  &lt;div&gt;   &lt;code&gt;read:user_mfa&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2184,7 +2315,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set User password Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2197,7 +2328,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set User password Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2210,7 +2341,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set User password Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2224,7 +2355,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Set User password Set user password.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt; 
+        /// Set User password Set user password.  Passwords cannot be set on a user managed by directory sync (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:user_passwords&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
@@ -2265,7 +2396,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update user Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2278,7 +2409,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update user Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2291,7 +2422,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update user Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2305,7 +2436,7 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update user Update a user record.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt; 
+        /// Update user Update a user record.  When &#x60;given_name&#x60; or &#x60;family_name&#x60; is updated and the user is the owner of a family billing customer, the change is also propagated to the corresponding billing customer details.  Users managed by directory sync cannot be updated (&#x60;USER_MANAGED_BY_DIRECTORY_SYNC&#x60;); user and role changes must be made in the upstream identity provider.  &lt;div&gt;   &lt;code&gt;update:users&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">The user&#39;s id.</param>
@@ -2515,12 +2646,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>SuccessResponse</returns>
         public SuccessResponse UpdateUserProperty(string userId, string propertyKey, string value)
         {
@@ -2529,12 +2660,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <returns>ApiResponse of SuccessResponse</returns>
         public Kinde.Api.Client.ApiResponse<SuccessResponse> UpdateUserPropertyWithHttpInfo(string userId, string propertyKey, string value)
         {
@@ -2543,12 +2674,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SuccessResponse</returns>
         public async System.Threading.Tasks.Task<SuccessResponse> UpdateUserPropertyAsync(string userId, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -2558,12 +2689,12 @@ private Kinde.Api.Client.ExceptionFactory _exceptionFactory = (name, response) =
         }
 
         /// <summary>
-        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt; 
+        /// Update Property value Update property value.  &lt;div&gt;   &lt;code&gt;update:user_properties&lt;/code&gt; &lt;/div&gt;
         /// </summary>
         /// <exception cref="Kinde.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="userId">The identifier for the user</param>
         /// <param name="propertyKey">The identifier for the property</param>
-        /// <param name="value">The new property value</param>
+        /// <param name="value">The new property value. Send an empty string to unset the property, so it reads back as not set.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SuccessResponse)</returns>
         public async System.Threading.Tasks.Task<Kinde.Api.Client.ApiResponse<SuccessResponse>> UpdateUserPropertyWithHttpInfoAsync(string userId, string propertyKey, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))

@@ -20,7 +20,6 @@ Create feature flag.  <div>   <code>create:feature_flags</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -36,10 +35,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new FeatureFlagsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new FeatureFlagsApi(config);
             var createFeatureFlagRequest = new CreateFeatureFlagRequest(); // CreateFeatureFlagRequest | Flag details.
 
             try
@@ -121,7 +117,6 @@ Delete feature flag  <div>   <code>delete:feature_flags</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -137,10 +132,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new FeatureFlagsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new FeatureFlagsApi(config);
             var featureFlagKey = "featureFlagKey_example";  // string | The identifier for the feature flag.
 
             try
@@ -216,13 +208,12 @@ catch (ApiException e)
 
 Replace Feature Flag
 
-Update feature flag.  <div>   <code>update:feature_flags</code> </div> 
+Update feature flag.  While the flag has overrides in this environment, a change to its type or override level is refused with `DELETE_NOT_ALLOWED`. Remove the overrides first.  <div>   <code>update:feature_flags</code> </div> 
 
 ### Example
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -238,10 +229,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new FeatureFlagsApi(httpClient, config, httpClientHandler);
+            var apiInstance = new FeatureFlagsApi(config);
             var featureFlagKey = "featureFlagKey_example";  // string | The key identifier for the feature flag.
             var name = "name_example";  // string | The name of the flag.
             var description = "description_example";  // string | Description of the flag purpose.

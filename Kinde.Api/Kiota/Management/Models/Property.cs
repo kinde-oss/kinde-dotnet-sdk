@@ -21,6 +21,38 @@ namespace Kinde.Api.Kiota.Management.Models
         }
         /// <summary>Stores model information.</summary>
         public IBackingStore BackingStore { get; private set; }
+        /// <summary>The ID of the category the property belongs to.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? CategoryId
+        {
+            get { return BackingStore?.Get<string?>("category_id"); }
+            set { BackingStore?.Set("category_id", value); }
+        }
+#nullable restore
+#else
+        public string CategoryId
+        {
+            get { return BackingStore?.Get<string>("category_id"); }
+            set { BackingStore?.Set("category_id", value); }
+        }
+#endif
+        /// <summary>What the property applies to, `usr` for users, `org` for organizations or `app` for applications.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Context
+        {
+            get { return BackingStore?.Get<string?>("context"); }
+            set { BackingStore?.Set("context", value); }
+        }
+#nullable restore
+#else
+        public string Context
+        {
+            get { return BackingStore?.Get<string>("context"); }
+            set { BackingStore?.Set("context", value); }
+        }
+#endif
         /// <summary>The description property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -97,6 +129,22 @@ namespace Kinde.Api.Kiota.Management.Models
             set { BackingStore?.Set("name", value); }
         }
 #endif
+        /// <summary>The property type, for example `single_line_text`, `multi_line_text` or `boolean`.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Type
+        {
+            get { return BackingStore?.Get<string?>("type"); }
+            set { BackingStore?.Set("type", value); }
+        }
+#nullable restore
+#else
+        public string Type
+        {
+            get { return BackingStore?.Get<string>("type"); }
+            set { BackingStore?.Set("type", value); }
+        }
+#endif
         /// <summary>
         /// Instantiates a new <see cref="global::Kinde.Api.Kiota.Management.Models.Property"/> and sets the default values.
         /// </summary>
@@ -123,12 +171,15 @@ namespace Kinde.Api.Kiota.Management.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "category_id", n => { CategoryId = n.GetStringValue(); } },
+                { "context", n => { Context = n.GetStringValue(); } },
                 { "description", n => { Description = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "is_kinde_property", n => { IsKindeProperty = n.GetBoolValue(); } },
                 { "is_private", n => { IsPrivate = n.GetBoolValue(); } },
                 { "key", n => { Key = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
+                { "type", n => { Type = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -138,12 +189,15 @@ namespace Kinde.Api.Kiota.Management.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("category_id", CategoryId);
+            writer.WriteStringValue("context", Context);
             writer.WriteStringValue("description", Description);
             writer.WriteStringValue("id", Id);
             writer.WriteBoolValue("is_kinde_property", IsKindeProperty);
             writer.WriteBoolValue("is_private", IsPrivate);
             writer.WriteStringValue("key", Key);
             writer.WriteStringValue("name", Name);
+            writer.WriteStringValue("type", Type);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

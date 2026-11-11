@@ -20,7 +20,6 @@ Create category.  <div>   <code>create:property_categories</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -36,10 +35,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PropertyCategoriesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PropertyCategoriesApi(config);
             var createCategoryRequest = new CreateCategoryRequest(); // CreateCategoryRequest | Category details.
 
             try
@@ -111,7 +107,7 @@ catch (ApiException e)
 
 <a id="getcategories"></a>
 # **GetCategories**
-> GetCategoriesResponse GetCategories (int? pageSize = null, string startingAfter = null, string endingBefore = null, string context = null)
+> GetCategoriesResponse GetCategories (int? pageSize = null, string? startingAfter = null, string? endingBefore = null, string? context = null)
 
 List categories
 
@@ -121,7 +117,6 @@ Returns a list of categories.  <div>   <code>read:property_categories</code> </d
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -137,14 +132,11 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PropertyCategoriesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PropertyCategoriesApi(config);
             var pageSize = 56;  // int? | Number of results per page. Defaults to 10 if parameter not sent. (optional) 
-            var startingAfter = "startingAfter_example";  // string | The ID of the category to start after. (optional) 
-            var endingBefore = "endingBefore_example";  // string | The ID of the category to end before. (optional) 
-            var context = "usr";  // string | Filter the results by User or Organization context (optional) 
+            var startingAfter = "startingAfter_example";  // string? | The ID of the category to start after. (optional) 
+            var endingBefore = "endingBefore_example";  // string? | The ID of the category to end before. (optional) 
+            var context = "usr";  // string? | Filter the results by User or Organization context (optional) 
 
             try
             {
@@ -188,9 +180,9 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pageSize** | **int?** | Number of results per page. Defaults to 10 if parameter not sent. | [optional]  |
-| **startingAfter** | **string** | The ID of the category to start after. | [optional]  |
-| **endingBefore** | **string** | The ID of the category to end before. | [optional]  |
-| **context** | **string** | Filter the results by User or Organization context | [optional]  |
+| **startingAfter** | **string?** | The ID of the category to start after. | [optional]  |
+| **endingBefore** | **string?** | The ID of the category to end before. | [optional]  |
+| **context** | **string?** | Filter the results by User or Organization context | [optional]  |
 
 ### Return type
 
@@ -228,7 +220,6 @@ Update category.  <div>   <code>update:property_categories</code> </div>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using Kinde.Api.Api;
 using Kinde.Api.Client;
 using Kinde.Api.Model;
@@ -244,10 +235,7 @@ namespace Example
             // Configure Bearer token for authorization: kindeBearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new PropertyCategoriesApi(httpClient, config, httpClientHandler);
+            var apiInstance = new PropertyCategoriesApi(config);
             var categoryId = "categoryId_example";  // string | The unique identifier for the category.
             var updateCategoryRequest = new UpdateCategoryRequest(); // UpdateCategoryRequest | The fields of the category to update.
 

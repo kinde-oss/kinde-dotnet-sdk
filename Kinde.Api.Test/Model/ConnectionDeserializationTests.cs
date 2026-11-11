@@ -1,9 +1,7 @@
 /*
- * Regression tests for GetConnections/Connection deserialization (Kinde.Sdk v2.0.3+).
- * Customer issue: GetConnections() returns correct count but all properties on
- * connection objects are null. The actual API payload can match ConnectionConnection
- * (flat: id, name, display_name, strategy) while the SDK expects Connection
- * (wrapped: code, message, connection). ConnectionConverter fixes both shapes.
+ * Regression: GetConnections() returned the right count but null properties, because the
+ * API can return a flat ConnectionConnection shape while the SDK expects the wrapped
+ * Connection shape. ConnectionConverter handles both.
  */
 
 using System;
@@ -93,9 +91,7 @@ namespace Kinde.Api.Test.Model
   ]
 }";
 
-        /// <summary>
-        /// With API-shaped JSON ("connection" key), VarConnection must be populated (regression test).
-        /// </summary>
+        /// <summary>With API-shaped JSON ("connection" key), VarConnection must be populated.</summary>
         [Fact]
         public void Deserialize_GetConnectionsResponse_WithApiShape_VarConnection_IsPopulated()
         {
@@ -115,9 +111,7 @@ namespace Kinde.Api.Test.Model
             Assert.Equal("google", conn.VarConnection.Strategy);
         }
 
-        /// <summary>
-        /// Single Connection with API "connection" key -> VarConnection must be populated (regression test).
-        /// </summary>
+        /// <summary>Single Connection with API "connection" key populates VarConnection.</summary>
         [Fact]
         public void Deserialize_Connection_WithApiShape_ConnectionKey_VarConnection_IsPopulated()
         {
@@ -132,9 +126,7 @@ namespace Kinde.Api.Test.Model
             Assert.Equal("google", connection.VarConnection.Strategy);
         }
 
-        /// <summary>
-        /// When JSON uses "varConnection" (constructor param name), deserialization works.
-        /// </summary>
+        /// <summary>JSON using "varConnection" (the constructor param name) also deserializes.</summary>
         [Fact]
         public void Deserialize_Connection_WithParameterName_VarConnectionKey_VarConnection_IsPopulated()
         {
@@ -149,9 +141,7 @@ namespace Kinde.Api.Test.Model
             Assert.Equal("google", connection.VarConnection.Strategy);
         }
 
-        /// <summary>
-        /// When API returns flat payload (ConnectionConnection-shaped items), VarConnection must be populated (ConnectionConverter).
-        /// </summary>
+        /// <summary>Flat ConnectionConnection-shaped items must populate VarConnection (ConnectionConverter).</summary>
         [Fact]
         public void Deserialize_GetConnectionsResponse_WithFlatShape_VarConnection_IsPopulated()
         {
@@ -171,9 +161,7 @@ namespace Kinde.Api.Test.Model
             Assert.Equal("google", conn.VarConnection.Strategy);
         }
 
-        /// <summary>
-        /// Top-level and count are correct; only nested "connection" object is missing.
-        /// </summary>
+        /// <summary>Top-level fields and count are correct; only the nested "connection" is missing.</summary>
         [Fact]
         public void Deserialize_GetConnectionsResponse_WithApiShape_CountAndTopLevelFields_Correct()
         {
